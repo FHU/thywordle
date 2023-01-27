@@ -78,11 +78,22 @@ export const Keyboard = ({
           />
         ))}
       </div>
+      <div className="mb-1 flex justify-center">
+        {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((key) => (
+          <Key
+            value={key}
+            key={key}
+            onClick={onClick}
+            status={charStatuses[key]}
+            isRevealing={isRevealing}
+          />
+        ))}
+      </div>
       <div className="flex justify-center">
         <Key width={65.4} value="ENTER" onClick={onClick}>
           {ENTER_TEXT}
         </Key>
-        {['Z', 'X', 'C', 'V', 'B', 'N', 'M'].map((key) => (
+        {[':', '-'].map((key) => (
           <Key
             value={key}
             key={key}
