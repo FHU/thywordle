@@ -45,9 +45,22 @@ export const Cell = ({
     }
   )
 
+  const getClassByCharType = (char: string | undefined): string => {
+    console.log(char)
+    if (char) {
+      if (char >= 'A' && char <= 'Z') {
+        return 'letter-container mt-2'
+      }
+      if (char >= '0' && char <= '9') {
+        return 'letter-container mt-1.5'
+      }
+    }
+    return 'letter-container'
+  }
+
   return (
     <div className={classes} style={{ animationDelay }}>
-      <div className="letter-container" style={{ animationDelay }}>
+      <div className={getClassByCharType(value)} style={{ animationDelay }}>
         {value}
       </div>
     </div>
