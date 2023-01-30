@@ -34,6 +34,19 @@ export const Keyboard = ({
     }
   }
 
+  const isValidInput = (key: string): boolean => {
+    if (key >= 'A' && key <= 'Z') {
+      return true
+    }
+    if (key >= '0' && key <= '9') {
+      return true
+    }
+    if (key === ':') {
+      return true
+    }
+    return false
+  }
+
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
       if (e.code === 'Enter') {
@@ -43,7 +56,7 @@ export const Keyboard = ({
       } else {
         const key = localeAwareUpperCase(e.key)
         // TODO: check this test if the range works with non-english letters
-        if (key.length === 1 && key >= 'A' && key <= 'Z') {
+        if (key.length === 1 && isValidInput(key)) {
           onChar(key)
         }
       }
