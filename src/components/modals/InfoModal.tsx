@@ -56,7 +56,35 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The letter U is not in the word in any spot.
       </p>
-
+      <div className="mb-1 mt-4 flex justify-center">
+        <Cell value="D" isCompleted={true} />
+        <Cell value="R" isCompleted={true} />
+        <Cell value="E" isCompleted={true} />
+        <Cell isCompleted={true} value="A" />
+        <Cell
+          value="M"
+          isRevealing={true}
+          isCompleted={true}
+          status="wrongChar"
+        />
+      </div>
+      <p className="text-sm text-gray-500 dark:text-gray-300">
+        The letter M is an incorrect character type, try a number or colon.
+      </p>
+      <div className="mb-1 mt-4 flex justify-center">
+        <Cell isCompleted={true} value="2" />
+        <Cell value="1" isRevealing={true} isCompleted={true} status="low" />
+      </div>
+      <p className="text-sm text-gray-500 dark:text-gray-300">
+        The number 1 is too low, try a larger number.
+      </p>
+      <div className="mb-1 mt-4 flex justify-center">
+        <Cell value="3" isCompleted={true} status="high" />
+        <Cell isCompleted={true} value="2" />
+      </div>
+      <p className="text-sm text-gray-500 dark:text-gray-300">
+        The number 3 is too high, try a smaller number.
+      </p>
       <p className="mt-6 text-sm italic text-gray-500 dark:text-gray-300">
         This is an open source version of the word guessing game we all know and
         love -{' '}

@@ -17,6 +17,9 @@
   --absent-cell-bg-color: theme('colors.slate.400');
   --correct-cell-bg-color: theme('colors.green.400');
   --present-cell-bg-color: theme('colors.yellow.400');
+  --wrong-char-cell-bg-color: #af55e0;
+  --too-high-num-cell-bg-color: #e05555;
+  --too-low-num-cell-bg-color: #55abe0;
 }
 
 .dark {
@@ -54,6 +57,9 @@
   animation-name: revealPresentCharCell;
 }
 
+.cell-reveal.wrong-char {
+  animation-name: revealWrongCharCell;
+}
 .cell-reveal > .letter-container {
   animation: offsetLetterFlip 0.35s linear;
   animation-fill-mode: backwards;
@@ -149,7 +155,66 @@ svg.cursor-pointer:hover {
     transform: rotateX(180deg);
   }
 }
-
+@keyframes revealWrongCharTypeCell {
+  0% {
+    transform: rotateX(0deg);
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+    color: var(--default-cell-text-color);
+  }
+  50% {
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+    color: var(--default-cell-text-color);
+  }
+  50.1% {
+    background-color: var(--wrong-char-cell-bg-color);
+    border-color: var(--wrong-char-cell-bg-color);
+  }
+  100% {
+    transform: rotateX(180deg);
+  }
+}
+@keyframes revealTooHighCell {
+  0% {
+    transform: rotateX(0deg);
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+    color: var(--default-cell-text-color);
+  }
+  50% {
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+    color: var(--default-cell-text-color);
+  }
+  50.1% {
+    background-color: var(--too-high-num-cell-bg-color);
+    border-color: var(--too-high-num-cell-bg-color);
+  }
+  100% {
+    transform: rotateX(180deg);
+  }
+}
+@keyframes revealTooLowCell {
+  0% {
+    transform: rotateX(0deg);
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+    color: var(--default-cell-text-color);
+  }
+  50% {
+    background-color: var(--default-cell-bg-color);
+    border-color: var(--default-cell-border-color);
+    color: var(--default-cell-text-color);
+  }
+  50.1% {
+    background-color: var(--too-low-num-cell-bg-color);
+    border-color: var(--too-low-num-cell-bg-color);
+  }
+  100% {
+    transform: rotateX(180deg);
+  }
+}
 /* Additional animation on the child div to avoid letters turning upside down/snapping back to upright visual glitch */
 @keyframes offsetLetterFlip {
   0% {
