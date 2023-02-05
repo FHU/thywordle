@@ -6,7 +6,8 @@ import {
 } from '@heroicons/react/outline'
 
 import { ENABLE_ARCHIVED_GAMES } from '../../constants/settings'
-import ThyLogo from '../logo/ThyLogo'
+import BellTowerLogo from '../logo/BellTowerLogo'
+import ThyWordleLogo from '../logo/ThyWordleLogo'
 
 type Props = {
   setIsInfoModalOpen: (value: boolean) => void
@@ -24,26 +25,31 @@ export const Navbar = ({
   return (
     <div className="navbar">
       <div className="navbar-content px-5 short:h-auto">
-        <div className="flex grow basis-0">
-          <InformationCircleIcon
-            className="h-6 w-6 cursor-pointer dark:stroke-white"
-            onClick={() => setIsInfoModalOpen(true)}
-          />
-          {ENABLE_ARCHIVED_GAMES && (
-            <CalendarIcon
-              className="ml-3 h-6 w-6 cursor-pointer dark:stroke-white"
-              onClick={() => setIsDatePickerModalOpen(true)}
-            />
-          )}
+        <div className="flex justify-start sm:w-1/4">
+          <BellTowerLogo className="-mt-1 h-10 w-auto fill-black dark:fill-white sm:h-11" />
         </div>
-        <ThyLogo className="mx-auto mt-1 h-8 w-auto grow-0 fill-black dark:fill-white md:h-10 lg:h-12" />
-        <div className="right-icons grow basis-0 justify-end">
+        <div className="flex grow justify-start sm:w-1/2 sm:justify-center">
+          <ThyWordleLogo className="-ml-8 mt-2 h-36 w-auto fill-black dark:fill-white sm:mx-0 sm:h-56" />
+        </div>
+        <div className="right-icons space-around mt-2 w-1/4 justify-end">
+          <div className="mr-4 flex flex-row">
+            <InformationCircleIcon
+              className="h-7 w-7 cursor-pointer dark:stroke-white"
+              onClick={() => setIsInfoModalOpen(true)}
+            />
+            {ENABLE_ARCHIVED_GAMES && (
+              <CalendarIcon
+                className="ml-4 h-7 w-7 cursor-pointer dark:stroke-white"
+                onClick={() => setIsDatePickerModalOpen(true)}
+              />
+            )}
+          </div>
           <ChartBarIcon
-            className="mr-3 h-6 w-6 cursor-pointer dark:stroke-white"
+            className="mr-4 h-7 w-7 cursor-pointer dark:stroke-white"
             onClick={() => setIsStatsModalOpen(true)}
           />
           <CogIcon
-            className="h-6 w-6 cursor-pointer dark:stroke-white"
+            className="h-7 w-7 cursor-pointer dark:stroke-white"
             onClick={() => setIsSettingsModalOpen(true)}
           />
         </div>
