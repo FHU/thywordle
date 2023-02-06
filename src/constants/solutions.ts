@@ -1,4 +1,8 @@
-export const solutions: any = [
+export const SOLUTIONS: {
+  reference: string
+  verseText: string
+  referenceURL: string
+}[] = [
   {
     reference: '1JOHN1:1',
     verseText:
