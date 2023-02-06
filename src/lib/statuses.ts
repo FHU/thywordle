@@ -4,7 +4,7 @@ export type CharStatus =
   | 'absent'
   | 'present'
   | 'correct'
-  | 'wrongChar'
+  | 'incorrectCharType'
   | 'high'
   | 'low'
 

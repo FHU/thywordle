@@ -18,55 +18,62 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell
           isRevealing={true}
           isCompleted={true}
-          value="W"
+          value="J"
           status="correct"
         />
-        <Cell value="E" isCompleted={true} />
-        <Cell value="A" isCompleted={true} />
-        <Cell value="R" isCompleted={true} />
-        <Cell value="Y" isCompleted={true} />
+        <Cell value="O" isCompleted={true} />
+        <Cell value="H" isCompleted={true} />
+        <Cell value="N" isCompleted={true} />
+        <Cell value="3" isCompleted={true} />
+        <Cell value=":" isCompleted={true} />
+        <Cell value="1" isCompleted={true} />
+        <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter W is in the word and in the correct spot.
+        The letter J is in the word and in the correct spot.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="P" isCompleted={true} />
-        <Cell value="I" isCompleted={true} />
+        <Cell value="A" isCompleted={true} />
+        <Cell value="M" isCompleted={true} />
         <Cell
           isRevealing={true}
           isCompleted={true}
-          value="L"
+          value="O"
           status="present"
         />
-        <Cell value="O" isCompleted={true} />
-        <Cell value="T" isCompleted={true} />
+        <Cell value="S" isCompleted={true} />
+        <Cell value="4" isCompleted={true} />
+        <Cell value=":" isCompleted={true} />
+        <Cell value="0" isCompleted={true} />
+        <Cell value="9" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter L is in the word but in the wrong spot.
+        The letter O is in the word but in the wrong spot.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="V" isCompleted={true} />
-        <Cell value="A" isCompleted={true} />
-        <Cell value="G" isCompleted={true} />
-        <Cell isRevealing={true} isCompleted={true} value="U" status="absent" />
+        <Cell value="L" isCompleted={true} />
+        <Cell value="U" isCompleted={true} />
+        <Cell isRevealing={true} isCompleted={true} value="K" status="absent" />
         <Cell value="E" isCompleted={true} />
+        <Cell value="9" isCompleted={true} />
+        <Cell value=":" isCompleted={true} />
+        <Cell value="2" isCompleted={true} />
+        <Cell value="1" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter U is not in the word in any spot.
+        The letter K is not in the word.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="D" isCompleted={true} />
-        <Cell value="R" isCompleted={true} />
-        <Cell value="E" isCompleted={true} />
-        <Cell isCompleted={true} value="A" />
-        <Cell
-          value="M"
-          isRevealing={true}
-          isCompleted={true}
-          status="wrongChar"
-        />
+        <Cell value="J" isCompleted={true} />
+        <Cell value="O" isCompleted={true} />
+        <Cell value="B" isCompleted={true} />
+        <Cell value="2" isCompleted={true} status="incorrectCharType" />
+        <Cell value="3" isCompleted={true} />
+        <Cell value=":" isCompleted={true} />
+        <Cell value="1" isCompleted={true} />
+        <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The letter M is an incorrect character type, try a number or colon.
