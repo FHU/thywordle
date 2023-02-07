@@ -216,8 +216,6 @@ function App() {
       })
     }
 
-    // TODO: Add logic to isValidReference and remove usused impoort for isWordInWordList
-    // if (!isWordInWordList(currentGuess)) {
     if (!isValidReference(currentGuess)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(INVALID_REFERENCE_MESSAGE, {
