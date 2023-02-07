@@ -46,6 +46,7 @@ import {
   findFirstUnusedReveal,
   getGameDate,
   getIsLatestGame,
+  isValidReference,
   isWinningWord,
   isWordInWordList,
   setGameDate,
@@ -216,7 +217,9 @@ function App() {
       })
     }
 
-    if (!isWordInWordList(currentGuess)) {
+    // TODO: Add logic to isValidReference and remove usused impoort for isWordInWordList
+    // if (!isWordInWordList(currentGuess)) {
+    if (!isValidReference(currentGuess)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(WORD_NOT_FOUND_MESSAGE, {
         onClose: clearCurrentRowClass,

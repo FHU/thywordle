@@ -26,6 +26,14 @@ export const isWordInWordList = (word: string) => {
   )
 }
 
+// VALID REFERENCE CHECK
+export const isValidReference = (guess: string): boolean => {
+  if (guess === 'JOHN3:16') {
+    return true
+  }
+  return false
+}
+
 export const isWinningWord = (word: string) => {
   return solution === word
 }
