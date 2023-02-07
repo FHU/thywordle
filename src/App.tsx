@@ -28,10 +28,10 @@ import {
   DISCOURAGE_INAPP_BROWSER_TEXT,
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
+  INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
   SHARE_FAILURE_TEXT,
   WIN_MESSAGES,
-  WORD_NOT_FOUND_MESSAGE,
 } from './constants/strings'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
@@ -48,7 +48,6 @@ import {
   getIsLatestGame,
   isValidReference,
   isWinningWord,
-  isWordInWordList,
   setGameDate,
   solution,
   solutionGameDate,
@@ -221,7 +220,7 @@ function App() {
     // if (!isWordInWordList(currentGuess)) {
     if (!isValidReference(currentGuess)) {
       setCurrentRowClass('jiggle')
-      return showErrorAlert(WORD_NOT_FOUND_MESSAGE, {
+      return showErrorAlert(INVALID_REFERENCE_MESSAGE, {
         onClose: clearCurrentRowClass,
       })
     }

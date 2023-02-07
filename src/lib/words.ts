@@ -8,7 +8,9 @@ import {
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 import queryString from 'query-string'
 
+import { BOOKS } from '../constants/booklist'
 import { ENABLE_ARCHIVED_GAMES } from '../constants/settings'
+import { SOLUTIONS } from '../constants/solutions'
 import { NOT_CONTAINED_MESSAGE, WRONG_SPOT_MESSAGE } from '../constants/strings'
 import { VALID_GUESSES } from '../constants/validGuesses'
 import { WORDS } from '../constants/wordlist'
@@ -26,12 +28,32 @@ export const isWordInWordList = (word: string) => {
   )
 }
 
-// VALID REFERENCE CHECK
 export const isValidReference = (guess: string): boolean => {
-  if (guess === 'JOHN3:16') {
+  const oneChapterBooks = ['OBADIAH', 'PHILEMON', '2JOHN', '3JOHN', 'JUDE']
+  const oneChapterRegExp = /^[2-3]?[A-Za-z]+[^:][0-9]$/g
+  const regExp = /^[1-2]?[A-Za-z]+[0-9]{1,3}:[0-9]{1,3}/g
+
+  if (
+    !BOOKS.some((book) => guess.toLowerCase().startsWith(book.toLowerCase()))
+  ) {
+    return false
+  }
+
+  if (
+    oneChapterBooks.some((book) =>
+      guess.toLowerCase().startsWith(book.toLowerCase())
+    )
+  ) {
+    if (!oneChapterRegExp.test(guess)) {
+      return false
+    }
+
     return true
   }
-  return false
+
+  if (!regExp.test(guess)) return false
+
+  return true
 }
 
 export const isWinningWord = (word: string) => {
@@ -137,7 +159,9 @@ export const getWordOfDay = (index: number) => {
 export const getSolution = (gameDate: Date) => {
   const nextGameDate = getNextGameDate(gameDate)
   const index = getIndex(gameDate)
-  const wordOfTheDay = getWordOfDay(index)
+  // const wordOfTheDay = getWordOfDay(index)
+  // TODO: update wordOfTheDay set => For testing, pass index values of 0-3
+  const wordOfTheDay = SOLUTIONS[2].reference
   return {
     solution: wordOfTheDay,
     solutionGameDate: gameDate,
