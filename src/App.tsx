@@ -48,10 +48,12 @@ import {
   getIsLatestGame,
   isValidReference,
   isWinningWord,
+  referenceUrl,
   setGameDate,
   solution,
   solutionGameDate,
   unicodeLength,
+  verseText,
 } from './lib/words'
 
 function App() {
@@ -299,6 +301,10 @@ function App() {
               isRevealing={isRevealing}
               currentRowClassName={currentRowClass}
             />
+            <p className="text-center text-4xl text-white">{verseText}</p>
+            <a href={referenceUrl} className="text-center text-white">
+              bible.com
+            </a>
           </div>
           <Keyboard
             onChar={onChar}

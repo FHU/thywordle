@@ -30,8 +30,8 @@ export const isWordInWordList = (word: string) => {
 
 export const isValidReference = (guess: string): boolean => {
   const oneChapterBooks = ['OBADIAH', 'PHILEMON', '2JOHN', '3JOHN', 'JUDE']
-  const oneChapterRegExp = /^[2-3]?[A-Za-z]+[^:][0-9]$/g
-  const regExp = /^[1-2]?[A-Za-z]+[0-9]{1,3}:[0-9]{1,3}/g
+  const oneChapterRegExp = /^[2-3]?[A-Za-z]+[0-9]{1,2}$/g
+  const regExp = /^[1-2]?[A-Za-z]+[0-9]{1,3}:[0-9]{1,3}$/g
 
   if (
     !BOOKS.some((book) => guess.toLowerCase().startsWith(book.toLowerCase()))
@@ -145,7 +145,7 @@ export const getIndex = (gameDate: Date) => {
     start = addDays(start, periodInDays)
   } while (start <= gameDate)
 
-  return index
+  return (index + 1) % SOLUTIONS.length
 }
 
 export const getWordOfDay = (index: number) => {
@@ -153,17 +153,19 @@ export const getWordOfDay = (index: number) => {
     throw new Error('Invalid index')
   }
 
-  return localeAwareUpperCase(WORDS[index % WORDS.length])
+  const solution = SOLUTIONS[index]
+
+  return localeAwareUpperCase(solution.reference)
 }
 
 export const getSolution = (gameDate: Date) => {
   const nextGameDate = getNextGameDate(gameDate)
   const index = getIndex(gameDate)
-  // const wordOfTheDay = getWordOfDay(index)
-  // TODO: update wordOfTheDay set => For testing, pass index values of 0-3
-  const wordOfTheDay = SOLUTIONS[2].reference
+  const wordOfTheDay = getWordOfDay(index)
   return {
     solution: wordOfTheDay,
+    verseText: SOLUTIONS[index].verseText,
+    referenceUrl: SOLUTIONS[index].referenceURL,
     solutionGameDate: gameDate,
     solutionIndex: index,
     tomorrow: nextGameDate.valueOf(),
@@ -208,5 +210,11 @@ export const getIsLatestGame = () => {
   return parsed === null || !('d' in parsed)
 }
 
-export const { solution, solutionGameDate, solutionIndex, tomorrow } =
-  getSolution(getGameDate())
+export const {
+  solution,
+  verseText,
+  referenceUrl,
+  solutionGameDate,
+  solutionIndex,
+  tomorrow,
+} = getSolution(getGameDate())
