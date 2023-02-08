@@ -8,7 +8,9 @@ import {
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 import queryString from 'query-string'
 
+import { BOOKS } from '../constants/booklist'
 import { ENABLE_ARCHIVED_GAMES } from '../constants/settings'
+import { SOLUTIONS } from '../constants/solutions'
 import { NOT_CONTAINED_MESSAGE, WRONG_SPOT_MESSAGE } from '../constants/strings'
 import { VALID_GUESSES } from '../constants/validGuesses'
 import { WORDS } from '../constants/wordlist'
@@ -24,6 +26,34 @@ export const isWordInWordList = (word: string) => {
     WORDS.includes(localeAwareLowerCase(word)) ||
     VALID_GUESSES.includes(localeAwareLowerCase(word))
   )
+}
+
+export const isValidReference = (guess: string): boolean => {
+  const oneChapterBooks = ['OBADIAH', 'PHILEMON', '2JOHN', '3JOHN', 'JUDE']
+  const oneChapterRegExp = /^[2-3]?[A-Za-z]+[0-9]{1,2}$/g
+  const regExp = /^[1-2]?[A-Za-z]+[0-9]{1,3}:[0-9]{1,3}$/g
+
+  if (
+    !BOOKS.some((book) => guess.toLowerCase().startsWith(book.toLowerCase()))
+  ) {
+    return false
+  }
+
+  if (
+    oneChapterBooks.some((book) =>
+      guess.toLowerCase().startsWith(book.toLowerCase())
+    )
+  ) {
+    if (!oneChapterRegExp.test(guess)) {
+      return false
+    }
+
+    return true
+  }
+
+  if (!regExp.test(guess)) return false
+
+  return true
 }
 
 export const isWinningWord = (word: string) => {
@@ -115,7 +145,7 @@ export const getIndex = (gameDate: Date) => {
     start = addDays(start, periodInDays)
   } while (start <= gameDate)
 
-  return index
+  return index % SOLUTIONS.length
 }
 
 export const getWordOfDay = (index: number) => {
@@ -123,7 +153,9 @@ export const getWordOfDay = (index: number) => {
     throw new Error('Invalid index')
   }
 
-  return localeAwareUpperCase(WORDS[index % WORDS.length])
+  const solution = SOLUTIONS[index]
+
+  return localeAwareUpperCase(solution.reference)
 }
 
 export const getSolution = (gameDate: Date) => {
@@ -132,6 +164,8 @@ export const getSolution = (gameDate: Date) => {
   const wordOfTheDay = getWordOfDay(index)
   return {
     solution: wordOfTheDay,
+    verseText: SOLUTIONS[index].verseText,
+    referenceUrl: SOLUTIONS[index].referenceURL,
     solutionGameDate: gameDate,
     solutionIndex: index,
     tomorrow: nextGameDate.valueOf(),
@@ -176,5 +210,11 @@ export const getIsLatestGame = () => {
   return parsed === null || !('d' in parsed)
 }
 
-export const { solution, solutionGameDate, solutionIndex, tomorrow } =
-  getSolution(getGameDate())
+export const {
+  solution,
+  verseText,
+  referenceUrl,
+  solutionGameDate,
+  solutionIndex,
+  tomorrow,
+} = getSolution(getGameDate())

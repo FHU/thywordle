@@ -28,10 +28,10 @@ import {
   DISCOURAGE_INAPP_BROWSER_TEXT,
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
+  INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
   SHARE_FAILURE_TEXT,
   WIN_MESSAGES,
-  WORD_NOT_FOUND_MESSAGE,
 } from './constants/strings'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
@@ -46,12 +46,14 @@ import {
   findFirstUnusedReveal,
   getGameDate,
   getIsLatestGame,
+  isValidReference,
   isWinningWord,
-  isWordInWordList,
+  referenceUrl,
   setGameDate,
   solution,
   solutionGameDate,
   unicodeLength,
+  verseText,
 } from './lib/words'
 
 function App() {
@@ -216,9 +218,9 @@ function App() {
       })
     }
 
-    if (!isWordInWordList(currentGuess)) {
+    if (!isValidReference(currentGuess)) {
       setCurrentRowClass('jiggle')
-      return showErrorAlert(WORD_NOT_FOUND_MESSAGE, {
+      return showErrorAlert(INVALID_REFERENCE_MESSAGE, {
         onClose: clearCurrentRowClass,
       })
     }
@@ -299,6 +301,10 @@ function App() {
               isRevealing={isRevealing}
               currentRowClassName={currentRowClass}
             />
+            <p className="text-center text-4xl text-white">{verseText}</p>
+            <a href={referenceUrl} className="text-center text-white">
+              bible.com
+            </a>
           </div>
           <Keyboard
             onChar={onChar}
