@@ -145,7 +145,7 @@ export const getIndex = (gameDate: Date) => {
     start = addDays(start, periodInDays)
   } while (start <= gameDate)
 
-  return (index + 1) % SOLUTIONS.length
+  return index % SOLUTIONS.length
 }
 
 export const getWordOfDay = (index: number) => {
