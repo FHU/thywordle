@@ -57,8 +57,8 @@
   animation-name: revealPresentCharCell;
 }
 
-.cell-reveal.wrong-char {
-  animation-name: revealWrongCharCell;
+.cell-reveal.incorrect-char {
+  animation-name: revealIncorrectCharCell;
 }
 .cell-reveal > .letter-container {
   animation: offsetLetterFlip 0.35s linear;
@@ -155,7 +155,7 @@ svg.cursor-pointer:hover {
     transform: rotateX(180deg);
   }
 }
-@keyframes revealWrongCharTypeCell {
+@keyframes revealIncorrectCharTypeCell {
   0% {
     transform: rotateX(0deg);
     background-color: var(--default-cell-bg-color);
