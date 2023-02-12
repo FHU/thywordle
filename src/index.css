@@ -60,6 +60,14 @@
 .cell-reveal.incorrect-char {
   animation-name: revealIncorrectCharCell;
 }
+
+.cell-reveal.high-num {
+  animation-name: revealTooHighCell;
+}
+
+.cell-reveal.low-num {
+  animation-name: revealTooLowCell;
+}
 .cell-reveal > .letter-container {
   animation: offsetLetterFlip 0.35s linear;
   animation-fill-mode: backwards;
