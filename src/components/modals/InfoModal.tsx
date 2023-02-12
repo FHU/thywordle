@@ -79,15 +79,27 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         The number 2 is an incorrect character type, try a number or colon.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell isCompleted={true} value="2" />
-        <Cell value="1" isRevealing={true} isCompleted={true} status="low" />
+        <Cell value="P" isCompleted={true} />
+        <Cell value="S" isCompleted={true} />
+        <Cell value="A" isCompleted={true} />
+        <Cell value="L" isCompleted={true} />
+        <Cell value="M" isCompleted={true} />
+        <Cell value="1" isCompleted={true} />
+        <Cell value="1" isCompleted={true} status="low" />
+        <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The number 1 is too low, try a larger number.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="3" isCompleted={true} status="high" />
-        <Cell isCompleted={true} value="2" />
+        <Cell value="J" isCompleted={true} />
+        <Cell value="U" isCompleted={true} />
+        <Cell value="D" isCompleted={true} />
+        <Cell value="E" isCompleted={true} />
+        <Cell value="1" isCompleted={true} />
+        <Cell value=":" isCompleted={true} />
+        <Cell value="2" isCompleted={true} />
+        <Cell value="2" isCompleted={true} status="high" />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The number 3 is too high, try a smaller number.
