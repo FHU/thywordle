@@ -76,7 +76,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter M is an incorrect character type, try a number or colon.
+        The number 2 is an incorrect character type, try a number or colon.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
         <Cell isCompleted={true} value="2" />
