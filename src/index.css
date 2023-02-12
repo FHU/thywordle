@@ -17,9 +17,9 @@
   --absent-cell-bg-color: theme('colors.slate.400');
   --correct-cell-bg-color: theme('colors.green.400');
   --present-cell-bg-color: theme('colors.yellow.400');
-  --wrong-char-cell-bg-color: #af55e0;
-  --too-high-num-cell-bg-color: #e05555;
-  --too-low-num-cell-bg-color: #55abe0;
+  --wrong-char-cell-bg-color: theme('colors.purple.600');
+  --too-high-num-cell-bg-color: theme('colors.red.600');
+  --too-low-num-cell-bg-color: theme('colors.sky.600');
 }
 
 .dark {
