@@ -4,6 +4,7 @@ import {
   CogIcon,
   InformationCircleIcon,
 } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom'
 
 import { ENABLE_ARCHIVED_GAMES } from '../../constants/settings'
 import BellTowerLogo from '../logo/BellTowerLogo'
@@ -26,10 +27,14 @@ export const Navbar = ({
     <div className="navbar">
       <div className="navbar-content px-5 short:h-auto">
         <div className="flex justify-start md:w-1/4">
-          <BellTowerLogo className="-mt-1 h-10 w-auto fill-black dark:fill-white md:h-11" />
+          <Link to="/about">
+            <BellTowerLogo className="-mt-1 mr-6 h-10 w-auto fill-black dark:fill-white md:h-11" />
+          </Link>
         </div>
         <div className="flex grow justify-start md:w-1/2 md:justify-center">
-          <ThyWordleLogo className="-ml-8 mt-2 h-32 w-auto fill-black dark:fill-white md:mx-0 md:h-56" />
+          <Link to="/">
+            <ThyWordleLogo className="-ml-8 mt-2 h-40 w-auto fill-black dark:fill-white md:mx-0 md:h-56" />
+          </Link>
         </div>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">
           <div className="mr-4 flex flex-row">
