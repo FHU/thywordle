@@ -58,7 +58,7 @@
 }
 
 .cell-reveal.incorrect-char {
-  animation-name: revealIncorrectCharCell;
+  animation-name: revealIncorrectCharTypeCell;
 }
 
 .cell-reveal.high-num {

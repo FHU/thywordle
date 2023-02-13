@@ -69,9 +69,9 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="O" isCompleted={true} />
         <Cell value="B" isCompleted={true} />
         <Cell
-          value="2"
-          isCompleted={true}
           isRevealing={true}
+          isCompleted={true}
+          value="2"
           status="incorrectCharType"
         />
         <Cell value="3" isCompleted={true} />
@@ -88,7 +88,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="O" isCompleted={true} />
         <Cell value="H" isCompleted={true} />
         <Cell value="N" isCompleted={true} />
-        <Cell value="1" isCompleted={true} isRevealing={true} status="low" />
+        <Cell isRevealing={true} isCompleted={true} value="1" status="low" />
         <Cell value=":" isCompleted={true} />
         <Cell value="6" isCompleted={true} />
       </div>
@@ -101,7 +101,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="D" isCompleted={true} />
         <Cell value="E" isCompleted={true} />
         <Cell value="2" isCompleted={true} />
-        <Cell value="2" isCompleted={true} isRevealing={true} status="high" />
+        <Cell isRevealing={true} isCompleted={true} value="2" status="high" />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The number 2 is too high, try a smaller number.
