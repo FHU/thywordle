@@ -45,11 +45,10 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="S" isCompleted={true} />
         <Cell value="4" isCompleted={true} />
         <Cell value=":" isCompleted={true} />
-        <Cell value="0" isCompleted={true} />
         <Cell value="9" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter O is in the solution but in the wrong spot.
+        The letter M is in the solution but in the wrong spot.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
