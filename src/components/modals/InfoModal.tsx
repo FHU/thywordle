@@ -68,14 +68,19 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="J" isCompleted={true} />
         <Cell value="O" isCompleted={true} />
         <Cell value="B" isCompleted={true} />
-        <Cell value="2" isCompleted={true} status="incorrectCharType" />
+        <Cell
+          value="2"
+          isCompleted={true}
+          isRevealing={true}
+          status="incorrectCharType"
+        />
         <Cell value="3" isCompleted={true} />
         <Cell value=":" isCompleted={true} />
         <Cell value="1" isCompleted={true} />
         <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 2 is an incorrect character type, try a letter or colon.
+        The number 2 is an incorrect character type: try a letter or colon.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="1" isCompleted={true} />
@@ -83,7 +88,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="O" isCompleted={true} />
         <Cell value="H" isCompleted={true} />
         <Cell value="N" isCompleted={true} />
-        <Cell value="1" isCompleted={true} status="low" />
+        <Cell value="1" isCompleted={true} isRevealing={true} status="low" />
         <Cell value=":" isCompleted={true} />
         <Cell value="6" isCompleted={true} />
       </div>
@@ -96,7 +101,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="D" isCompleted={true} />
         <Cell value="E" isCompleted={true} />
         <Cell value="2" isCompleted={true} />
-        <Cell value="2" isCompleted={true} status="high" />
+        <Cell value="2" isCompleted={true} isRevealing={true} status="high" />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The number 2 is too high, try a smaller number.
