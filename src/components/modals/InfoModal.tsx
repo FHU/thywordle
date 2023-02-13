@@ -10,8 +10,8 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
   return (
     <BaseModal title="How to play" isOpen={isOpen} handleClose={handleClose}>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        Guess the Bible Verse in 6 tries. After each guess, the color of the
-        tiles will change to show how close your guess was to the word.
+        Guess the Bible Reference in 6 tries. After each guess, the color of the
+        tiles will change to show how close your guess was to the solution.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
@@ -30,18 +30,18 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter J is in the word and in the correct spot.
+        The letter J is in the solution and in the correct spot.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="A" isCompleted={true} />
-        <Cell value="M" isCompleted={true} />
         <Cell
           isRevealing={true}
           isCompleted={true}
-          value="O"
+          value="M"
           status="present"
         />
+        <Cell value="O" isCompleted={true} />
         <Cell value="S" isCompleted={true} />
         <Cell value="4" isCompleted={true} />
         <Cell value=":" isCompleted={true} />
@@ -49,7 +49,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="9" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter O is in the word but in the wrong spot.
+        The letter O is in the solution but in the wrong spot.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
@@ -63,7 +63,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="1" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The letter K is not in the word.
+        The letter K is not in the solution.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="J" isCompleted={true} />
