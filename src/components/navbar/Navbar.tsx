@@ -24,7 +24,7 @@ export const Navbar = ({
 }: Props) => {
   return (
     <div className="navbar">
-      <div className="navbar-content px-5 short:h-auto">
+      <div className="navbar-content px-5">
         <div className="flex justify-start md:w-1/4">
           <BellTowerLogo className="-mt-1 h-10 w-auto fill-black dark:fill-white md:h-11" />
         </div>
