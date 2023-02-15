@@ -2,7 +2,7 @@ import {
   CalendarIcon,
   ChartBarIcon,
   CogIcon,
-  InformationCircleIcon,
+  QuestionMarkCircleIcon,
 } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom'
 
@@ -38,7 +38,7 @@ export const Navbar = ({
         </div>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">
           <div className="mr-4 flex flex-row">
-            <InformationCircleIcon
+            <QuestionMarkCircleIcon
               className="h-5 w-5 cursor-pointer dark:stroke-white md:h-7 md:w-7"
               onClick={() => setIsInfoModalOpen(true)}
             />
