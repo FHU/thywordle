@@ -80,7 +80,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 2 is an incorrect character type: try a letter or colon.
+        The number 2 is an incorrect character type; try a letter or colon.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="1" isCompleted={true} />
@@ -93,7 +93,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="6" isCompleted={true} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 1 is too low, try a larger number.
+        The number 1 is too low; try a larger number.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="J" isCompleted={true} />
@@ -104,7 +104,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell isRevealing={true} isCompleted={true} value="2" status="high" />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 2 is too high, try a smaller number.
+        The number 2 is too high; try a smaller number.
       </p>
     </BaseModal>
   )
