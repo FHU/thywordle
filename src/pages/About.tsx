@@ -18,19 +18,19 @@ function About() {
           className="mx-auto my-12 w-48"
         />
         <h1 className="text-l font-bold dark:text-white sm:text-xl md:text-3xl">
-          Welcome and thanks for playing
+          About
         </h1>
         <ThyWordleLogo className="mx-auto -mt-12 h-auto w-64 fill-black dark:fill-white sm:w-80 md:-mt-16 md:w-96" />
         <p className="mx-auto -mt-10 w-4/5 text-base dark:text-white md:text-xl">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam
-          molestias temporibus aspernatur, mollitia odio aperiam, inventore
-          repellat eos quam facilis earum dolorem, facere commodi cum at nobis
-          dicta corrupti quaerat.
+          ThyWordle is a clone of the popular word game but tweaked to use
+          solutions that are Bible references. Our game was designed by Computer
+          Science students at Freed-Hardeman Unviersity as part of their senior
+          capstone course.
         </p>
-        <div className="my-12">
+        <div className="my-12 ">
           <Link
             to="/"
-            className="text-ll rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-ll inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             Play the Game
           </Link>
@@ -45,14 +45,14 @@ function About() {
           <a
             href="https://fhu.edu"
             target="_blank"
-            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             FHU
           </a>
           <a
             href="https://fhu.edu/cs"
             target="_blank"
-            className="text-l my-2 mx-auto w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l my-2 mx-auto w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             FHU Computer Science
           </a>
@@ -76,14 +76,14 @@ function About() {
           <a
             href="https://github.com/FHU/thywordle"
             target="_blank"
-            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             ThyWordle Repo
           </a>
           <a
             href="https://github.com/cwackerfuss/react-wordle"
             target="_blank"
-            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             Reactle Repo
           </a>
