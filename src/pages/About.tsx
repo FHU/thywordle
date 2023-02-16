@@ -23,9 +23,9 @@ function About() {
         <ThyWordleLogo className="mx-auto -mt-12 h-auto w-64 fill-black dark:fill-white sm:w-80 md:-mt-16 md:w-96" />
         <p className="mx-auto -mt-10 w-4/5 text-base dark:text-white md:text-xl">
           ThyWordle is a clone of the popular word game but tweaked to use
-          solutions that are Bible references. Our game was designed by Computer
-          Science students at Freed-Hardeman Unviersity as part of their senior
-          capstone course.
+          solutions that are Bible references. Our game was designed and
+          developed by Computer Science students at Freed-Hardeman Unviersity as
+          part of their senior capstone course.
         </p>
         <div className="my-12 ">
           <Link
