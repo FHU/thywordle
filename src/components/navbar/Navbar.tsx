@@ -2,8 +2,9 @@ import {
   CalendarIcon,
   ChartBarIcon,
   CogIcon,
-  InformationCircleIcon,
+  QuestionMarkCircleIcon,
 } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom'
 
 import { ENABLE_ARCHIVED_GAMES } from '../../constants/settings'
 import BellTowerLogo from '../logo/BellTowerLogo'
@@ -22,18 +23,28 @@ export const Navbar = ({
   setIsDatePickerModalOpen,
   setIsSettingsModalOpen,
 }: Props) => {
+  const transitionHoverClasses =
+    'origin-center transition delay-100 duration-100 ease-in-out'
+
   return (
     <div className="navbar">
-      <div className="navbar-content px-5 short:h-auto">
-        <div className="flex justify-start md:w-1/4">
-          <BellTowerLogo className="-mt-1 h-10 w-auto fill-black dark:fill-white md:h-11" />
-        </div>
-        <div className="flex grow justify-start md:w-1/2 md:justify-center">
-          <ThyWordleLogo className="-ml-8 mt-2 h-32 w-auto fill-black dark:fill-white md:mx-0 md:h-56" />
-        </div>
+      <div className="navbar-content px-5">
+        <Link to="/about" className="flex justify-start py-4 pr-6 md:w-1/4">
+          <BellTowerLogo
+            className={`${transitionHoverClasses} -mt-1 h-8 w-auto fill-black hover:scale-125 dark:fill-white md:h-11`}
+          />
+        </Link>
+        <Link
+          to="/"
+          className="flex grow justify-start md:w-1/2 md:justify-center"
+        >
+          <ThyWordleLogo
+            className={`${transitionHoverClasses} mt-2 -ml-6 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
+          />
+        </Link>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">
           <div className="mr-4 flex flex-row">
-            <InformationCircleIcon
+            <QuestionMarkCircleIcon
               className="h-5 w-5 cursor-pointer dark:stroke-white md:h-7 md:w-7"
               onClick={() => setIsInfoModalOpen(true)}
             />
