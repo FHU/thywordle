@@ -30,7 +30,7 @@ function About() {
         <div className="my-12">
           <Link
             to="/"
-            className="rounded-lg bg-black p-4 text-center text-xl font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-ll rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
           >
             Play the Game
           </Link>
@@ -39,20 +39,20 @@ function About() {
       <div className="col-span-6 col-start-2 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-3 lg:col-start-2 lg:col-end-5">
         <BellTowerLogo className="mx-auto my-8 h-auto w-24 fill-black dark:fill-white md:w-32" />
         <h2 className="text-center text-2xl font-bold text-black dark:text-white">
-          Learn More about FHU
+          Learn More <br className="block md:hidden" /> about FHU
         </h2>
         <div className="my-12 flex flex-col text-center">
           <a
             href="https://fhu.edu"
             target="_blank"
-            className="mx-auto my-2 w-80 rounded-lg bg-black p-4 text-center text-xl font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
           >
             FHU
           </a>
           <a
             href="https://fhu.edu/cs"
             target="_blank"
-            className="my-2 mx-auto w-80 rounded-lg bg-black p-4 text-center text-xl font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l my-2 mx-auto w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
           >
             FHU Computer Science
           </a>
@@ -70,20 +70,20 @@ function About() {
           className="mx-auto mt-20 mb-10 hidden h-auto w-24 dark:block md:w-32 lg:mb-16"
         />
         <h2 className="text-center text-2xl font-bold text-black dark:text-white">
-          Learn More about the code
+          Learn More <br className="block md:hidden" /> about the code
         </h2>
         <div className="my-12 flex flex-col text-center">
           <a
             href="https://github.com/FHU/thywordle"
             target="_blank"
-            className="mx-auto my-2 w-80 rounded-lg bg-black p-4 text-center text-xl font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
           >
             ThyWordle Repo
           </a>
           <a
             href="https://github.com/cwackerfuss/react-wordle"
             target="_blank"
-            className="my-2 mx-auto w-80 rounded-lg bg-black p-4 text-center text-xl font-bold uppercase text-white dark:bg-white dark:text-slate-900"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white dark:bg-white dark:text-slate-900"
           >
             Reactle Repo
           </a>

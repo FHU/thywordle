@@ -28,12 +28,12 @@ export const Navbar = ({
       <div className="navbar-content px-5">
         <div className="flex justify-start md:w-1/4">
           <Link to="/about">
-            <BellTowerLogo className="-mt-1 mr-6 h-10 w-auto fill-black dark:fill-white md:h-11" />
+            <BellTowerLogo className="-mt-1 mr-6 h-8 w-auto fill-black dark:fill-white md:h-11" />
           </Link>
         </div>
         <div className="flex grow justify-start md:w-1/2 md:justify-center">
           <Link to="/">
-            <ThyWordleLogo className="-ml-8 mt-2 h-40 w-auto fill-black dark:fill-white md:mx-0 md:h-56" />
+            <ThyWordleLogo className="-ml-10 mt-2 h-28 w-auto fill-black dark:fill-white md:mx-0 md:h-56" />
           </Link>
         </div>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">

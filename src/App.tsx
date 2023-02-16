@@ -147,7 +147,7 @@ function App() {
   return (
     <Router>
       <Div100vh>
-        <div className="flex h-full flex-col">
+        <div className="flex h-full w-full flex-col">
           <Navbar
             setIsInfoModalOpen={setIsInfoModalOpen}
             setIsStatsModalOpen={setIsStatsModalOpen}
