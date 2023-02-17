@@ -20,6 +20,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           isCompleted={true}
           value="J"
           status="correct"
+          position={0}
         />
         <Cell value="O" isCompleted={true} />
         <Cell value="H" isCompleted={true} />
@@ -40,6 +41,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           isCompleted={true}
           value="M"
           status="present"
+          position={1}
         />
         <Cell value="O" isCompleted={true} />
         <Cell value="S" isCompleted={true} />
@@ -54,6 +56,13 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="L" isCompleted={true} />
         <Cell value="U" isCompleted={true} />
+        <Cell
+          isRevealing={true}
+          isCompleted={true}
+          value="K"
+          status="absent"
+          position={2}
+        />
         <Cell isRevealing={true} isCompleted={true} value="K" status="absent"/>
         <Cell value="E" isCompleted={true} />
         <Cell value="9" isCompleted={true} />
@@ -73,6 +82,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           isCompleted={true}
           value="2"
           status="incorrectCharType"
+          position={3}
         />
         <Cell value="3" isCompleted={true} />
         <Cell value=":" isCompleted={true} />
@@ -88,7 +98,13 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="O" isCompleted={true} />
         <Cell value="H" isCompleted={true} />
         <Cell value="N" isCompleted={true} />
-        <Cell isRevealing={true} isCompleted={true} value="1" status="low" />
+        <Cell
+          isRevealing={true}
+          isCompleted={true}
+          value="1"
+          status="low"
+          position={4}
+        />
         <Cell value=":" isCompleted={true} />
         <Cell value="6" isCompleted={true} />
       </div>
@@ -101,7 +117,13 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="D" isCompleted={true} />
         <Cell value="E" isCompleted={true} />
         <Cell value="2" isCompleted={true} />
-        <Cell isRevealing={true} isCompleted={true} value="2" status="high" />
+        <Cell
+          isRevealing={true}
+          isCompleted={true}
+          value="2"
+          status="high"
+          position={5}
+        />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The number 2 is too high; try a smaller number.

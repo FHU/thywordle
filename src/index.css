@@ -57,15 +57,15 @@
   animation-name: revealPresentCharCell;
 }
 
-.cell-reveal.incorrect-char {
+.cell-reveal.incorrectCharType {
   animation-name: revealIncorrectCharTypeCell;
 }
 
-.cell-reveal.high-num {
+.cell-reveal.high {
   animation-name: revealTooHighCell;
 }
 
-.cell-reveal.low-num {
+.cell-reveal.low {
   animation-name: revealTooLowCell;
 }
 .cell-reveal > .letter-container {
