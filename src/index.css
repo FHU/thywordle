@@ -17,9 +17,9 @@
   --absent-cell-bg-color: theme('colors.slate.400');
   --correct-cell-bg-color: theme('colors.green.400');
   --present-cell-bg-color: theme('colors.yellow.400');
-  --wrong-char-cell-bg-color: theme('colors.purple.600');
-  --too-high-num-cell-bg-color: theme('colors.red.600');
-  --too-low-num-cell-bg-color: theme('colors.sky.600');
+  --incorrectCharType-cell-bg-color: theme('colors.purple.600');
+  --high-cell-bg-color: theme('colors.red.600');
+  --low-cell-bg-color: theme('colors.sky.600');
 }
 
 .dark {
@@ -62,11 +62,11 @@
 }
 
 .cell-reveal.high {
-  animation-name: revealTooHighCell;
+  animation-name: revealHighCell;
 }
 
 .cell-reveal.low {
-  animation-name: revealTooLowCell;
+  animation-name: revealLowCell;
 }
 .cell-reveal > .letter-container {
   animation: offsetLetterFlip 0.35s linear;
@@ -176,14 +176,14 @@ svg.cursor-pointer:hover {
     color: var(--default-cell-text-color);
   }
   50.1% {
-    background-color: var(--wrong-char-cell-bg-color);
-    border-color: var(--wrong-char-cell-bg-color);
+    background-color: var(--incorrectCharType-cell-bg-color);
+    border-color: var(--incorrectCharType-cell-bg-color);
   }
   100% {
     transform: rotateX(180deg);
   }
 }
-@keyframes revealTooHighCell {
+@keyframes revealHighCell {
   0% {
     transform: rotateX(0deg);
     background-color: var(--default-cell-bg-color);
@@ -196,14 +196,14 @@ svg.cursor-pointer:hover {
     color: var(--default-cell-text-color);
   }
   50.1% {
-    background-color: var(--too-high-num-cell-bg-color);
-    border-color: var(--too-high-num-cell-bg-color);
+    background-color: var(--high-cell-bg-color);
+    border-color: var(high-cell-bg-color);
   }
   100% {
     transform: rotateX(180deg);
   }
 }
-@keyframes revealTooLowCell {
+@keyframes revealLowCell {
   0% {
     transform: rotateX(0deg);
     background-color: var(--default-cell-bg-color);
@@ -216,8 +216,8 @@ svg.cursor-pointer:hover {
     color: var(--default-cell-text-color);
   }
   50.1% {
-    background-color: var(--too-low-num-cell-bg-color);
-    border-color: var(--too-low-num-cell-bg-color);
+    background-color: var(--low-cell-bg-color);
+    border-color: var(--low-cell-bg-color);
   }
   100% {
     transform: rotateX(180deg);
