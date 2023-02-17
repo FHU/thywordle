@@ -63,7 +63,6 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           status="absent"
           position={2}
         />
-        <Cell isRevealing={true} isCompleted={true} value="K" status="absent"/>
         <Cell value="E" isCompleted={true} />
         <Cell value="9" isCompleted={true} />
         <Cell value=":" isCompleted={true} />
