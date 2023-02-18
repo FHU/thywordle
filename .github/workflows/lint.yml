@@ -14,5 +14,5 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.2
         with:
-          prettier_options: --check src
+          prettier_options: --list-different src
           prettier_plugins: '@trivago/prettier-plugin-sort-imports prettier-plugin-tailwindcss'
