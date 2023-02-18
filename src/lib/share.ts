@@ -76,8 +76,14 @@ export const generateEmojiGrid = (
               return tiles[0]
             case 'present':
               return tiles[1]
-            default:
+            case 'incorrectCharType':
               return tiles[2]
+            case 'high':
+              return tiles[3]
+            case 'low':
+              return tiles[4]
+            default:
+              return tiles[5]
           }
         })
         .join('')
@@ -98,8 +104,11 @@ const attemptShare = (shareData: object) => {
 
 const getEmojiTiles = (isDarkMode: boolean, isHighContrastMode: boolean) => {
   let tiles: string[] = []
-  tiles.push(isHighContrastMode ? '🟧' : '🟩')
+  tiles.push(isHighContrastMode ? '🟥' : '🟩')
   tiles.push(isHighContrastMode ? '🟦' : '🟨')
+  tiles.push(isHighContrastMode ? '🟨' : '🟪')
+  tiles.push(isHighContrastMode ? '🟩' : '🟥')
+  tiles.push(isHighContrastMode ? '🟧' : '🟦')
   tiles.push(isDarkMode ? '⬛' : '⬜')
   return tiles
 }
