@@ -11,11 +11,6 @@ type Props = {
 }
 
 export const HintModal = ({ isOpen, handleClose, verseText }: Props) => {
-  const [hintModal, openHintModal] = useState(false)
-
-  const toggleHintModal = () => {
-    openHintModal(!hintModal)
-  }
   return (
     <BaseModal title="Hint" isOpen={isOpen} handleClose={handleClose}>
       <div className="inline-block transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-md sm:p-6 sm:align-middle">

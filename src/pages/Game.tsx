@@ -61,17 +61,13 @@ const Game: React.FC<props> = ({
   showSuccessAlert,
   showErrorAlert,
 }) => {
+  const [isHintModalOpen, setIsHintModalOpen] = useState(false)
   const gameDate = getGameDate()
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
   const clearCurrentRowClass = () => {
     setCurrentRowClass('')
-  }
-  const [hintModal, openHintModal] = useState(false)
-
-  const toggleHintModal = () => {
-    openHintModal(!hintModal)
   }
 
   useEffect(() => {
@@ -203,7 +199,7 @@ const Game: React.FC<props> = ({
             currentRowClassName={currentRowClass}
           />
           <button
-            // onClick={isHintModalOpen}
+            onClick={() => setIsHintModalOpen(true)}
             type="button"
             className={`sm:text-base" mx-auto mt-2 inline-flex w-20 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-3 py-2  text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-500`}
           >
