@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { referenceUrl } from '../../lib/words'
 import { BaseModal } from './BaseModal'
 
