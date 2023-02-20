@@ -8,6 +8,8 @@ export type CharStatus =
   | 'high'
   | 'low'
 
+type CharType = 'letter' | 'number' | 'colon'
+
 export const getStatuses = (
   solution: string,
   guesses: string[]
@@ -46,40 +48,78 @@ export const getGuessStatuses = (
 
   const solutionCharsTaken = splitSolution.map((_) => false)
 
+  const splitSolutionCharTypes = splitSolution.map((c) => {
+    return getCharType(c)
+  })
+
   const statuses: CharStatus[] = Array.from(Array(guess.length))
 
   // handle all correct cases first
-  splitGuess.forEach((letter, i) => {
-    if (letter === splitSolution[i]) {
+  splitGuess.forEach((char, i) => {
+    if (char === splitSolution[i]) {
       statuses[i] = 'correct'
       solutionCharsTaken[i] = true
       return
     }
   })
 
-  splitGuess.forEach((letter, i) => {
+  splitGuess.forEach((char, i) => {
     if (statuses[i]) return
 
-    if (!splitSolution.includes(letter)) {
-      // handles the absent case
-      statuses[i] = 'absent'
-      return
+    // handle the inchorrectCharType
+    if (getCharType(char) !== splitSolutionCharTypes[i]) {
+      statuses[i] = 'incorrectCharType'
     }
 
-    // now we are left with "present"s
-    const indexOfPresentChar = splitSolution.findIndex(
-      (x, index) => x === letter && !solutionCharsTaken[index]
-    )
+    if (statuses[i]) return
 
-    if (indexOfPresentChar > -1) {
-      statuses[i] = 'present'
-      solutionCharsTaken[indexOfPresentChar] = true
-      return
-    } else {
-      statuses[i] = 'absent'
-      return
+    // handle the letter type
+    if (getCharType(char) === 'letter') {
+      if (!splitSolution.includes(char)) {
+        // handles the absent case
+        statuses[i] = 'absent'
+        return
+      }
+
+      // now we are left with "present"s
+      const indexOfPresentChar = splitSolution.findIndex(
+        (x, index) => x === char && !solutionCharsTaken[index]
+      )
+
+      if (indexOfPresentChar > -1) {
+        statuses[i] = 'present'
+        solutionCharsTaken[indexOfPresentChar] = true
+        return
+      } else {
+        statuses[i] = 'absent'
+        return
+      }
+    }
+
+    // handle the number type
+    if (
+      getCharType(char) === 'number' &&
+      splitSolutionCharTypes[i] === 'number'
+    ) {
+      if (parseInt(char) < parseInt(splitSolution[i])) {
+        statuses[i] = 'low'
+      }
+
+      if (parseInt(char) > parseInt(splitSolution[i])) {
+        statuses[i] = 'high'
+      }
     }
   })
 
   return statuses
+}
+
+const getCharType = (char: string): CharType => {
+  if (char >= '0' && char <= '9') {
+    return 'number'
+  }
+  if (char === ':') {
+    return 'colon'
+  }
+  return 'letter'
 }
