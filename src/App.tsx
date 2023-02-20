@@ -177,6 +177,8 @@ function App() {
                   setGuesses={setGuesses}
                   showSuccessAlert={showSuccessAlert}
                   showErrorAlert={showErrorAlert}
+                  isHintModalOpen={isHintModalOpen}
+                  setIsHintModalOpen={setIsHintModalOpen}
                 />
               }
             />

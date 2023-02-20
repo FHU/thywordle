@@ -44,6 +44,8 @@ interface props {
   setGuesses: React.Dispatch<React.SetStateAction<string[]>>
   showSuccessAlert: any
   showErrorAlert: any
+  isHintModalOpen: boolean
+  setIsHintModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Game: React.FC<props> = ({
@@ -60,8 +62,10 @@ const Game: React.FC<props> = ({
   setGuesses,
   showSuccessAlert,
   showErrorAlert,
+  isHintModalOpen,
+  setIsHintModalOpen,
 }) => {
-  const [isHintModalOpen, setIsHintModalOpen] = useState(false)
+  //const [isHintModalOpen, setIsHintModalOpen] = useState(false)
   const gameDate = getGameDate()
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
