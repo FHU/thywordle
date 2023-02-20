@@ -6,6 +6,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 import { AlertContainer } from './components/alerts/AlertContainer'
 import { DatePickerModal } from './components/modals/DatePickerModal'
+import { HintModal } from './components/modals/HintModal'
 import { InfoModal } from './components/modals/InfoModal'
 import { MigrateStatsModal } from './components/modals/MigrateStatsModal'
 import { SettingsModal } from './components/modals/SettingsModal'
@@ -34,9 +35,11 @@ import {
 import { loadStats } from './lib/stats'
 import {
   getIsLatestGame,
+  referenceUrl,
   setGameDate,
   solution,
   solutionGameDate,
+  verseText,
 } from './lib/words'
 import About from './pages/About'
 import Game from './pages/Game'
@@ -55,6 +58,7 @@ function App() {
   const [isDatePickerModalOpen, setIsDatePickerModalOpen] = useState(false)
   const [isMigrateStatsModalOpen, setIsMigrateStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
+  const [isHintModalOpen, setIsHintModalOpen] = useState(false)
   const [isGameLost, setIsGameLost] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem('theme')
@@ -229,6 +233,12 @@ function App() {
             handleDarkMode={handleDarkMode}
             isHighContrastMode={isHighContrastMode}
             handleHighContrastMode={handleHighContrastMode}
+          />
+          <HintModal
+            isOpen={isHintModalOpen}
+            handleClose={() => setIsHintModalOpen(false)}
+            verseText={verseText}
+            referenceUrl={referenceUrl}
           />
           <AlertContainer />
         </div>

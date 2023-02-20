@@ -26,10 +26,8 @@ import {
   getIsLatestGame,
   isValidReference,
   isWinningWord,
-  referenceUrl,
   solution,
   unicodeLength,
-  verseText,
 } from './../lib/words'
 
 interface props {
@@ -67,9 +65,13 @@ const Game: React.FC<props> = ({
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
-
   const clearCurrentRowClass = () => {
     setCurrentRowClass('')
+  }
+  const [hintModal, openHintModal] = useState(false)
+
+  const toggleHintModal = () => {
+    openHintModal(!hintModal)
   }
 
   useEffect(() => {
@@ -200,15 +202,13 @@ const Game: React.FC<props> = ({
             isRevealing={isRevealing}
             currentRowClassName={currentRowClass}
           />
-          <p className="text-center text-4xl text-black dark:text-white">
-            {verseText}
-          </p>
-          <a
-            href={referenceUrl}
-            className="text-center text-black dark:text-white"
+          <button
+            // onClick={isHintModalOpen}
+            type="button"
+            className={`sm:text-base" mx-auto mt-2 inline-flex w-20 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-3 py-2  text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-500`}
           >
-            bible.com
-          </a>
+            Hint
+          </button>
         </div>
         <Keyboard
           onChar={onChar}
