@@ -11,9 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm install
-      # Removing Prettify Code Test until Bug is fixed: https://github.com/creyD/prettier_action
-      # - name: Prettify code
-      #   uses: creyD/prettier_action@v3.3
-      #   with:
-      #     prettier_options: --check src
-      #     prettier_plugins: '@trivago/prettier-plugin-sort-imports prettier-plugin-tailwindcss'
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --check src
+          prettier_plugins: '@trivago/prettier-plugin-sort-imports prettier-plugin-tailwindcss'
