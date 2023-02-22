@@ -11,14 +11,9 @@ type Props = {
 export const HintModal = ({ isOpen, handleClose, verseText }: Props) => {
   return (
     <BaseModal title="Hint" isOpen={isOpen} handleClose={handleClose}>
-      <div className="transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-md sm:p-6 sm:align-middle">
-        <p className="dark:text-white">{verseText}</p>
-        <a
-          href={referenceUrl}
-          className="place-content-center text-center text-black dark:text-white dark:hover:text-neutral-500"
-        >
-          bible.com
-        </a>
+      <div className="transform overflow-hidden px-4 pt-5 pb-4 text-left align-bottom transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-md sm:p-6 sm:align-middle">
+        <p className="text-center dark:text-white">{verseText}</p>
+        
         <button
           onClick={() => handleClose()}
           tabIndex={0}
