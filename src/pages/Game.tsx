@@ -205,7 +205,7 @@ const Game: React.FC<props> = ({
           <button
             onClick={() => setIsHintModalOpen(true)}
             type="button"
-            className={`sm:text-base" mx-auto mt-2 inline-flex w-20 items-center justify-center rounded-md border-2 dark:bg-slate-900 px-3 py-2  text-center text-sm font-medium dark:text-white shadow-sm hover:bg-gray-300 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 border-slate-200 dark:border-slate-600 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-500`}
+            className={`mx-auto mt-2 inline-flex w-20 items-center justify-center rounded-md border-2 border-slate-200 px-3 py-1.5 text-center align-middle text-sm font-medium shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-700 sm:text-base`}
           >
             Hint
           </button>
