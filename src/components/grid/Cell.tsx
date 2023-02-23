@@ -5,6 +5,7 @@ import { getStoredIsHighContrastMode } from '../../lib/localStorage'
 import { CharStatus } from '../../lib/statuses'
 
 type Props = {
+  solutionLength: number
   value?: string
   status?: CharStatus
   isRevealing?: boolean
@@ -13,6 +14,7 @@ type Props = {
 }
 
 export const Cell = ({
+  solutionLength,
   value,
   status,
   isRevealing,
@@ -24,8 +26,16 @@ export const Cell = ({
   const animationDelay = `${position * REVEAL_TIME_MS}ms`
   const isHighContrast = getStoredIsHighContrastMode()
 
+  function getCellSize() {
+    if (solutionLength > 10) {
+      return 'xxshort:w-11 xxshort:h-11 short:text-2xl short:w-12 short:h-12 w-8 h-8 min-w-8 text-l sm:w-10 sm:h-10 sm:text-2xl lg:w-12 lg:h-12 lg:text-3xl'
+    }
+
+    return 'xxshort:w-11 xxshort:h-11 short:text-2xl short:w-12 short:h-12 w-14 h-14 text-4xl'
+  }
+
   const classes = classnames(
-    'xxshort:w-11 xxshort:h-11 short:text-2xl short:w-12 short:h-12 w-14 h-14 border-solid border-2 flex items-center justify-center mx-0.5 text-4xl font-bold rounded dark:text-white',
+    `${getCellSize()} border-solid border-2 flex items-center justify-center mx-0.5 font-bold rounded dark:text-white`,
     {
       'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600':
         !status,

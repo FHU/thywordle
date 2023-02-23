@@ -21,107 +21,113 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
           value="J"
           status="correct"
           position={0}
+          solutionLength={8}
         />
-        <Cell value="O" isCompleted={true} />
-        <Cell value="H" isCompleted={true} />
-        <Cell value="N" isCompleted={true} />
-        <Cell value="3" isCompleted={true} />
-        <Cell value=":" isCompleted={true} />
-        <Cell value="1" isCompleted={true} />
-        <Cell value="6" isCompleted={true} />
+        <Cell value="O" isCompleted={true} solutionLength={8} />
+        <Cell value="H" isCompleted={true} solutionLength={8} />
+        <Cell value="N" isCompleted={true} solutionLength={8} />
+        <Cell value="3" isCompleted={true} solutionLength={8} />
+        <Cell value=":" isCompleted={true} solutionLength={8} />
+        <Cell value="1" isCompleted={true} solutionLength={8} />
+        <Cell value="6" isCompleted={true} solutionLength={8} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The letter J is in the solution and in the correct spot.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="A" isCompleted={true} />
+        <Cell value="A" isCompleted={true} solutionLength={7} />
         <Cell
           isRevealing={true}
           isCompleted={true}
           value="M"
           status="present"
           position={1}
+          solutionLength={7}
         />
-        <Cell value="O" isCompleted={true} />
-        <Cell value="S" isCompleted={true} />
-        <Cell value="4" isCompleted={true} />
-        <Cell value=":" isCompleted={true} />
-        <Cell value="9" isCompleted={true} />
+        <Cell value="O" isCompleted={true} solutionLength={7} />
+        <Cell value="S" isCompleted={true} solutionLength={7} />
+        <Cell value="4" isCompleted={true} solutionLength={7} />
+        <Cell value=":" isCompleted={true} solutionLength={7} />
+        <Cell value="9" isCompleted={true} solutionLength={7} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The letter M is in the solution but in the wrong spot.
       </p>
 
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="L" isCompleted={true} />
-        <Cell value="U" isCompleted={true} />
+        <Cell value="L" isCompleted={true} solutionLength={8} />
+        <Cell value="U" isCompleted={true} solutionLength={8} />
         <Cell
           isRevealing={true}
           isCompleted={true}
           value="K"
           status="absent"
           position={2}
+          solutionLength={8}
         />
-        <Cell value="E" isCompleted={true} />
-        <Cell value="9" isCompleted={true} />
-        <Cell value=":" isCompleted={true} />
-        <Cell value="2" isCompleted={true} />
-        <Cell value="1" isCompleted={true} />
+        <Cell value="E" isCompleted={true} solutionLength={8} />
+        <Cell value="9" isCompleted={true} solutionLength={8} />
+        <Cell value=":" isCompleted={true} solutionLength={8} />
+        <Cell value="2" isCompleted={true} solutionLength={8} />
+        <Cell value="1" isCompleted={true} solutionLength={8} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The letter K is not in the solution.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="J" isCompleted={true} />
-        <Cell value="O" isCompleted={true} />
-        <Cell value="B" isCompleted={true} />
+        <Cell value="J" isCompleted={true} solutionLength={8} />
+        <Cell value="O" isCompleted={true} solutionLength={8} />
+        <Cell value="B" isCompleted={true} solutionLength={8} />
         <Cell
           isRevealing={true}
           isCompleted={true}
           value="2"
           status="incorrectCharType"
           position={3}
+          solutionLength={8}
         />
-        <Cell value="3" isCompleted={true} />
-        <Cell value=":" isCompleted={true} />
-        <Cell value="1" isCompleted={true} />
-        <Cell value="6" isCompleted={true} />
+        <Cell value="3" isCompleted={true} solutionLength={8} />
+        <Cell value=":" isCompleted={true} solutionLength={8} />
+        <Cell value="1" isCompleted={true} solutionLength={8} />
+        <Cell value="6" isCompleted={true} solutionLength={8} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 2 is an incorrect character type; try a letter or colon.
+        The number 2 is an incorrect solution type; try a letter or colon.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="1" isCompleted={true} />
-        <Cell value="J" isCompleted={true} />
-        <Cell value="O" isCompleted={true} />
-        <Cell value="H" isCompleted={true} />
-        <Cell value="N" isCompleted={true} />
+        <Cell value="1" isCompleted={true} solutionLength={8} />
+        <Cell value="J" isCompleted={true} solutionLength={8} />
+        <Cell value="O" isCompleted={true} solutionLength={8} />
+        <Cell value="H" isCompleted={true} solutionLength={8} />
+        <Cell value="N" isCompleted={true} solutionLength={8} />
         <Cell
           isRevealing={true}
           isCompleted={true}
           value="1"
           status="low"
           position={4}
+          solutionLength={8}
         />
-        <Cell value=":" isCompleted={true} />
-        <Cell value="6" isCompleted={true} />
+        <Cell value=":" isCompleted={true} solutionLength={8} />
+        <Cell value="6" isCompleted={true} solutionLength={8} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
         The number 1 is too low; try a larger number.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
-        <Cell value="J" isCompleted={true} />
-        <Cell value="U" isCompleted={true} />
-        <Cell value="D" isCompleted={true} />
-        <Cell value="E" isCompleted={true} />
-        <Cell value="2" isCompleted={true} />
+        <Cell value="J" isCompleted={true} solutionLength={6} />
+        <Cell value="U" isCompleted={true} solutionLength={6} />
+        <Cell value="D" isCompleted={true} solutionLength={6} />
+        <Cell value="E" isCompleted={true} solutionLength={6} />
+        <Cell value="2" isCompleted={true} solutionLength={6} />
         <Cell
           isRevealing={true}
           isCompleted={true}
           value="2"
           status="high"
           position={5}
+          solutionLength={6}
         />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
