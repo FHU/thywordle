@@ -6,7 +6,6 @@ type Props = {
   isOpen: boolean
   handleClose: () => void
   verseText: string
-  referenceUrl: string
 }
 
 export const HintModal = ({ isOpen, handleClose, verseText }: Props) => {
