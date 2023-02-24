@@ -1,6 +1,5 @@
 import EndQuote from '../../img/EndQuote.png'
 import openQuote from '../../img/OpenQuote.png'
-import { referenceUrl } from '../../lib/words'
 import { BaseModal } from './BaseModal'
 
 type Props = {
