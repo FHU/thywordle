@@ -26,7 +26,6 @@ import {
   getIsLatestGame,
   isValidReference,
   isWinningWord,
-  referenceUrl,
   solution,
   unicodeLength,
   verseText,
