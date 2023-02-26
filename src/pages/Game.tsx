@@ -203,12 +203,6 @@ const Game: React.FC<props> = ({
           <p className="text-center text-4xl text-black dark:text-white">
             {verseText}
           </p>
-          <a
-            href={referenceUrl}
-            className="text-center text-black dark:text-white"
-          >
-            bible.com
-          </a>
         </div>
         <Keyboard
           onChar={onChar}

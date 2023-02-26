@@ -1,4 +1,4 @@
-import { ClockIcon, ShareIcon } from '@heroicons/react/outline'
+import { BookOpenIcon, ClockIcon, ShareIcon } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import Countdown from 'react-countdown'
 
@@ -13,10 +13,12 @@ import {
   NEW_WORD_TEXT,
   SHARE_TEXT,
   STATISTICS_TITLE,
+  VERSE_TEXT_BUTTON,
+  VIEW_VERSE_TEXT,
 } from '../../constants/strings'
 import { GameStats } from '../../lib/localStorage'
 import { shareStatus } from '../../lib/share'
-import { solutionGameDate, tomorrow } from '../../lib/words'
+import { referenceUrl, solutionGameDate, tomorrow } from '../../lib/words'
 import { Histogram } from '../stats/Histogram'
 import { MigrationIntro } from '../stats/MigrationIntro'
 import { StatBar } from '../stats/StatBar'
@@ -142,6 +144,19 @@ export const StatsModal = ({
           <MigrationIntro handleMigrateStatsButton={handleMigrateStatsButton} />
         </div>
       )}
+      <hr className="mt-4 -mb-4 border-gray-500" />
+      <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
+        <div className="mt-3 text-xs">{VIEW_VERSE_TEXT}</div>
+        <a>
+          <button
+            type="button"
+            className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+          >
+            <BookOpenIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />
+            {VERSE_TEXT_BUTTON}
+          </button>
+        </a>
+      </div>
     </BaseModal>
   )
 }

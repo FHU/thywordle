@@ -37,3 +37,6 @@ export const DATEPICKER_TITLE = 'Choose a past date'
 export const DATEPICKER_CHOOSE_TEXT = 'Choose'
 export const DATEPICKER_TODAY_TEXT = 'today'
 export const ARCHIVE_GAMEDATE_TEXT = 'Game date'
+export const VIEW_VERSE_TEXT =
+  "Click here to view today's reference on Bible.com"
+export const VERSE_TEXT_BUTTON = 'View Reference'
