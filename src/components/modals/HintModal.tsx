@@ -1,19 +1,21 @@
 import EndQuote from '../../img/EndQuote.png'
 import openQuote from '../../img/OpenQuote.png'
-import { referenceUrl } from '../../lib/words'
 import { BaseModal } from './BaseModal'
 
 type Props = {
   isOpen: boolean
   handleClose: () => void
   verseText: string
-  referenceUrl: string
 }
 
 export const HintModal = ({ isOpen, handleClose, verseText }: Props) => {
   return (
     <BaseModal title="Hint" isOpen={isOpen} handleClose={handleClose}>
-      <img src={openQuote} className="absolute top-8 left-5 z-40 w-10" />
+      <img
+        src={openQuote}
+        alt="OpenQuote.png"
+        className="absolute top-8 left-5 w-10"
+      />
       <div className="transform overflow-hidden px-4 pt-5 pb-4 text-left align-bottom transition-all dark:bg-gray-800 sm:my-8 sm:w-full sm:max-w-md sm:p-6 sm:align-middle">
         <p className="text-center dark:text-white">{verseText}</p>
 
@@ -24,7 +26,11 @@ export const HintModal = ({ isOpen, handleClose, verseText }: Props) => {
           className="absolute right-4 top-4"
         ></button>
       </div>
-      <img src={EndQuote} className="absolute bottom-8 right-5 z-40 w-10" />
+      <img
+        src={EndQuote}
+        alt="EndQuote.png"
+        className="absolute bottom-8 right-5 w-10"
+      />
     </BaseModal>
   )
 }

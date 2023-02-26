@@ -35,7 +35,6 @@ import {
 import { loadStats } from './lib/stats'
 import {
   getIsLatestGame,
-  referenceUrl,
   setGameDate,
   solution,
   solutionGameDate,
@@ -240,7 +239,6 @@ function App() {
             isOpen={isHintModalOpen}
             handleClose={() => setIsHintModalOpen(false)}
             verseText={verseText}
-            referenceUrl={referenceUrl}
           />
           <AlertContainer />
         </div>
