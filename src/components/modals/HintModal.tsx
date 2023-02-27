@@ -1,4 +1,4 @@
-import EndQuote from '../../img/EndQuote.png'
+//import EndQuote from '../../img/EndQuote.png'
 import openQuote from '../../img/OpenQuote.png'
 import { BaseModal } from './BaseModal'
 
