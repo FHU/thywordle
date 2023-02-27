@@ -1,4 +1,4 @@
-import openQuote from '../../img/OpenQuote.png'
+import openQuote from '../../img/open-quote.png'
 import { BaseModal } from './BaseModal'
 
 type Props = {
