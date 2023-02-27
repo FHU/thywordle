@@ -14,7 +14,6 @@ import {
   SHARE_TEXT,
   STATISTICS_TITLE,
   VERSE_TEXT_BUTTON,
-  VIEW_VERSE_TEXT,
 } from '../../constants/strings'
 import { GameStats } from '../../lib/localStorage'
 import { shareStatus } from '../../lib/share'
@@ -148,7 +147,9 @@ export const StatsModal = ({
         <>
           <hr className="mt-4 -mb-4 border-gray-500" />
           <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
-            <div className="mt-3 text-xs">{VIEW_VERSE_TEXT}</div>
+            <div className="mt-3 text-xs">
+              <p>View {solution} on Bible.com</p>
+            </div>
             <a href={referenceUrl} target="_blank" rel="noreferrer">
               <button
                 type="button"
