@@ -1,4 +1,3 @@
-//import EndQuote from '../../img/EndQuote.png'
 import openQuote from '../../img/OpenQuote.png'
 import { BaseModal } from './BaseModal'
 
@@ -26,11 +25,6 @@ export const HintModal = ({ isOpen, handleClose, verseText }: Props) => {
           className="absolute right-4 top-4"
         ></button>
       </div>
-      {/* <img
-        src={EndQuote}
-        alt="EndQuote.png"
-        className="absolute bottom-8 right-5 w-10"
-      /> */}
     </BaseModal>
   )
 }
