@@ -4,7 +4,7 @@ export const SOLUTIONS: {
   referenceURL: string
 }[] = [
   {
-    reference: '1JOHN 1:1',
+    reference: '1 JOHN 1:1',
     verseText:
       'That which was from the beginning, which we have heard, which we have seen with our eyes, which we have looked upon, and our hands have handled, of the Word of life; ',
     referenceURL: 'https://www.bible.com/bible/1/1JN.1.1.KJV',
