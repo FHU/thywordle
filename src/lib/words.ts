@@ -145,7 +145,7 @@ export const getWordOfDay = (index: number) => {
   }
 
   const solution = SOLUTIONS[index]
-  const cleanedSolution = solution.reference.replace(' ', '')
+  const cleanedSolution = solution.reference.replaceAll(' ', '')
 
   return localeAwareUpperCase(cleanedSolution)
 }
