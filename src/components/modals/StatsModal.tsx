@@ -27,6 +27,7 @@ type Props = {
   isOpen: boolean
   handleClose: () => void
   solution: string
+  displayReference: string
   guesses: string[]
   gameStats: GameStats
   isLatestGame: boolean
@@ -45,6 +46,7 @@ export const StatsModal = ({
   isOpen,
   handleClose,
   solution,
+  displayReference,
   guesses,
   gameStats,
   isLatestGame,
@@ -148,7 +150,7 @@ export const StatsModal = ({
           <hr className="mt-4 -mb-4 border-gray-500" />
           <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
             <div className="mt-3 text-xs">
-              <p>View {solution} on Bible.com</p>
+              <p>View {displayReference} at Bible.com</p>
             </div>
             <a href={referenceUrl} target="_blank" rel="noreferrer">
               <button
