@@ -12,21 +12,12 @@ import { BOOKS } from '../constants/booklist'
 import { ENABLE_ARCHIVED_GAMES } from '../constants/settings'
 import { SOLUTIONS } from '../constants/solutions'
 import { NOT_CONTAINED_MESSAGE, WRONG_SPOT_MESSAGE } from '../constants/strings'
-import { VALID_GUESSES } from '../constants/validGuesses'
-import { WORDS } from '../constants/wordlist'
 import { getToday } from './dateutils'
 import { getGuessStatuses } from './statuses'
 
 // 1 January 2022 Game Epoch
 export const firstGameDate = new Date(2022, 0)
 export const periodInDays = 1
-
-export const isWordInWordList = (word: string) => {
-  return (
-    WORDS.includes(localeAwareLowerCase(word)) ||
-    VALID_GUESSES.includes(localeAwareLowerCase(word))
-  )
-}
 
 export const isValidReference = (guess: string): boolean => {
   const oneChapterBooks = ['OBADIAH', 'PHILEMON', '2JOHN', '3JOHN', 'JUDE']
@@ -154,8 +145,9 @@ export const getWordOfDay = (index: number) => {
   }
 
   const solution = SOLUTIONS[index]
+  const cleanedSolution = solution.reference.replaceAll(' ', '')
 
-  return localeAwareUpperCase(solution.reference)
+  return localeAwareUpperCase(cleanedSolution)
 }
 
 export const getSolution = (gameDate: Date) => {
