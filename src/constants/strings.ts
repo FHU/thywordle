@@ -38,4 +38,4 @@ export const DATEPICKER_CHOOSE_TEXT = 'Choose'
 export const DATEPICKER_TODAY_TEXT = 'today'
 export const ARCHIVE_GAMEDATE_TEXT = 'Game date'
 
-export const VERSE_TEXT_BUTTON = 'View Reference'
+export const VERSE_TEXT_BUTTON = 'Read'

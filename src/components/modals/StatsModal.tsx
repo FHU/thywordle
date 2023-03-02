@@ -150,7 +150,7 @@ export const StatsModal = ({
           <hr className="mt-4 -mb-4 border-gray-500" />
           <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
             <div className="mt-3 text-xs">
-              <p>View {displayReference} at Bible.com</p>
+              <p>Read {displayReference} at Bible.com</p>
             </div>
             <a href={referenceUrl} target="_blank" rel="noreferrer">
               <button

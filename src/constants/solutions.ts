@@ -10,7 +10,7 @@ export const SOLUTIONS: {
     referenceURL: 'https://www.bible.com/bible/1/1JN.1.1.KJV',
   },
   {
-    reference: 'SONGOFSOLOMON 8:13',
+    reference: 'SONG OF SOLOMON 8:13',
     verseText:
       'Thou that dwellest in the gardens,The companions hearken to thy voice: Cause me to hear it. ',
     referenceURL: 'https://www.bible.com/bible/1/SNG.8.13.KJV',
