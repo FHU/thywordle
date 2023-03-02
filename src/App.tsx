@@ -34,6 +34,7 @@ import {
 } from './lib/localStorage'
 import { loadStats } from './lib/stats'
 import {
+  displayReference,
   getIsLatestGame,
   setGameDate,
   solution,
@@ -192,6 +193,7 @@ function App() {
             isOpen={isStatsModalOpen}
             handleClose={() => setIsStatsModalOpen(false)}
             solution={solution}
+            displayReference={displayReference}
             guesses={guesses}
             gameStats={stats}
             isLatestGame={isLatestGame}

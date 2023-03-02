@@ -144,19 +144,18 @@ export const getWordOfDay = (index: number) => {
     throw new Error('Invalid index')
   }
 
-  const solution = SOLUTIONS[index]
-  const cleanedSolution = solution.reference.replaceAll(' ', '')
-
-  return localeAwareUpperCase(cleanedSolution)
+  return localeAwareUpperCase(SOLUTIONS[index].reference)
 }
 
 export const getSolution = (gameDate: Date) => {
   const nextGameDate = getNextGameDate(gameDate)
   const index = getIndex(gameDate)
   const wordOfTheDay = getWordOfDay(index)
+  const solution = wordOfTheDay.replaceAll(' ', '')
   return {
-    solution: wordOfTheDay,
+    solution,
     verseText: SOLUTIONS[index].verseText,
+    displayReference: wordOfTheDay,
     referenceUrl: SOLUTIONS[index].referenceURL,
     solutionGameDate: gameDate,
     solutionIndex: index,
@@ -205,6 +204,7 @@ export const getIsLatestGame = () => {
 export const {
   solution,
   verseText,
+  displayReference,
   referenceUrl,
   solutionGameDate,
   solutionIndex,
