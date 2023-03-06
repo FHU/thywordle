@@ -1,6 +1,6 @@
 import './App.css'
 
-import { KeyboardEvent, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Div100vh from 'react-div-100vh'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
