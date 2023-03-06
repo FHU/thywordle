@@ -1,6 +1,6 @@
 import './App.css'
 
-import { useEffect, useState } from 'react'
+import { KeyboardEvent, useCallback, useEffect, useState } from 'react'
 import Div100vh from 'react-div-100vh'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
@@ -147,6 +147,23 @@ function App() {
     setIsHighContrastMode(isHighContrast)
     setStoredIsHighContrastMode(isHighContrast)
   }
+
+  const handleKeyPress = useCallback((event) => {
+    if (event.ctrlKey) {
+      console.log(`Key pressed: ctrl + ${event.key}`)
+      if (event.key === 'm') setIsDarkMode((current) => !current)
+    }
+  }, [])
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener('keydown', handleKeyPress)
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [handleKeyPress])
 
   return (
     <Router>
