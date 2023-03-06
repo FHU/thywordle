@@ -14,5 +14,4 @@ type Profile @model @auth(rules: [{allow: public}]) {
   userEmail: String
   photoUrl: String
   gameStats: String
-}
- 
+} 
