@@ -1,0 +1,18 @@
+type GameStats @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  winDistribution: Int
+  gamesFailed: Int
+  currentStreak: Int
+  bestStreak: Int
+  totalGames: Int
+  successRate: Int
+}
+
+type Profile @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  username: String
+  userEmail: String
+  photoUrl: String
+  gameStats: String
+}
+ 

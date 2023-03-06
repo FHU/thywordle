@@ -40,6 +40,7 @@ import {
 } from './lib/words'
 import About from './pages/About'
 import Game from './pages/Game'
+import Profile from './pages/Profile'
 
 function App() {
   const isLatestGame = getIsLatestGame()
@@ -177,6 +178,7 @@ function App() {
               }
             />
             <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
 
           <InfoModal
