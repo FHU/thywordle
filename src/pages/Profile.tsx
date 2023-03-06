@@ -4,7 +4,6 @@ import React from 'react'
 const username = 'Dallas'
 const password = 'Bad password'
 const email = 'daya@freed.com'
-const phone_number = '12345'
 
 function Profile() {
   async function signUp() {
