@@ -2,7 +2,7 @@ import { Auth } from 'aws-amplify'
 import React from 'react'
 
 const username = 'Dallas'
-const password = 'Bad password'
+const password = 'BadPassword'
 const email = 'daya@freed.com'
 
 function Profile() {
