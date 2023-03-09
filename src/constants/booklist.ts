@@ -17,7 +17,7 @@ export const BOOKS: string[] = [
   'NEHEMIAH',
   'ESTHER',
   'JOB',
-  'PSALMS',
+  'PSALM',
   'PROVERBS',
   'ECCLESIASTES',
   'SONGOFSOLOMON',
