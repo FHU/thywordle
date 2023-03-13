@@ -10,7 +10,7 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
   return (
     <React.Fragment>
       <div
-        className={`z-5 fixed top-0 left-0 h-full w-3/4 bg-blue-600 p-10 pl-20 text-white duration-300 ease-in-out md:w-1/2 md:w-2/5 ${
+        className={`z-5 fixed top-0 left-0 h-full w-3/4 bg-slate-400 p-10 pl-20 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-2/5 ${
           showMenu ? 'translate-x-0 ' : '-translate-x-full'
         }`}
       >
