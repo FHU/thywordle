@@ -152,11 +152,9 @@ function App() {
 
   return (
     <Router>
-      {/* <div className="flex min-h-screen flex-col items-center justify-center py-2"> */}
-      <Menu showMenu={showMenu} setShowMenu={setShowMenu} />
-      {/* </div> */}
       <Div100vh>
         <div className="flex h-full w-full flex-col">
+          <Menu showMenu={showMenu} setShowMenu={setShowMenu} />
           <Navbar
             showMenu={showMenu}
             setShowMenu={setShowMenu}
