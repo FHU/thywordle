@@ -15,6 +15,8 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
   }
 
   const ref = useDetectClickOutside({ onTriggered: closeMenu })
+  const menuItemClasses =
+    'flex origin-left transform text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-125 hover:text-white dark:text-white hover:dark:text-sky-400'
 
   return (
     <React.Fragment>
@@ -26,16 +28,16 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
       >
         <Link
           to="/"
-          className="mt-20 flex transform items-end text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-105 hover:text-white focus:outline-none dark:text-white hover:dark:text-black"
+          className={`mt-20 ${menuItemClasses}`}
           onClick={() => {
             setShowMenu(false)
           }}
         >
-          Home
+          Play the Game
         </Link>
         <Link
           to="/about"
-          className="mt-5 flex transform items-end text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-105 hover:text-white focus:outline-none dark:text-white hover:dark:text-black"
+          className={`mt-8 ${menuItemClasses}`}
           onClick={() => {
             setShowMenu(false)
           }}
