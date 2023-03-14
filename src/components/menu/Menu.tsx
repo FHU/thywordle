@@ -16,13 +16,13 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
 
   const ref = useDetectClickOutside({ onTriggered: closeMenu })
   const menuItemClasses =
-    'flex origin-left transform text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-125 hover:text-white dark:text-white hover:dark:text-sky-400'
+    'flex origin-left transform text-xl md:text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-125 hover:text-white dark:text-white hover:dark:text-sky-400'
 
   return (
     <React.Fragment>
       <div
         ref={ref}
-        className={`z-5 fixed top-0 left-0 h-full w-3/4 bg-slate-400 p-10 pl-20 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-2/5 ${
+        className={`z-5 fixed top-0 left-0 h-full w-3/4 bg-slate-400 p-10 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-2/5 md:pl-20 ${
           showMenu ? 'translate-x-0 ' : '-translate-x-full'
         }`}
       >
