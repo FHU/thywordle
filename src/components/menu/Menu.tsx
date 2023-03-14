@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDetectClickOutside } from 'react-detect-click-outside'
 import { Link } from 'react-router-dom'
 
 interface props {
@@ -7,9 +8,18 @@ interface props {
 }
 
 export const Menu = ({ showMenu, setShowMenu }: props) => {
+  const closeMenu = () => {
+    if (showMenu) {
+      setShowMenu(false)
+    }
+  }
+
+  const ref = useDetectClickOutside({ onTriggered: closeMenu })
+
   return (
     <React.Fragment>
       <div
+        ref={ref}
         className={`z-5 fixed top-0 left-0 h-full w-3/4 bg-slate-400 p-10 pl-20 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-2/5 ${
           showMenu ? 'translate-x-0 ' : '-translate-x-full'
         }`}

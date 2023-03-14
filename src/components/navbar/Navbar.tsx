@@ -7,7 +7,6 @@ import {
 import { Link } from 'react-router-dom'
 
 import { ENABLE_ARCHIVED_GAMES } from '../../constants/settings'
-// import BellTowerLogo from '../logo/BellTowerLogo'
 import ThyWordleLogo from '../logo/ThyWordleLogo'
 import { MenuButton } from './MenuButton'
 
