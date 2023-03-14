@@ -33,7 +33,9 @@ export const Navbar = ({
   return (
     <div className="navbar">
       <div className="navbar-content px-5">
-        <MenuButton showMenu={showMenu} setShowMenu={setShowMenu} />
+        <div className="flex justify-start py-4 pr-6 md:w-1/4">
+          <MenuButton isOpen={false} handleClick={() => setShowMenu(true)} />
+        </div>
         <Link
           to="/"
           className="flex grow justify-start md:w-1/2 md:justify-center"
