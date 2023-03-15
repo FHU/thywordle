@@ -7,10 +7,12 @@ import {
 import { Link } from 'react-router-dom'
 
 import { ENABLE_ARCHIVED_GAMES } from '../../constants/settings'
-import BellTowerLogo from '../logo/BellTowerLogo'
 import ThyWordleLogo from '../logo/ThyWordleLogo'
+import { MenuButton } from './MenuButton'
 
 type Props = {
+  showMenu: boolean
+  setShowMenu: React.Dispatch<React.SetStateAction<boolean>>
   setIsInfoModalOpen: (value: boolean) => void
   setIsStatsModalOpen: (value: boolean) => void
   setIsDatePickerModalOpen: (value: boolean) => void
@@ -18,6 +20,8 @@ type Props = {
 }
 
 export const Navbar = ({
+  showMenu,
+  setShowMenu,
   setIsInfoModalOpen,
   setIsStatsModalOpen,
   setIsDatePickerModalOpen,
@@ -29,17 +33,15 @@ export const Navbar = ({
   return (
     <div className="navbar">
       <div className="navbar-content px-5">
-        <Link to="/about" className="flex justify-start py-4 pr-6 md:w-1/4">
-          <BellTowerLogo
-            className={`${transitionHoverClasses} -mt-1 h-8 w-auto fill-black hover:scale-125 dark:fill-white md:h-11`}
-          />
-        </Link>
+        <div className="flex justify-start py-4 pr-6 md:w-1/4">
+          <MenuButton isOpen={false} handleClick={() => setShowMenu(true)} />
+        </div>
         <Link
           to="/"
           className="flex grow justify-start md:w-1/2 md:justify-center"
         >
           <ThyWordleLogo
-            className={`${transitionHoverClasses} mt-2 -ml-6 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
+            className={`${transitionHoverClasses} mt-2 -ml-6 mt-3 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
           />
         </Link>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">
