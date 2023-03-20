@@ -3,7 +3,7 @@ import './../App.css'
 import { ClockIcon } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
@@ -73,6 +73,8 @@ const Game: React.FC<props> = ({
   const clearCurrentRowClass = () => {
     setCurrentRowClass('')
   }
+
+  const verseButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
@@ -203,9 +205,13 @@ const Game: React.FC<props> = ({
             currentRowClassName={currentRowClass}
           />
           <button
-            onClick={() => setIsHintModalOpen(true)}
+            onClick={() => {
+              setIsHintModalOpen(true)
+              verseButtonRef.current!.blur()
+            }}
             type="button"
-            className={`mx-auto mt-2 inline-flex w-20 items-center justify-center rounded-md border-2 border-slate-200 px-3 py-1.5 text-center align-middle text-sm font-medium shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-700 sm:text-base`}
+            ref={verseButtonRef}
+            className={`mx-auto mt-2 inline-flex w-20 items-center justify-center rounded-md border-2 border-slate-200 px-3 py-1.5 text-center align-middle text-sm font-medium shadow-sm hover:bg-gray-300 disabled:border-gray-200 disabled:bg-gray-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-700 sm:text-base`}
           >
             Hint
           </button>
