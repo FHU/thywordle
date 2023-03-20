@@ -22,6 +22,7 @@ import { saveGameStateToLocalStorage } from './../lib/localStorage'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
   findFirstUnusedReveal,
+  getCustomSolutionErrorMessage,
   getGameDate,
   getIsLatestGame,
   isValidReference,
@@ -123,6 +124,16 @@ const Game: React.FC<props> = ({
     if (!(unicodeLength(currentGuess) === solution.length)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE, {
+        onClose: clearCurrentRowClass,
+      })
+    }
+
+    const customSolutionErrorMessage =
+      getCustomSolutionErrorMessage(currentGuess)
+
+    if (customSolutionErrorMessage !== null) {
+      setCurrentRowClass('jiggle')
+      return showErrorAlert(customSolutionErrorMessage, {
         onClose: clearCurrentRowClass,
       })
     }
