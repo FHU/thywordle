@@ -7,7 +7,7 @@ type Props = {
   verseText: string
 }
 
-export const HintModal = ({ isOpen, handleClose, verseText }: Props) => {
+export const VerseModal = ({ isOpen, handleClose, verseText }: Props) => {
   return (
     <BaseModal title="Hint" isOpen={isOpen} handleClose={handleClose}>
       <img
