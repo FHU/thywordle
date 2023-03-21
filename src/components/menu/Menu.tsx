@@ -47,6 +47,15 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
         >
           About ThyWordle
         </Link>
+        <Link
+          to="/leaderboard"
+          className={`mt-8 ${menuItemClasses}`}
+          onClick={() => {
+            setShowMenu(false)
+          }}
+        >
+          View Leaderboard
+        </Link>
       </div>
     </React.Fragment>
   )
