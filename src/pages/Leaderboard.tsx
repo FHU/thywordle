@@ -26,12 +26,15 @@ function Leaderboard() {
           alt="ThyWordle Favicon"
           className="mx-auto my-12 w-48"
         />
-        <h1 className="mb-8 text-2xl font-bold dark:text-white md:text-3xl">
+        <h1 className="mb-4 text-2xl font-bold dark:text-white md:text-3xl">
           Leaderboard
         </h1>
+        <p className="mb-8 dark:text-white">
+          Select a User for more detailed game stats.
+        </p>
       </div>
 
-      <div className="col-span-10 col-start-2 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+      <div className="col-span-10 col-start-2 mt-2 mb-8 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <div className="table w-full border-collapse">
           <div className="table-header-group rounded-xl bg-gray-300 dark:bg-slate-700">
             <div className="text-md table-row font-semibold text-black dark:text-white md:text-2xl">

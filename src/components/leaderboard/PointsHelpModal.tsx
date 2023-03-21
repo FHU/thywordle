@@ -13,7 +13,7 @@ export const PointsHelpModal = ({ isOpen, handleClose }: Props) => {
       handleClose={handleClose}
     >
       <div className="transform overflow-hidden transition-all">
-        <p className="m-4 text-left text-lg">
+        <p className="m-4 text-left text-lg text-black dark:text-white">
           Points are calculated by a combination of <b>Current Steak</b> and{' '}
           <b>Average Number of Guesses</b>. Continue to improve your stats to
           see your point totals increase!
