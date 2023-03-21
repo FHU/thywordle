@@ -1,46 +1,21 @@
+import { DotsVerticalIcon } from '@heroicons/react/outline'
+
+import { LeaderboardUser, users } from './users'
+
 export const Rows = ({ updateSelectedUser }: any) => {
-  // TODO: Pagination of users
+  const getActiveUser = () => {
+    return users.find((user) => user.name === 'Kaden King')
+  }
 
-  const activeUser = 'Kenan Casey'
-
-  const users = [
-    {
-      rank: 1,
-      name: 'Kenan Casey',
-      avgGuesses: 2,
-      points: 1000,
-      stats: {
-        currentStreak: 10,
-        bestStreak: 10,
-        successRate: 100,
-      },
-    },
-    {
-      rank: 2,
-      name: 'Dallas Yarnell',
-      avgGuesses: 3.5,
-      points: 500,
-      stats: {
-        currentStreak: 7,
-        bestStreak: 8,
-        successRate: 80,
-      },
-    },
-    {
-      rank: 3,
-      name: 'Kaden King',
-      avgGuesses: 5,
-      points: 50,
-      stats: {
-        currentStreak: 3,
-        bestStreak: 5,
-        successRate: 60,
-      },
-    },
-  ]
+  const activeUser = getActiveUser()
+  const topThreeUsers = users.slice(0, 3)
+  const surroundingUsers = users.slice(
+    activeUser!.rank - 4,
+    activeUser!.rank + 3
+  )
 
   const tableCellClasses = (user: any) => {
-    if (user.name === activeUser) {
+    if (user === activeUser) {
       return 'table-cell py-8 bg-indigo-600 text-white text-xl md:text-2xl'
     }
 
@@ -51,17 +26,36 @@ export const Rows = ({ updateSelectedUser }: any) => {
     return 'table-cell py-4'
   }
 
-  const leaderboardRows = users.map((user) => (
-    <div
-      key={user.rank}
-      className="text-md table-row cursor-pointer text-black dark:text-white md:text-lg"
-      onClick={() => updateSelectedUser(user)}
-    >
-      <div className={tableCellClasses(user)}>{user.rank}</div>
-      <div className={tableCellClasses(user)}>{user.name}</div>
-      <div className={tableCellClasses(user)}>{user.avgGuesses}</div>
-      <div className={tableCellClasses(user)}>{user.points}</div>
+  const getLeaderboardRows = (usersList: LeaderboardUser[]) => {
+    return usersList.map((user) => (
+      <div
+        key={user.rank}
+        className="text-md table-row cursor-pointer text-black dark:text-white md:text-lg"
+        onClick={() => updateSelectedUser(user)}
+      >
+        <div className={tableCellClasses(user)}>{user.rank}</div>
+        <div className={tableCellClasses(user)}>{user.name}</div>
+        <div className={tableCellClasses(user)}>{user.avgGuesses}</div>
+        <div className={tableCellClasses(user)}>{user.points}</div>
+      </div>
+    ))
+  }
+
+  const topThreeRows = getLeaderboardRows(topThreeUsers)
+  const surroundingRows = getLeaderboardRows(surroundingUsers)
+
+  return (
+    <div className="table-row-group">
+      {topThreeRows}
+      <div className="table-row bg-white dark:bg-slate-900">
+        <span className="table-cell"></span>
+        <span className="table-cell py-8">
+          <DotsVerticalIcon className="ml-auto h-8 w-8 dark:stroke-white" />
+        </span>
+        <span className="table-cell"></span>
+        <span className="table-cell"></span>
+      </div>
+      {surroundingRows}
     </div>
-  ))
-  return <div className="table-row-group">{leaderboardRows}</div>
+  )
 }
