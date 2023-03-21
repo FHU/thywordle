@@ -1,10 +1,23 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
-import React from 'react'
+import React, { useState } from 'react'
 
-import Rows from './../components/leaderboard/Rows'
+import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
+import { Rows } from './../components/leaderboard/Rows'
+import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
 
 function Leaderboard() {
+  const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
+  const [isStatSummaryModalOpen, setIsStatSummaryModalOpen] =
+    useState<boolean>(false)
+
+  const [selectedUser, setSelectedUser] = useState<any>(null)
+
+  const updateSelectedUser = (user: any) => {
+    setSelectedUser(user)
+    setIsStatSummaryModalOpen(true)
+  }
+
   return (
     <div className="grid w-full grid-cols-12 gap-4">
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
@@ -34,14 +47,28 @@ function Leaderboard() {
               <div className="table-cell border-b border-black py-8 dark:border-white">
                 <div className="flex flex-none justify-center">
                   <span className="mr-1">Points</span>
-                  <QuestionMarkCircleIcon className="h-5 w-5 cursor-pointer dark:stroke-white md:h-7 md:w-7" />
+                  <QuestionMarkCircleIcon
+                    className="h-5 w-5 cursor-pointer dark:stroke-white md:h-7 md:w-7"
+                    onClick={() => setIsPointsModalOpen(true)}
+                  />
                 </div>
               </div>
             </div>
           </div>
-          <Rows />
+          <Rows updateSelectedUser={updateSelectedUser} />
         </div>
       </div>
+
+      <PointsHelpModal
+        isOpen={isPointsModalOpen}
+        handleClose={() => setIsPointsModalOpen(false)}
+      />
+
+      <StatSummaryModal
+        isOpen={isStatSummaryModalOpen}
+        handleClose={() => setIsStatSummaryModalOpen(false)}
+        user={selectedUser}
+      />
     </div>
   )
 }

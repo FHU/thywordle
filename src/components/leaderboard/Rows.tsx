@@ -1,4 +1,6 @@
-export default function Rows() {
+export const Rows = ({ updateSelectedUser }: any) => {
+  // TODO: Pagination of users
+
   const activeUser = 'Kenan Casey'
 
   const users = [
@@ -7,18 +9,33 @@ export default function Rows() {
       name: 'Kenan Casey',
       avgGuesses: 2,
       points: 1000,
+      stats: {
+        currentStreak: 10,
+        bestStreak: 10,
+        successRate: 100,
+      },
     },
     {
       rank: 2,
       name: 'Dallas Yarnell',
       avgGuesses: 3.5,
       points: 500,
+      stats: {
+        currentStreak: 7,
+        bestStreak: 8,
+        successRate: 80,
+      },
     },
     {
       rank: 3,
       name: 'Kaden King',
       avgGuesses: 5,
-      points: 0,
+      points: 50,
+      stats: {
+        currentStreak: 3,
+        bestStreak: 5,
+        successRate: 60,
+      },
     },
   ]
 
@@ -37,7 +54,8 @@ export default function Rows() {
   const leaderboardRows = users.map((user) => (
     <div
       key={user.rank}
-      className="text-md table-row text-black dark:text-white md:text-lg"
+      className="text-md table-row cursor-pointer text-black dark:text-white md:text-lg"
+      onClick={() => updateSelectedUser(user)}
     >
       <div className={tableCellClasses(user)}>{user.rank}</div>
       <div className={tableCellClasses(user)}>{user.name}</div>
