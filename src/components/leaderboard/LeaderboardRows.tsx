@@ -36,7 +36,7 @@ export const LeaderboardRows = ({ updateSelectedUser }: any) => {
 
   const activeUser = getActiveUser()
 
-  if (users.slice(0, 10).includes(activeUser!)) {
+  if (users.slice(0, 10).includes(activeUser!) || activeUser === null) {
     const usersToDisplay = users.slice(0, 10)
     const displayRows = getLeaderboardRows(usersToDisplay)
 
@@ -52,12 +52,16 @@ export const LeaderboardRows = ({ updateSelectedUser }: any) => {
   const surroundingRows = getLeaderboardRows(surroundingUsers)
 
   const spacer = (
-    <div className="table-row">
+    <div className="table-row bg-white dark:bg-slate-900">
       <span className="table-cell py-8">
         <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
       </span>
-      <span className="table-cell"></span>
-      <span className="table-cell"></span>
+      <span className="table-cell py-8">
+        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+      </span>
+      <span className="table-cell py-8">
+        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+      </span>
       <span className="table-cell py-8">
         <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
       </span>
