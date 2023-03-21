@@ -34,7 +34,7 @@ function Leaderboard() {
         </p>
       </div>
 
-      <div className="col-span-10 col-start-2 mt-2 mb-8 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+      <div className="col-span-10 col-start-2 mt-2 mb-16 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <div className="table w-full border-collapse">
           <div className="table-header-group rounded-xl bg-gray-300 dark:bg-slate-700">
             <div className="text-md table-row font-semibold text-black dark:text-white md:text-2xl">

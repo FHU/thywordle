@@ -44,17 +44,23 @@ export const Rows = ({ updateSelectedUser }: any) => {
   const topThreeRows = getLeaderboardRows(topThreeUsers)
   const surroundingRows = getLeaderboardRows(surroundingUsers)
 
+  const spacer = (
+    <div className="table-row">
+      <span className="table-cell py-8">
+        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+      </span>
+      <span className="table-cell"></span>
+      <span className="table-cell"></span>
+      <span className="table-cell py-8">
+        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+      </span>
+    </div>
+  )
+
   return (
     <div className="table-row-group">
       {topThreeRows}
-      <div className="table-row bg-white dark:bg-slate-900">
-        <span className="table-cell"></span>
-        <span className="table-cell py-8">
-          <DotsVerticalIcon className="ml-auto h-8 w-8 dark:stroke-white" />
-        </span>
-        <span className="table-cell"></span>
-        <span className="table-cell"></span>
-      </div>
+      {spacer}
       {surroundingRows}
     </div>
   )
