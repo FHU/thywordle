@@ -1,8 +1,8 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
 import React, { useState } from 'react'
 
+import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
-import { Rows } from './../components/leaderboard/Rows'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
 
@@ -58,7 +58,7 @@ function Leaderboard() {
               </div>
             </div>
           </div>
-          <Rows updateSelectedUser={updateSelectedUser} />
+          <LeaderboardRows updateSelectedUser={updateSelectedUser} />
         </div>
       </div>
 

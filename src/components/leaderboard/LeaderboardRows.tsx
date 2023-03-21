@@ -2,18 +2,7 @@ import { DotsVerticalIcon } from '@heroicons/react/outline'
 
 import { LeaderboardUser, users } from './users'
 
-export const Rows = ({ updateSelectedUser }: any) => {
-  const getActiveUser = () => {
-    return users.find((user) => user.name === 'Kaden King')
-  }
-
-  const activeUser = getActiveUser()
-  const topThreeUsers = users.slice(0, 3)
-  const surroundingUsers = users.slice(
-    activeUser!.rank - 4,
-    activeUser!.rank + 3
-  )
-
+export const LeaderboardRows = ({ updateSelectedUser }: any) => {
   const tableCellClasses = (user: any) => {
     if (user === activeUser) {
       return 'table-cell py-8 bg-indigo-600 text-white text-xl md:text-2xl'
@@ -24,6 +13,10 @@ export const Rows = ({ updateSelectedUser }: any) => {
     }
 
     return 'table-cell py-4'
+  }
+
+  const getActiveUser = () => {
+    return users.find((user) => user.name === 'Kaden King')
   }
 
   const getLeaderboardRows = (usersList: LeaderboardUser[]) => {
@@ -41,7 +34,21 @@ export const Rows = ({ updateSelectedUser }: any) => {
     ))
   }
 
-  const topThreeRows = getLeaderboardRows(topThreeUsers)
+  const activeUser = getActiveUser()
+
+  if (users.slice(0, 10).includes(activeUser!)) {
+    const usersToDisplay = users.slice(0, 10)
+    const displayRows = getLeaderboardRows(usersToDisplay)
+
+    return <div className="table-row-group">{displayRows}</div>
+  }
+
+  const surroundingUsers = users.slice(
+    activeUser!.rank - 4,
+    activeUser!.rank + 3
+  )
+
+  const topThreeRows = getLeaderboardRows(users.slice(0, 3))
   const surroundingRows = getLeaderboardRows(surroundingUsers)
 
   const spacer = (

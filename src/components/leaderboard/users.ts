@@ -152,7 +152,7 @@ export const users: LeaderboardUser[] = [
   },
   {
     rank: 14,
-    name: 'Kaden King',
+    name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 300,
     stats: {
@@ -218,7 +218,7 @@ export const users: LeaderboardUser[] = [
   },
   {
     rank: 20,
-    name: 'Anonymous Joe',
+    name: 'Kaden King',
     avgGuesses: 5,
     points: 50,
     stats: {
