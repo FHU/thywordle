@@ -1,5 +1,5 @@
 export const solutionErrorMessages: { [key: string]: string } = {
-  PSALMS: 'Try Psalm',
+  PSALMS: 'Try "Psalm"',
   'OBADIAH1:': 'Remove the chapter number and colon',
   'PHILEMON1:': 'Remove the chapter number and colon',
   '2JOHN1:': 'Remove the chapter number and colon',
