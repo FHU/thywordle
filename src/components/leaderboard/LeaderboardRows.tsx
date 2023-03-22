@@ -54,16 +54,16 @@ export const LeaderboardRows = ({ updateSelectedUser }: any) => {
   const spacer = (
     <div className="table-row bg-white dark:bg-slate-900">
       <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
       </span>
       <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
       </span>
       <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
       </span>
       <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-8 w-8 dark:stroke-white" />
+        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
       </span>
     </div>
   )
