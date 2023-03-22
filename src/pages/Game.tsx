@@ -45,8 +45,7 @@ interface props {
   setGuesses: React.Dispatch<React.SetStateAction<string[]>>
   showSuccessAlert: any
   showErrorAlert: any
-  isHintModalOpen: boolean
-  setIsHintModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsVerseModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Game: React.FC<props> = ({
@@ -63,10 +62,8 @@ const Game: React.FC<props> = ({
   setGuesses,
   showSuccessAlert,
   showErrorAlert,
-  isHintModalOpen,
-  setIsHintModalOpen,
+  setIsVerseModalOpen,
 }) => {
-  //const [isHintModalOpen, setIsHintModalOpen] = useState(false)
   const gameDate = getGameDate()
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
@@ -217,14 +214,14 @@ const Game: React.FC<props> = ({
           />
           <button
             onClick={() => {
-              setIsHintModalOpen(true)
+              setIsVerseModalOpen(true)
               verseButtonRef.current!.blur()
             }}
             type="button"
             ref={verseButtonRef}
-            className={`mx-auto mt-2 inline-flex w-20 items-center justify-center rounded-md border-2 border-slate-200 px-3 py-1.5 text-center align-middle text-sm font-medium shadow-sm hover:bg-gray-300 disabled:border-gray-200 disabled:bg-gray-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-700 sm:text-base`}
+            className={`mx-auto mt-2 inline-flex w-32 items-center justify-center rounded-md border-2 border-slate-200 px-3 py-1.5 text-center align-middle text-sm font-medium shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:border-gray-200 disabled:bg-gray-500 dark:border-slate-600 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-700 sm:text-base`}
           >
-            Hint
+            Read Verse
           </button>
         </div>
         <Keyboard

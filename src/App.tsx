@@ -7,11 +7,11 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { AlertContainer } from './components/alerts/AlertContainer'
 import { Menu } from './components/menu/Menu'
 import { DatePickerModal } from './components/modals/DatePickerModal'
-import { HintModal } from './components/modals/HintModal'
 import { InfoModal } from './components/modals/InfoModal'
 import { MigrateStatsModal } from './components/modals/MigrateStatsModal'
 import { SettingsModal } from './components/modals/SettingsModal'
 import { StatsModal } from './components/modals/StatsModal'
+import { VerseModal } from './components/modals/VerseModal'
 import { Navbar } from './components/navbar/Navbar'
 import {
   DISCOURAGE_INAPP_BROWSERS,
@@ -60,7 +60,7 @@ function App() {
   const [isDatePickerModalOpen, setIsDatePickerModalOpen] = useState(false)
   const [isMigrateStatsModalOpen, setIsMigrateStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
-  const [isHintModalOpen, setIsHintModalOpen] = useState(false)
+  const [isVerseModalOpen, setIsVerseModalOpen] = useState(false)
   const [isGameLost, setIsGameLost] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem('theme')
@@ -182,8 +182,7 @@ function App() {
                   setGuesses={setGuesses}
                   showSuccessAlert={showSuccessAlert}
                   showErrorAlert={showErrorAlert}
-                  isHintModalOpen={isHintModalOpen}
-                  setIsHintModalOpen={setIsHintModalOpen}
+                  setIsVerseModalOpen={setIsVerseModalOpen}
                 />
               }
             />
@@ -242,9 +241,9 @@ function App() {
             isHighContrastMode={isHighContrastMode}
             handleHighContrastMode={handleHighContrastMode}
           />
-          <HintModal
-            isOpen={isHintModalOpen}
-            handleClose={() => setIsHintModalOpen(false)}
+          <VerseModal
+            isOpen={isVerseModalOpen}
+            handleClose={() => setIsVerseModalOpen(false)}
             verseText={verseText}
           />
           <AlertContainer />
