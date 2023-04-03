@@ -30,6 +30,7 @@ To quickly create additional solutions, use [this helpful python script](https:/
 [ThyWordle](https://thywordle.com/about) is a clone of the popular word game but tweaked to use solutions that are Bible references. The game was designed and developed by Computer Science students at Freed-Hardeman Unviersity as part of their senior capstone course.
 
 Contributors include:
-- [Kaden King](https://github.com/kadenbking)
-- [Dallas Yarnell](https://github.com/djyarnell0)
+
+- [Kaden King](https://github.com/kadenbking) (2023 Graduate)
+- [Dallas Yarnell](https://github.com/djyarnell0) (2023 Graduate)
 - [Kenan Casey](https://github.com/kenancasey)
