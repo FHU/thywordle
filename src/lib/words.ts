@@ -12,12 +12,23 @@ import { BOOKS } from '../constants/booklist'
 import { ENABLE_ARCHIVED_GAMES } from '../constants/settings'
 import { SOLUTIONS } from '../constants/solutions'
 import { NOT_CONTAINED_MESSAGE, WRONG_SPOT_MESSAGE } from '../constants/strings'
+import { solutionErrorMessages } from './../constants/solutionErrorMessages'
 import { getToday } from './dateutils'
 import { getGuessStatuses } from './statuses'
 
 // 1 January 2022 Game Epoch
 export const firstGameDate = new Date(2022, 0)
 export const periodInDays = 1
+
+export const getCustomSolutionErrorMessage = (guess: string): string | null => {
+  for (const [key, value] of Object.entries(solutionErrorMessages)) {
+    if (guess.includes(key)) {
+      return value
+    }
+  }
+
+  return null
+}
 
 export const isValidReference = (guess: string): boolean => {
   const oneChapterBooks = ['OBADIAH', 'PHILEMON', '2JOHN', '3JOHN', 'JUDE']
