@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const VerseModal = ({ isOpen, handleClose, verseText }: Props) => {
-  const copiedTextMessage = `Thou shalt not steal or attempt to cheat at ThyWordle.com`
+  const copiedTextMessage = `Thou shalt not steal nor attempt to cheat at ThyWordle.com`
 
   return (
     <BaseModal title="Verse" isOpen={isOpen} handleClose={handleClose}>
