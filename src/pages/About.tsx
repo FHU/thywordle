@@ -10,8 +10,8 @@ import gitLogo from './../img/github-mark.png'
 
 function About() {
   return (
-    <div className="grid w-full grid-cols-8 gap-4">
-      <div className="col-span-6 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+    <div className="grid w-full grid-cols-12 gap-4">
+      <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <img
           src={favicon}
           alt="ThyWordle Favicon"
@@ -36,7 +36,7 @@ function About() {
           </Link>
         </div>
       </div>
-      <div className="col-span-6 col-start-2 mb-8 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-3 lg:col-start-2 lg:col-end-5">
+      <div className="col-span-10 col-start-2 mb-0 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-5 lg:col-start-2 lg:col-end-7 lg:mb-8">
         <BellTowerLogo className="mx-auto my-8 h-auto w-24 fill-black dark:fill-white md:w-32" />
         <h2 className="text-center text-2xl font-bold text-black dark:text-white">
           Learn More <br className="block md:hidden" /> about FHU
@@ -58,7 +58,7 @@ function About() {
           </a>
         </div>
       </div>
-      <div className="col-span-6 col-start-2 mb-8 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-3 lg:col-end-8">
+      <div className="col-span-10 col-start-2 mb-8 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-5 lg:col-end-12">
         <img
           src={gitLogo}
           alt="GitHub"
