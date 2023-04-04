@@ -18,13 +18,13 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
 
   const ref = useDetectClickOutside({ onTriggered: closeMenu })
   const menuItemClasses =
-    'flex origin-left transform text-xl md:text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-125 hover:text-white dark:text-white hover:dark:text-sky-400'
+    'flex origin-left transform text-sm md:text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-105 hover:text-white dark:text-white hover:dark:text-sky-400'
 
   return (
     <React.Fragment>
       <div
         ref={ref}
-        className={`fixed top-0 left-0 z-10 h-full w-3/4 bg-slate-400 p-10 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-2/5 md:pl-20 ${
+        className={`fixed top-0 left-0 z-10 h-full w-3/4 bg-slate-400 p-8 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-1/3 md:pl-8 ${
           showMenu ? 'translate-x-0 ' : '-translate-x-full'
         }`}
       >
@@ -55,6 +55,19 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
           }}
         >
           View Leaderboard
+        </Link>
+
+        <Link
+          to="mailto:thywordle@gmail.com"
+          target="_blank"
+          className={
+            menuItemClasses + ' absolute bottom-0 right-0 px-8 py-8 md:text-lg'
+          }
+          onClick={() => {
+            setShowMenu(false)
+          }}
+        >
+          Send Feedback
         </Link>
       </div>
     </React.Fragment>
