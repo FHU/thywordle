@@ -18,7 +18,7 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
 
   const ref = useDetectClickOutside({ onTriggered: closeMenu })
   const menuItemClasses =
-    'flex origin-left transform text-sm md:text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-105 hover:text-white dark:text-white hover:dark:text-sky-400'
+    'flex origin-left transform text-lg md:text-2xl font-semibold text-black transition-all delay-100 duration-300 hover:scale-105 hover:text-white dark:text-white hover:dark:text-sky-400'
 
   return (
     <React.Fragment>
@@ -61,7 +61,8 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
           to="mailto:thywordle@gmail.com"
           target="_blank"
           className={
-            menuItemClasses + ' absolute bottom-0 right-0 px-8 py-8 md:text-lg'
+            menuItemClasses +
+            ' absolute bottom-0 right-0 py-16 px-8 md:py-8 md:text-lg'
           }
           onClick={() => {
             setShowMenu(false)
