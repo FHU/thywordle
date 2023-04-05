@@ -2,7 +2,12 @@ import './App.css'
 
 import { useEffect, useState } from 'react'
 import Div100vh from 'react-div-100vh'
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom'
 
 import { AlertContainer } from './components/alerts/AlertContainer'
 import { Menu } from './components/menu/Menu'
@@ -187,6 +192,9 @@ function App() {
               }
             />
             <Route path="/about" element={<About />} />
+
+            {/* Any other urls redirect to / */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
 
           <InfoModal
