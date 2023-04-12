@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import {
   GoogleAuthProvider,
   getAuth,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from 'firebase/auth'
@@ -28,6 +29,15 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 const googleProvider = new GoogleAuthProvider()
+
+// Worth Looking at for help: https://github.com/CSFrequency/react-firebase-hooks
+
+export const signInWithEmailAndPasswordWrapper = (
+  email: string,
+  password: string
+) => {
+  signInWithEmailAndPassword(auth, email, password)
+}
 
 export const signInWithGoogle = async () => {
   try {
