@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
 
-import ProfileContent from '../components/profile/ProfileContent'
+import SignInTabs from '../components/profile/SignInTabs'
+import { ForgotPasswordModal } from './../components/profile/ForgotPasswordModal'
 import { LogOutModal } from './../components/profile/LogOutModal'
 import favicon from './../img/favicon.png'
 
 function Profile() {
-  const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] =
+  const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
+    useState<boolean>(false)
+
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] =
     useState<boolean>(false)
 
   const handleLogOut = () => {
-    setIsLogoutConfirmationOpen(true)
+    setIsLogoutConfirmationModalOpen(true)
+  }
+
+  const handleForgotPassword = () => {
+    setIsForgotPasswordModalOpen(true)
   }
 
   return (
@@ -26,12 +34,20 @@ function Profile() {
       </div>
 
       <div className="col-span-10 col-start-2 mt-2 mb-16 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
-        <ProfileContent handleLogOut={handleLogOut} />
+        <SignInTabs
+          handleLogOut={handleLogOut}
+          handleForgotPassword={handleForgotPassword}
+        />
       </div>
 
+      <ForgotPasswordModal
+        isOpen={isForgotPasswordModalOpen}
+        handleClose={() => setIsForgotPasswordModalOpen(false)}
+      />
+
       <LogOutModal
-        isOpen={isLogoutConfirmationOpen}
-        handleClose={() => setIsLogoutConfirmationOpen(false)}
+        isOpen={isLogoutConfirmationModalOpen}
+        handleClose={() => setIsLogoutConfirmationModalOpen(false)}
       />
     </div>
   )
