@@ -11,6 +11,35 @@ const CreateAccountForm = () => {
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
 
+  const buttonDisabledClasses =
+    'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
+  const buttonEnabledClasses =
+    'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
+
+  const isValid = () => {
+    if (
+      username.length > 0 &&
+      email.length > 0 &&
+      password.length > 0 &&
+      confirmPassword.length > 0
+    ) {
+      return true
+    }
+
+    return false
+  }
+
+  const handleCreateAccountButtonClick = () => {
+    if (isValid()) {
+      createAccountWithEmailandPassword(
+        username,
+        email,
+        password,
+        confirmPassword
+      )
+    }
+  }
+
   return (
     <div className="my-6">
       <h2 className="text-xl font-bold dark:text-white md:text-2xl">
@@ -94,15 +123,10 @@ const CreateAccountForm = () => {
 
         <div className="w-64">
           <button
-            className="group relative flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() =>
-              createAccountWithEmailandPassword(
-                username,
-                email,
-                password,
-                confirmPassword
-              )
-            }
+            className={`${
+              isValid() ? buttonEnabledClasses : buttonDisabledClasses
+            } group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+            onClick={() => handleCreateAccountButtonClick()}
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
