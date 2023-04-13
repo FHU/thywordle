@@ -57,7 +57,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   name="username"
                   type="text"
                   autoComplete="name"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Name (Example: John Doe)"
                   value={username}
                   onChange={(e: any) => {
@@ -82,7 +82,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   name="email"
                   type="email"
                   autoComplete="email"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Email address"
                   value={email}
                   onChange={(e: any) => {
@@ -107,7 +107,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   name="old-password"
                   type="password"
                   autoComplete="password"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Old Password"
                   value={oldPassword}
                   onChange={(e: any) => {
@@ -132,7 +132,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   name="new-password"
                   type="password"
                   autoComplete="password"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Old Password"
                   value={newPassword}
                   onChange={(e: any) => {
@@ -157,7 +157,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   name="confirm-new-password"
                   type="password"
                   autoComplete="password"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Old Password"
                   value={confirmNewPassword}
                   onChange={(e: any) => {
