@@ -62,7 +62,7 @@ const CreateAccountForm = () => {
                 setUsername(e.target.value)
               }}
               required
-              className="w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full rounded-t-md border-0 bg-white py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
               placeholder="Name (Example: John Doe)"
             />
           </div>
@@ -80,7 +80,7 @@ const CreateAccountForm = () => {
                 setEmail(e.target.value)
               }}
               required
-              className="w-full border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full border-0 bg-white py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
               placeholder="Email address"
             />
           </div>
@@ -98,7 +98,7 @@ const CreateAccountForm = () => {
                 setPassword(e.target.value)
               }}
               required
-              className="w-full border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full border-0 bg-white py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
               placeholder="Password"
             />
           </div>
@@ -115,7 +115,7 @@ const CreateAccountForm = () => {
                 setConfirmPassword(e.target.value)
               }}
               required
-              className="w-full rounded-b-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="w-full rounded-b-md border-0 bg-white py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
               placeholder="Confirm Password"
             />
           </div>
