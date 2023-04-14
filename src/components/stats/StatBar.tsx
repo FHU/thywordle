@@ -10,7 +10,7 @@ type Props = {
   gameStats: GameStats
 }
 
-const StatItem = ({
+export const StatItem = ({
   label,
   value,
 }: {

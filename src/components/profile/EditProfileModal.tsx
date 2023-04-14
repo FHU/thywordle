@@ -133,7 +133,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   type="password"
                   autoComplete="password"
                   className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                  placeholder="Old Password"
+                  placeholder="New Password"
                   value={newPassword}
                   onChange={(e: any) => {
                     setNewPassword(e.target.value)
@@ -158,7 +158,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   type="password"
                   autoComplete="password"
                   className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                  placeholder="Old Password"
+                  placeholder="Confirm New Password"
                   value={confirmNewPassword}
                   onChange={(e: any) => {
                     setConfirmNewPassword(e.target.value)

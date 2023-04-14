@@ -1,19 +1,97 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import { Histogram } from '../stats/Histogram'
+import {
+  AVG_NUM_GUESSES_TEXT,
+  BEST_STREAK_TEXT,
+  CURRENT_STREAK_TEXT,
+  GUESS_DISTRIBUTION_TEXT,
+  POINTS_TEXT,
+  SUCCESS_RATE_TEXT,
+  TOTAL_TRIES_TEXT,
+} from './../../constants/strings'
+import { StatItem } from './../stats/StatBar'
 
 const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
 
+  // The following 3 lines are only to avoid lint errors with an unused variable
+  // The purpose of this conditional: Only allow users who did not sign in with google to edit their account information
+  let exampleUser = 'Bob'
+  let exampleUserEmail = 'bob@the.builder.com'
+  if (exampleUser === 'The Bob') setSignedInWithGoogle(true)
+
+  const gameStats = {
+    winDistribution: [1, 1, 1, 1, 2, 1],
+    gamesFailed: 1,
+    currentStreak: 4,
+    bestStreak: 4,
+    totalGames: 8,
+    successRate: 88,
+  }
+
   return (
     <div className="my-8">
-      <p className="my-4 text-2xl font-bold dark:text-white">
-        UserName
-        {/* {user.name} */}
+      <p className="text-2xl font-bold dark:text-white">
+        Welcome{' '}
+        <span className="text-indigo-600 dark:text-indigo-400">
+          {exampleUser}
+        </span>
+        !
       </p>
-      <p className="my-4 text-2xl font-bold dark:text-white">
-        Email
-        {/* Email: {user.email} */}
+      <p className="my-2 text-base dark:text-white">
+        (
+        <span className="text-indigo-600 dark:text-indigo-400">
+          {exampleUserEmail}
+        </span>
+        )
       </p>
-      <p className="my-4 text-2xl font-bold dark:text-white">Stats</p>
+      <div>
+        <h4 className="mt-8 mb-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
+          Stats
+        </h4>
+        <div className="flex flex-wrap justify-center">
+          <StatItem label={TOTAL_TRIES_TEXT} value={gameStats.totalGames} />
+          <StatItem
+            label={SUCCESS_RATE_TEXT}
+            value={`${gameStats.successRate}%`}
+          />
+          <StatItem
+            label={CURRENT_STREAK_TEXT}
+            value={gameStats.currentStreak}
+          />
+          <StatItem label={BEST_STREAK_TEXT} value={gameStats.bestStreak} />
+          <StatItem label={AVG_NUM_GUESSES_TEXT} value={3.5} />
+          <StatItem label={POINTS_TEXT} value={200} />
+        </div>
+
+        <h4 className="mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
+          {GUESS_DISTRIBUTION_TEXT}
+        </h4>
+        <div className="mx-auto w-4/5 md:w-1/2 2xl:w-1/3">
+          <Histogram
+            isLatestGame={false}
+            gameStats={gameStats}
+            isGameWon={true}
+            numberOfGuessesMade={2}
+          />
+        </div>
+
+        <div className="my-12 flex items-center justify-center">
+          {' '}
+          <h4 className="mr-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
+            View Your Ranking
+          </h4>
+          <Link
+            to="/leaderboard"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+          >
+            Leaderboard
+          </Link>
+        </div>
+      </div>
+
       <div
         className={`${
           signedInWithGoogle ? 'w-64' : 'w-4/5 md:w-96'

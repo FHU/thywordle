@@ -4,6 +4,7 @@ import {
   SUCCESS_RATE_TEXT,
 } from './../../constants/strings'
 import { BaseModal } from './../modals/BaseModal'
+import { StatItem } from './../stats/StatBar'
 
 type Props = {
   isOpen: boolean
@@ -12,21 +13,6 @@ type Props = {
 }
 
 export const StatSummaryModal = ({ isOpen, handleClose, user }: Props) => {
-  const StatItem = ({
-    label,
-    value,
-  }: {
-    label: string
-    value: string | number
-  }) => {
-    return (
-      <div className="m-1 w-1/4 items-center justify-center dark:text-white">
-        <div className="text-3xl font-bold">{value}</div>
-        <div className="text-xs">{label}</div>
-      </div>
-    )
-  }
-
   return (
     <BaseModal
       title={`${user?.name} Stats`}

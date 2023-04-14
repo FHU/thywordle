@@ -42,12 +42,12 @@ function Leaderboard() {
       {!user && (
         <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
           <div className="mx-auto my-2 flex items-center justify-center">
-            <p className="mr-4 text-black dark:text-white">
+            <p className="mr-2 text-sm text-black dark:text-white sm:text-lg">
               Want to see how you compare?
             </p>
             <Link
               to="/profile"
-              className="inline-flex w-32 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
             >
               Sign In
             </Link>
