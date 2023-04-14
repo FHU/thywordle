@@ -36,7 +36,7 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
             setShowMenu(false)
           }}
         >
-          Play the Game
+          Play
         </Link>
         <Link
           to="/about"
@@ -45,7 +45,7 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
             setShowMenu(false)
           }}
         >
-          About ThyWordle
+          About
         </Link>
         <Link
           to="/leaderboard"
@@ -54,7 +54,7 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
             setShowMenu(false)
           }}
         >
-          View Leaderboard
+          Leaderboard
         </Link>
         <Link
           to="/profile"

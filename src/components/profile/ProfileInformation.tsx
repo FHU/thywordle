@@ -40,12 +40,8 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
         </span>
         !
       </p>
-      <p className="my-2 text-base dark:text-white">
-        (
-        <span className="text-indigo-600 dark:text-indigo-400">
-          {exampleUserEmail}
-        </span>
-        )
+      <p className="my-2 text-base text-indigo-600 dark:text-indigo-400">
+        {exampleUserEmail}
       </p>
       <div>
         <h4 className="mt-8 mb-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
