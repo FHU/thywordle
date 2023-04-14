@@ -170,6 +170,7 @@ export const StatsModal = ({
           </div>
         </>
       )}
+      {/* TODO: Only Show if Signed Out */}
       <hr className="mt-4 -mb-4 border-gray-500" />
       <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
         <div className="mt-3 text-xs">
