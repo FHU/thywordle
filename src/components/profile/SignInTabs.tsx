@@ -29,7 +29,7 @@ const SignInTabs = ({
       </div>
     )
   }
-  if (true) {
+  if (user) {
     return (
       <ProfileInformation
         handleLogOut={handleLogOut}
