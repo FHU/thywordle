@@ -2,13 +2,12 @@ import { error } from 'console'
 import { initializeApp } from 'firebase/app'
 import {
   GoogleAuthProvider,
-  createUserWithEmailAndPassword, // GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPopup, // signInWithEmailAndPassword,
-  // signInWithPopup,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from 'firebase/auth'
@@ -119,3 +118,30 @@ export const resetForgottenPassword = (email: string) => {
 export const logout = () => {
   signOut(auth)
 }
+// export const useUpdateProfile = (auth: Auth): UpdateProfileHook => {
+//   const [error, setError] = useState<AuthError>();
+//   const [loading, setLoading] = useState<boolean>(false);
+
+//   const updateProfile = useCallback(
+//     async (profile: Profile) => {
+//       setLoading(true);
+//       setError(undefined);
+//       try {
+//         if (auth.currentUser) {
+//           await fbUpdateProfile(auth.currentUser, profile);
+//           return true;
+//         } else {
+//           throw new Error('No user is logged in');
+//         }
+//       } catch (err) {
+//         setError(err as AuthError);
+//         return false;
+//       } finally {
+//         setLoading(false);
+//       }
+//     },
+//     [auth]
+//   );
+
+//   return [updateProfile, loading, error];
+// };
