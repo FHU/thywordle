@@ -91,22 +91,7 @@ export default (
 
   return [createUserWithEmailAndPassword, registeredUser, loading, error]
 }
-// export const createAccountWithEmailandPassword = (
-//   username: string,
-//   email: string,
-//   password: string,
-//   confirmPassword: string
-// ) => {
-//   createUserWithEmailAndPassword(auth, email, password)
-//     .then((userCredential) => {
-//       // Signed in
-//       const user = userCredential.user
-//     })
-//     .catch((error) => {
-//       const errorCode = error.code
-//       const errorMessage = error.message
-//     })
-// }
+
 type Profile = {
   displayName?: string | null
   photoURL?: string | null
