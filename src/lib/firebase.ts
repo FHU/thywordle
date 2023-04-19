@@ -29,7 +29,8 @@ import {
   CreateUserOptions,
   EmailAndPasswordActionHook,
 } from 'react-firebase-hooks/auth/dist/auth/types'
-import { UpdateUserHook } from 'react-firebase-hooks/auth/dist/auth/useUpdateUser'
+
+// import { UpdateUserHook } from 'react-firebase-hooks/auth/dist/auth/useUpdateUser'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
