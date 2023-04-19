@@ -30,6 +30,8 @@ const SignInTabs = ({
     )
   }
   if (user) {
+    // Uncomment to see profile info without logging in
+    // if (true) {
     return (
       <ProfileInformation
         handleLogOut={handleLogOut}

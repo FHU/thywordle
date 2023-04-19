@@ -51,7 +51,7 @@ export const loadStats = () => {
   return loadStatsFromLocalStorage() || defaultStats
 }
 
-const getSuccessRate = (gameStats: GameStats) => {
+export const getSuccessRate = (gameStats: GameStats) => {
   const { totalGames, gamesFailed } = gameStats
 
   return Math.round(
@@ -59,7 +59,7 @@ const getSuccessRate = (gameStats: GameStats) => {
   )
 }
 
-const getAverageNumberGuesses = (gameStats: GameStats) => {
+export const getAverageNumberGuesses = (gameStats: GameStats) => {
   const { winDistribution } = gameStats
   let totalGuesses = 0
   let totalGames = 0
@@ -69,4 +69,26 @@ const getAverageNumberGuesses = (gameStats: GameStats) => {
   }
 
   return Number((totalGuesses / totalGames).toFixed(2))
+}
+
+export const getScore = (gameStats: GameStats): number => {
+  const WINBONUS = 256
+  const LOSEBONUS = 32
+  const SUCCESSRATEBONUS = 64
+  const AVGGUESSBONUS = 512
+  const STREAKBONUS = 8
+
+  const gamesWon = gameStats.totalGames - gameStats.gamesFailed
+
+  console.log(gameStats)
+
+  const score =
+    gamesWon * WINBONUS +
+    gameStats.gamesFailed * LOSEBONUS +
+    gameStats.successRate * SUCCESSRATEBONUS +
+    (6 - gameStats.avgNumGuesses) * AVGGUESSBONUS +
+    gameStats.currentStreak * STREAKBONUS +
+    gameStats.bestStreak * STREAKBONUS
+
+  return Math.round(score)
 }
