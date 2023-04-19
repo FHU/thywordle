@@ -11,6 +11,11 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_TRIES_TEXT,
 } from './../../constants/strings'
+import {
+  getAverageNumberGuesses,
+  getScore,
+  getSuccessRate,
+} from './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
 const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
@@ -23,13 +28,19 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
   if (exampleUser === 'The Bob') setSignedInWithGoogle(true)
 
   const gameStats = {
-    winDistribution: [1, 1, 1, 1, 2, 1],
+    winDistribution: [1, 1, 1, 1, 24, 1],
     gamesFailed: 1,
-    currentStreak: 4,
+    currentStreak: 8,
     bestStreak: 4,
-    totalGames: 8,
-    successRate: 88,
+    totalGames: 30,
+    successRate: 0,
+    score: 0,
+    avgNumGuesses: 0,
   }
+
+  gameStats.avgNumGuesses = getAverageNumberGuesses(gameStats)
+  gameStats.successRate = getSuccessRate(gameStats)
+  gameStats.score = getScore(gameStats)
 
   return (
     <div className="my-8">
@@ -58,8 +69,11 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
             value={gameStats.currentStreak}
           />
           <StatItem label={BEST_STREAK_TEXT} value={gameStats.bestStreak} />
-          <StatItem label={AVG_NUM_GUESSES_TEXT} value={3.5} />
-          <StatItem label={POINTS_TEXT} value={200} />
+          <StatItem
+            label={AVG_NUM_GUESSES_TEXT}
+            value={gameStats.avgNumGuesses}
+          />
+          <StatItem label={POINTS_TEXT} value={gameStats.score} />
         </div>
 
         <h4 className="mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
