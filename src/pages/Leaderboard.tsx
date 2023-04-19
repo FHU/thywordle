@@ -1,12 +1,17 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
 import React, { useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { Link } from 'react-router-dom'
 
 import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
+import { auth } from '../lib/firebase'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
 
 function Leaderboard() {
+  const [user] = useAuthState(auth)
+
   const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
   const [isStatSummaryModalOpen, setIsStatSummaryModalOpen] =
     useState<boolean>(false)
@@ -33,6 +38,22 @@ function Leaderboard() {
           Select a User for more detailed game stats.
         </p>
       </div>
+
+      {!user && (
+        <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+          <div className="mx-auto my-2 flex items-center justify-center">
+            <p className="mr-2 text-sm text-black dark:text-white sm:text-lg">
+              Want to see how you compare?
+            </p>
+            <Link
+              to="/profile"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+            >
+              Sign In
+            </Link>
+          </div>
+        </div>
+      )}
 
       <div className="col-span-10 col-start-2 mt-2 mb-16 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <div className="table w-full border-collapse">
