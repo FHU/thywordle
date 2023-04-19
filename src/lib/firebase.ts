@@ -1,10 +1,15 @@
 import { error } from 'console'
 import { initializeApp } from 'firebase/app'
 import {
+  ActionCodeSettings,
+  Auth,
+  AuthError,
   GoogleAuthProvider,
-  createUserWithEmailAndPassword,
+  UserCredential,
+  createUserWithEmailAndPassword as firebaseCreateUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -19,6 +24,12 @@ import {
   query,
   where,
 } from 'firebase/firestore'
+import { useCallback, useState } from 'react'
+import {
+  CreateUserOptions,
+  EmailAndPasswordActionHook,
+} from 'react-firebase-hooks/auth/dist/auth/types'
+import { UpdateUserHook } from 'react-firebase-hooks/auth/dist/auth/useUpdateUser'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -42,31 +53,101 @@ onAuthStateChanged(auth, (user) => {
 })
 
 // Worth Looking at for help: https://github.com/CSFrequency/react-firebase-hooks
+export default (
+  auth: Auth,
+  options?: CreateUserOptions
+): EmailAndPasswordActionHook => {
+  const [error, setError] = useState<AuthError>()
+  const [registeredUser, setRegisteredUser] = useState<UserCredential>()
+  const [loading, setLoading] = useState<boolean>(false)
 
-export const createAccountWithEmailandPassword = (
-  username: string,
-  email: string,
-  password: string,
-  confirmPassword: string
-) => {
-  //ask about username and confirm password db entry when using the createUserWithEmailAndPassword at https://firebase.google.com/docs/auth/web/password-auth?authuser=1
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user
-      // updateProfile(auth.currentUser, {
-      //   displayName: username
-      // }).then(() => {
-      //   console.log(user, 'updated')
-      //
-      // }).catch((error) => {
-      //   console.log(error)
-      // });
-    })
-    .catch((error) => {
-      const errorCode = error.code
-      const errorMessage = error.message
-    })
+  const createUserWithEmailAndPassword = useCallback(
+    async (email: string, password: string) => {
+      setLoading(true)
+      setError(undefined)
+      try {
+        const user = await firebaseCreateUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        )
+        if (options && options.sendEmailVerification && user.user) {
+          await sendEmailVerification(
+            user.user,
+            options.emailVerificationOptions
+          )
+        }
+        setRegisteredUser(user)
+
+        return user
+      } catch (error) {
+        setError(error as AuthError)
+      } finally {
+        setLoading(false)
+      }
+    },
+    [auth, options]
+  )
+
+  return [createUserWithEmailAndPassword, registeredUser, loading, error]
+}
+// export const createAccountWithEmailandPassword = (
+//   username: string,
+//   email: string,
+//   password: string,
+//   confirmPassword: string
+// ) => {
+//   createUserWithEmailAndPassword(auth, email, password)
+//     .then((userCredential) => {
+//       // Signed in
+//       const user = userCredential.user
+//     })
+//     .catch((error) => {
+//       const errorCode = error.code
+//       const errorMessage = error.message
+//     })
+// }
+type Profile = {
+  displayName?: string | null
+  photoURL?: string | null
+}
+export type UpdateProfileHook = UpdateUserHook<
+  (profile: Profile) => Promise<boolean>
+>
+export type UpdateUserHook<M> = [M, boolean, AuthError | Error | undefined]
+export type VerifyBeforeUpdateEmailHook = UpdateUserHook<
+  (
+    email: string,
+    actionCodeSettings: ActionCodeSettings | null
+  ) => Promise<boolean>
+>
+
+export const useUpdateProfile = (auth: Auth): UpdateProfileHook => {
+  const [error, setError] = useState<AuthError>()
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const updateProfile = useCallback(
+    async (profile: Profile) => {
+      setLoading(true)
+      setError(undefined)
+      try {
+        if (auth.currentUser) {
+          await updateProfile(auth.currentUser, profile)
+          return true
+        } else {
+          throw new Error('No user is logged in')
+        }
+      } catch (err) {
+        setError(err as AuthError)
+        return false
+      } finally {
+        setLoading(false)
+      }
+    },
+    [auth]
+  )
+
+  return [updateProfile, loading, error]
 }
 
 export const signInWithEmailAndPasswordWrapper = (
@@ -118,30 +199,3 @@ export const resetForgottenPassword = (email: string) => {
 export const logout = () => {
   signOut(auth)
 }
-// export const useUpdateProfile = (auth: Auth): UpdateProfileHook => {
-//   const [error, setError] = useState<AuthError>();
-//   const [loading, setLoading] = useState<boolean>(false);
-
-//   const updateProfile = useCallback(
-//     async (profile: Profile) => {
-//       setLoading(true);
-//       setError(undefined);
-//       try {
-//         if (auth.currentUser) {
-//           await fbUpdateProfile(auth.currentUser, profile);
-//           return true;
-//         } else {
-//           throw new Error('No user is logged in');
-//         }
-//       } catch (err) {
-//         setError(err as AuthError);
-//         return false;
-//       } finally {
-//         setLoading(false);
-//       }
-//     },
-//     [auth]
-//   );
-
-//   return [updateProfile, loading, error];
-// };
