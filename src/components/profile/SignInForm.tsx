@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
-import {
-  auth,
-  signInWithEmailAndPasswordWrapper,
-  signInWithGoogle,
-} from '../../lib/firebase'
+import { auth, signInWithGoogle } from '../../lib/firebase'
 
 const SignInForm = ({ handleForgotPassword }: any) => {
   const [email, setEmail] = useState<string>('')

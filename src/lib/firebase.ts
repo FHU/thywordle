@@ -1,21 +1,12 @@
-import { error } from 'console'
 import { initializeApp } from 'firebase/app'
 import {
-  ActionCodeSettings,
-  Auth,
-  AuthError,
   GoogleAuthProvider,
-  UserCredential,
-  createUserWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
   getAuth,
   onAuthStateChanged,
-  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  updateProfile,
 } from 'firebase/auth'
 import {
   addDoc,
@@ -25,12 +16,6 @@ import {
   query,
   where,
 } from 'firebase/firestore'
-import { useCallback, useState } from 'react'
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
-import {
-  CreateUserOptions,
-  EmailAndPasswordActionHook,
-} from 'react-firebase-hooks/auth/dist/auth/types'
 
 // import { UpdateUserHook } from 'react-firebase-hooks/auth/dist/auth/useUpdateUser'
 
@@ -59,22 +44,6 @@ onAuthStateChanged(auth, (user) => {
 
 // const [email, setEmail] = useState('');
 // const [password, setPassword] = useState('');
-
-export const signInWithEmailAndPasswordWrapper = (
-  email: string,
-  password: string
-) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user
-    })
-    //ask about error messaging help
-    .catch((error) => {
-      const errorCode = error.code
-      const errorMessage =
-        'Oops! Email or Password was incorrect. Please try again.'
-    })
-}
 
 export const signInWithGoogle = async () => {
   console.log('sign in with Google')
