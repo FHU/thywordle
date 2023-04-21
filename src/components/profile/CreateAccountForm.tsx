@@ -36,17 +36,17 @@ const CreateAccountForm = () => {
   if (error) {
     return (
       <div>
-        <p>Error: {error.message}</p>
+        <p className="font-bold dark:text-white">{error.message}</p>
       </div>
     )
   }
   if (loading) {
-    return <p>Loading...</p>
+    return <p className="dark:text-white">Loading...</p>
   }
   if (user) {
     return (
       <div>
-        <p>Registered User: {user.user.email}</p>
+        <p className="dark:text-white">Registered User: {user.user.email}</p>
       </div>
     )
   }

@@ -29,12 +29,12 @@ const SignInForm = ({ handleForgotPassword }: any) => {
   if (error) {
     return (
       <div>
-        <p>Error: {error.message}</p>
+        <p className="font-bold dark:text-white">{error.message}</p>
       </div>
     )
   }
   if (loading) {
-    return <p>Loading...</p>
+    return <p className="dark:text-white">Loading...</p>
   }
   // if (user) {
   //   return (

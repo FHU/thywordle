@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
+import { auth } from '../../lib/firebase'
 import { Histogram } from '../stats/Histogram'
 import {
   AVG_NUM_GUESSES_TEXT,
@@ -15,12 +17,14 @@ import { StatItem } from './../stats/StatBar'
 
 const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
+  const [user, loading, error] = useAuthState(auth)
 
   // The following 3 lines are only to avoid lint errors with an unused variable
   // The purpose of this conditional: Only allow users who did not sign in with google to edit their account information
-  let exampleUser = 'Bob'
-  let exampleUserEmail = 'bob@the.builder.com'
-  if (exampleUser === 'The Bob') setSignedInWithGoogle(true)
+  // let exampleUser = 'Bob'
+  // let exampleUserEmail = 'bob@the.builder.com'
+
+  // if (exampleUser === 'The Bob') setSignedInWithGoogle(true)
 
   const gameStats = {
     winDistribution: [1, 1, 1, 1, 2, 1],
@@ -35,14 +39,20 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
     <div className="my-8">
       <p className="text-2xl font-bold dark:text-white">
         Welcome{' '}
-        <span className="text-indigo-600 dark:text-indigo-400">
-          {exampleUser}
-        </span>
+        {user && (
+          <span className="text-indigo-600 dark:text-indigo-400">
+            {user.displayName || user.email}
+          </span>
+        )}
         !
       </p>
-      <p className="my-2 text-base text-indigo-600 dark:text-indigo-400">
-        {exampleUserEmail}
-      </p>
+      {user && (
+        <p className="my-2 text-base text-indigo-600 dark:text-indigo-400">
+          {user.email}
+        </p>
+      )}
+      {/* {user && <img src={user.photoURL as string} alt="" />} */}
+
       <div>
         <h4 className="mt-8 mb-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
           Stats
