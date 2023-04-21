@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
-import {
-  createAccountWithEmailandPassword,
-  signInWithGoogle,
-} from '../../lib/firebase'
+import { auth, signInWithGoogle } from '../../lib/firebase'
 
 const CreateAccountForm = () => {
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
-
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth)
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
   const buttonEnabledClasses =
@@ -31,20 +30,32 @@ const CreateAccountForm = () => {
 
   const handleCreateAccountButtonClick = () => {
     if (isValid()) {
-      createAccountWithEmailandPassword(
-        username,
-        email,
-        password,
-        confirmPassword
-      )
+      createUserWithEmailAndPassword(email, password)
     }
   }
-
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error.message}</p>
+      </div>
+    )
+  }
+  if (loading) {
+    return <p>Loading...</p>
+  }
+  if (user) {
+    return (
+      <div>
+        <p>Registered User: {user.user.email}</p>
+      </div>
+    )
+  }
   return (
     <div className="my-6">
       <h2 className="text-xl font-bold dark:text-white md:text-2xl">
         Create New Account
       </h2>
+
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
         <input type="hidden" name="remember" value="true" />
         <div className="mb-8 w-full rounded-md shadow-sm md:w-1/2">

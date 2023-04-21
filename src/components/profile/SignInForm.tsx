@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
 import {
+  auth,
   signInWithEmailAndPasswordWrapper,
   signInWithGoogle,
 } from '../../lib/firebase'
@@ -8,7 +10,8 @@ import {
 const SignInForm = ({ handleForgotPassword }: any) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth)
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
   const buttonEnabledClasses =
@@ -24,10 +27,26 @@ const SignInForm = ({ handleForgotPassword }: any) => {
 
   const handleSignInButtonClick = () => {
     if (isValid()) {
-      signInWithEmailAndPasswordWrapper(email, password)
+      signInWithEmailAndPassword(email, password)
     }
   }
-
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error.message}</p>
+      </div>
+    )
+  }
+  if (loading) {
+    return <p>Loading...</p>
+  }
+  // if (user) {
+  //   return (
+  //     <div>
+  //       <p>Signed In User: {user}</p>
+  //     </div>
+  //   )
+  // }
   return (
     <div className="my-6">
       <h2 className="text-xl font-bold dark:text-white md:text-2xl">Sign In</h2>

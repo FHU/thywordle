@@ -6,8 +6,8 @@ import {
   AuthError,
   GoogleAuthProvider,
   UserCredential,
+  createUserWithEmailAndPassword,
   fetchSignInMethodsForEmail,
-  createUserWithEmailAndPassword as firebaseCreateUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   sendEmailVerification,
@@ -26,6 +26,7 @@ import {
   where,
 } from 'firebase/firestore'
 import { useCallback, useState } from 'react'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 import {
   CreateUserOptions,
   EmailAndPasswordActionHook,
@@ -56,17 +57,9 @@ onAuthStateChanged(auth, (user) => {
 
 // Worth Looking at for help: https://github.com/CSFrequency/react-firebase-hooks
 
-const createUserWithEmailAndPassword = (
-  username: string,
-  password: string,
-  email: string
-) => {
-  createUserWithEmailAndPassword(username, password, email)
+// const [email, setEmail] = useState('');
+// const [password, setPassword] = useState('');
 
-  //fetchSignInMethodsForEmail(registeredUser.email)
-
-  return createUserWithEmailAndPassword
-}
 export const signInWithEmailAndPasswordWrapper = (
   email: string,
   password: string
