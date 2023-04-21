@@ -6,6 +6,7 @@ import {
   AuthError,
   GoogleAuthProvider,
   UserCredential,
+  fetchSignInMethodsForEmail,
   createUserWithEmailAndPassword as firebaseCreateUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
@@ -54,88 +55,18 @@ onAuthStateChanged(auth, (user) => {
 })
 
 // Worth Looking at for help: https://github.com/CSFrequency/react-firebase-hooks
-export default (
-  auth: Auth,
-  options?: CreateUserOptions
-): EmailAndPasswordActionHook => {
-  const [error, setError] = useState<AuthError>()
-  const [registeredUser, setRegisteredUser] = useState<UserCredential>()
-  const [loading, setLoading] = useState<boolean>(false)
 
-  const createUserWithEmailAndPassword = useCallback(
-    async (email: string, password: string) => {
-      setLoading(true)
-      setError(undefined)
-      try {
-        const user = await firebaseCreateUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        )
-        if (options && options.sendEmailVerification && user.user) {
-          await sendEmailVerification(
-            user.user,
-            options.emailVerificationOptions
-          )
-        }
-        setRegisteredUser(user)
+const createUserWithEmailAndPassword = (
+  username: string,
+  password: string,
+  email: string
+) => {
+  createUserWithEmailAndPassword(username, password, email)
 
-        return user
-      } catch (error) {
-        setError(error as AuthError)
-      } finally {
-        setLoading(false)
-      }
-    },
-    [auth, options]
-  )
+  //fetchSignInMethodsForEmail(registeredUser.email)
 
-  return [createUserWithEmailAndPassword, registeredUser, loading, error]
+  return createUserWithEmailAndPassword
 }
-
-type Profile = {
-  displayName?: string | null
-  photoURL?: string | null
-}
-export type UpdateProfileHook = UpdateUserHook<
-  (profile: Profile) => Promise<boolean>
->
-export type UpdateUserHook<M> = [M, boolean, AuthError | Error | undefined]
-export type VerifyBeforeUpdateEmailHook = UpdateUserHook<
-  (
-    email: string,
-    actionCodeSettings: ActionCodeSettings | null
-  ) => Promise<boolean>
->
-
-export const useUpdateProfile = (auth: Auth): UpdateProfileHook => {
-  const [error, setError] = useState<AuthError>()
-  const [loading, setLoading] = useState<boolean>(false)
-
-  const updateProfile = useCallback(
-    async (profile: Profile) => {
-      setLoading(true)
-      setError(undefined)
-      try {
-        if (auth.currentUser) {
-          await updateProfile(auth.currentUser, profile)
-          return true
-        } else {
-          throw new Error('No user is logged in')
-        }
-      } catch (err) {
-        setError(err as AuthError)
-        return false
-      } finally {
-        setLoading(false)
-      }
-    },
-    [auth]
-  )
-
-  return [updateProfile, loading, error]
-}
-
 export const signInWithEmailAndPasswordWrapper = (
   email: string,
   password: string
