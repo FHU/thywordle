@@ -34,7 +34,16 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
     totalGames: 8,
     successRate: 88,
   }
-
+  if (loading) {
+    return <p className="dark:text-white">Loading...</p>
+  }
+  if (error) {
+    return (
+      <div>
+        <p className="font-bold dark:text-white">{error.message}</p>
+      </div>
+    )
+  }
   return (
     <div className="my-8">
       <p className="text-2xl font-bold dark:text-white">
