@@ -32,9 +32,10 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 const googleProvider = new GoogleAuthProvider()
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    const uid = user.uid
+    console.log(user.uid)
   } else {
   }
 })

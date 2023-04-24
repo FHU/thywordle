@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
+import { GameStats } from '@/lib/localStorage'
+
 import { auth } from '../../lib/firebase'
 import { Histogram } from '../stats/Histogram'
 import {
@@ -13,27 +15,37 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_TRIES_TEXT,
 } from './../../constants/strings'
+import {
+  getAverageNumberGuesses,
+  getScore,
+  getSuccessRate,
+} from './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
 const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
   const [user, loading, error] = useAuthState(auth)
 
-  // The following 3 lines are only to avoid lint errors with an unused variable
-  // The purpose of this conditional: Only allow users who did not sign in with google to edit their account information
-  // let exampleUser = 'Bob'
-  // let exampleUserEmail = 'bob@the.builder.com'
+  // TODO: replace with user.authProvider in future
+  if (user?.displayName) {
+    setSignedInWithGoogle(true)
+  }
 
-  // if (exampleUser === 'The Bob') setSignedInWithGoogle(true)
-
-  const gameStats = {
+  const gameStats: GameStats = {
     winDistribution: [1, 1, 1, 1, 2, 1],
     gamesFailed: 1,
     currentStreak: 4,
     bestStreak: 4,
     totalGames: 8,
     successRate: 88,
+    score: 111000,
+    avgNumGuesses: 3.5,
   }
+
+  gameStats.avgNumGuesses = getAverageNumberGuesses(gameStats)
+  gameStats.successRate = getSuccessRate(gameStats)
+  gameStats.score = getScore(gameStats)
+
   if (loading) {
     return <p className="dark:text-white">Loading...</p>
   }
@@ -77,8 +89,11 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
             value={gameStats.currentStreak}
           />
           <StatItem label={BEST_STREAK_TEXT} value={gameStats.bestStreak} />
-          <StatItem label={AVG_NUM_GUESSES_TEXT} value={3.5} />
-          <StatItem label={POINTS_TEXT} value={200} />
+          <StatItem
+            label={AVG_NUM_GUESSES_TEXT}
+            value={gameStats.avgNumGuesses}
+          />
+          <StatItem label={POINTS_TEXT} value={gameStats.score} />
         </div>
 
         <h4 className="mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">

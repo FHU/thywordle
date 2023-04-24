@@ -36,13 +36,11 @@ const SignInForm = ({ handleForgotPassword }: any) => {
   if (loading) {
     return <p className="dark:text-white">Loading...</p>
   }
-  // if (user) {
-  //   return (
-  //     <div>
-  //       <p>Signed In User: {user}</p>
-  //     </div>
-  //   )
-  // }
+
+  if (user) {
+    console.log(user)
+  }
+
   return (
     <div className="my-6">
       <h2 className="text-xl font-bold dark:text-white md:text-2xl">Sign In</h2>
@@ -63,7 +61,7 @@ const SignInForm = ({ handleForgotPassword }: any) => {
                 setEmail(e.target.value)
               }}
               required
-              className="w-full rounded-t-md border-0 bg-white py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
+              className="w-full rounded-t-md border-0 bg-white py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:leading-6"
               placeholder="Email address"
             />
           </div>
@@ -81,7 +79,7 @@ const SignInForm = ({ handleForgotPassword }: any) => {
                 setPassword(e.target.value)
               }}
               required
-              className="w-full rounded-b-md border-0 bg-white py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
+              className="w-full rounded-b-md border-0 bg-white py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:leading-6"
               placeholder="Password"
             />
           </div>
