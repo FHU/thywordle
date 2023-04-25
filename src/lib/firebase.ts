@@ -1,17 +1,20 @@
 import { initializeApp } from 'firebase/app'
 import {
-  // GoogleAuthProvider,
+  User, // GoogleAuthProvider,
   getAuth, // signInWithEmailAndPassword,
   // signInWithPopup,
   signOut,
 } from 'firebase/auth'
 import {
   // addDoc,
-  // collection,
-  // getDocs,
-  getFirestore, // query,
-  // where,
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
 } from 'firebase/firestore'
+
+import { GameStats } from './localStorage'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -76,4 +79,24 @@ export const resetForgottenPassword = (email: string) => {
 
 export const logout = () => {
   signOut(auth)
+}
+
+export const loadStatsFromFirestore = async (user: User) => {
+  const q = query(collection(db, 'stats'), where('uid', '==', user?.uid))
+  const docs = await getDocs(q)
+  if (docs.docs.length !== 0) {
+    const statData = docs.docs[0].data()
+    const stats: GameStats = {
+      winDistribution: statData.winDistribution,
+      gamesFailed: statData.gamesFailed,
+      currentStreak: statData.currentStreak,
+      bestStreak: statData.bestStreak,
+      totalGames: statData.totalGames,
+      successRate: statData.successRate,
+      avgNumGuesses: statData.avgNumGuesses,
+      score: statData.score,
+    }
+
+    return stats
+  }
 }
