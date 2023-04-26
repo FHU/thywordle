@@ -32,6 +32,7 @@ const SignInTabs = ({
   if (user) {
     return (
       <ProfileInformation
+        user={user}
         handleLogOut={handleLogOut}
         handleEditProfile={handleEditProfile}
       />

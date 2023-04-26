@@ -8,8 +8,9 @@ const CreateAccountForm = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
-  const [createUserWithEmailAndPassword, user, loading, error] =
+  const [createUserWithEmailAndPassword] =
     useCreateUserWithEmailAndPassword(auth)
+
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
   const buttonEnabledClasses =
@@ -31,25 +32,11 @@ const CreateAccountForm = () => {
   const handleCreateAccountButtonClick = () => {
     if (isValid()) {
       createUserWithEmailAndPassword(email, password)
+      // TODO: add user to firestore users collection
+      // this is an opportunity to add a display name to the user object
     }
   }
-  if (error) {
-    return (
-      <div>
-        <p className="font-bold dark:text-white">{error.message}</p>
-      </div>
-    )
-  }
-  if (loading) {
-    return <p className="dark:text-white">Loading...</p>
-  }
-  if (user) {
-    return (
-      <div>
-        <p className="dark:text-white">Registered User: {user.user.email}</p>
-      </div>
-    )
-  }
+
   return (
     <div className="my-6">
       <h2 className="text-xl font-bold dark:text-white md:text-2xl">

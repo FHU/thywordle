@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { GameStats } from '@/lib/localStorage'
 
-import { auth } from '../../lib/firebase'
 import { Histogram } from '../stats/Histogram'
 import {
   AVG_NUM_GUESSES_TEXT,
@@ -15,6 +13,7 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_TRIES_TEXT,
 } from './../../constants/strings'
+import './../../lib/stats'
 import {
   getAverageNumberGuesses,
   getScore,
@@ -22,14 +21,14 @@ import {
 } from './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
-const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
+const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
-  const [user, loading, error] = useAuthState(auth)
 
-  // TODO: replace with user.authProvider in future
-  if (user?.displayName) {
-    setSignedInWithGoogle(true)
-  }
+  useEffect(() => {
+    if (user.providerData[0].providerId === 'google.com') {
+      setSignedInWithGoogle(true)
+    }
+  }, [user.displayName, user.providerData])
 
   const gameStats: GameStats = {
     winDistribution: [1, 1, 1, 1, 2, 1],
@@ -46,16 +45,6 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
   gameStats.successRate = getSuccessRate(gameStats)
   gameStats.score = getScore(gameStats)
 
-  if (loading) {
-    return <p className="dark:text-white">Loading...</p>
-  }
-  if (error) {
-    return (
-      <div>
-        <p className="font-bold dark:text-white">{error.message}</p>
-      </div>
-    )
-  }
   return (
     <div className="my-8">
       <p className="text-2xl font-bold dark:text-white">

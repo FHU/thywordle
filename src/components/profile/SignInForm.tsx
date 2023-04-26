@@ -6,8 +6,7 @@ import { auth, signInWithGoogle } from '../../lib/firebase'
 const SignInForm = ({ handleForgotPassword }: any) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth)
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
   const buttonEnabledClasses =
@@ -25,20 +24,6 @@ const SignInForm = ({ handleForgotPassword }: any) => {
     if (isValid()) {
       signInWithEmailAndPassword(email, password)
     }
-  }
-  if (error) {
-    return (
-      <div>
-        <p className="font-bold dark:text-white">{error.message}</p>
-      </div>
-    )
-  }
-  if (loading) {
-    return <p className="dark:text-white">Loading...</p>
-  }
-
-  if (user) {
-    console.log(user)
   }
 
   return (
