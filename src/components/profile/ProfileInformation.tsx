@@ -28,7 +28,7 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
     if (user.providerData[0].providerId === 'google.com') {
       setSignedInWithGoogle(true)
     }
-  }, [user.displayName, user.providerData])
+  }, [user.providerData])
 
   const gameStats: GameStats = {
     winDistribution: [1, 1, 1, 1, 2, 1],
