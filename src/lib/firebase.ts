@@ -1,12 +1,16 @@
 import { initializeApp } from 'firebase/app'
 import {
-  User, // GoogleAuthProvider,
-  getAuth, // signInWithEmailAndPassword,
-  // signInWithPopup,
+  GoogleAuthProvider,
+  User,
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithPopup,
   signOut,
 } from 'firebase/auth'
 import {
-  // addDoc,
+  addDoc,
   collection,
   getDocs,
   getFirestore,
@@ -29,52 +33,64 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
-// const googleProvider = new GoogleAuthProvider()
+const googleProvider = new GoogleAuthProvider()
 
-// Worth Looking at for help: https://github.com/CSFrequency/react-firebase-hooks
-
-export const createAccountWithEmailandPassword = (
-  username: string,
-  email: string,
-  password: string,
-  confirmPassword: string
-) => {
-  console.log(
-    `create account for ${username} with ${email}, ${password} (${confirmPassword})`
-  )
-}
-
-export const signInWithEmailAndPasswordWrapper = (
-  email: string,
-  password: string
-) => {
-  // signInWithEmailAndPassword(auth, email, password)
-  console.log(`sign in with: ${email} and ${password}`)
-}
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log(user.uid)
+  } else {
+  }
+})
 
 export const signInWithGoogle = async () => {
   console.log('sign in with Google')
-  // try {
-  //   const res = await signInWithPopup(auth, googleProvider)
-  //   const user = res.user
-  //   const q = query(collection(db, 'users'), where('uid', '==', user.uid))
-  //   const docs = await getDocs(q)
-  //   if (docs.docs.length === 0) {
-  //     await addDoc(collection(db, 'users'), {
-  //       uid: user.uid,
-  //       name: user.displayName,
-  //       authProvider: 'google',
-  //       email: user.email,
-  //       photoUrl: user.photoURL,
-  //     })
-  //   }
-  // } catch (err) {
-  //   console.error(err)
-  // }
+  try {
+    const res = await signInWithPopup(auth, googleProvider)
+    await addUserToCollection(res.user, res.user.displayName, 'google')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const createAccountWithUsernameAndPassword = async (
+  username: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const res = await createUserWithEmailAndPassword(auth, email, password)
+    await addUserToCollection(res.user, username, 'password')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const addUserToCollection = async (
+  user: User,
+  name: string | null,
+  provider: string
+) => {
+  const q = query(collection(db, 'users'), where('uid', '==', user.uid))
+  const docs = await getDocs(q)
+  if (docs.docs.length === 0) {
+    await addDoc(collection(db, 'users'), {
+      uid: user.uid,
+      name: name,
+      authProvider: provider,
+      email: user.email,
+      stats: {},
+    })
+  }
 }
 
 export const resetForgottenPassword = (email: string) => {
-  console.log(`reset password for: ${email}`)
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      // email has been sent
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }
 
 export const logout = () => {

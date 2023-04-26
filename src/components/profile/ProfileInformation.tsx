@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import { GameStats } from '@/lib/localStorage'
 
 import { Histogram } from '../stats/Histogram'
 import {
@@ -11,6 +13,7 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_TRIES_TEXT,
 } from './../../constants/strings'
+import './../../lib/stats'
 import {
   getAverageNumberGuesses,
   getScore,
@@ -18,24 +21,24 @@ import {
 } from './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
-const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
+const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
 
-  // The following 3 lines are only to avoid lint errors with an unused variable
-  // The purpose of this conditional: Only allow users who did not sign in with google to edit their account information
-  let exampleUser = 'Bob'
-  let exampleUserEmail = 'bob@the.builder.com'
-  if (exampleUser === 'The Bob') setSignedInWithGoogle(true)
+  useEffect(() => {
+    if (user.providerData[0].providerId === 'google.com') {
+      setSignedInWithGoogle(true)
+    }
+  }, [user.providerData])
 
-  const gameStats = {
-    winDistribution: [1, 1, 1, 1, 24, 1],
+  const gameStats: GameStats = {
+    winDistribution: [1, 1, 1, 1, 2, 1],
     gamesFailed: 1,
-    currentStreak: 8,
+    currentStreak: 4,
     bestStreak: 4,
-    totalGames: 30,
-    successRate: 0,
-    score: 0,
-    avgNumGuesses: 0,
+    totalGames: 8,
+    successRate: 88,
+    score: 111000,
+    avgNumGuesses: 3.5,
   }
 
   gameStats.avgNumGuesses = getAverageNumberGuesses(gameStats)
@@ -46,14 +49,20 @@ const ProfileInformation = ({ handleLogOut, handleEditProfile }: any) => {
     <div className="my-8">
       <p className="text-2xl font-bold dark:text-white">
         Welcome{' '}
-        <span className="text-indigo-600 dark:text-indigo-400">
-          {exampleUser}
-        </span>
+        {user && (
+          <span className="text-indigo-600 dark:text-indigo-400">
+            {user.displayName || user.email}
+          </span>
+        )}
         !
       </p>
-      <p className="my-2 text-base text-indigo-600 dark:text-indigo-400">
-        {exampleUserEmail}
-      </p>
+      {user && (
+        <p className="my-2 text-base text-indigo-600 dark:text-indigo-400">
+          {user.email}
+        </p>
+      )}
+      {/* {user && <img src={user.photoURL as string} alt="" />} */}
+
       <div>
         <h4 className="mt-8 mb-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
           Stats
