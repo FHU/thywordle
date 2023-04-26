@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import {
-  createAccountWithEmailandPassword,
+  createAccountWithUsernameAndPassword,
   signInWithGoogle,
 } from '../../lib/firebase'
 
@@ -20,23 +20,20 @@ const CreateAccountForm = () => {
     if (
       username.length > 0 &&
       email.length > 0 &&
-      password.length > 0 &&
-      confirmPassword.length > 0
+      password.length > 5 &&
+      confirmPassword.length > 5
     ) {
-      return true
+      if (password === confirmPassword) {
+        return true
+      }
     }
 
     return false
   }
 
-  const handleCreateAccountButtonClick = () => {
+  const handleCreateAccountButtonClick = async () => {
     if (isValid()) {
-      createAccountWithEmailandPassword(
-        username,
-        email,
-        password,
-        confirmPassword
-      )
+      await createAccountWithUsernameAndPassword(username, email, password)
     }
   }
 
