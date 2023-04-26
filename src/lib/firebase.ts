@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app'
 import {
   GoogleAuthProvider,
+  User,
+  createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   sendPasswordResetEmail,
@@ -40,28 +42,44 @@ onAuthStateChanged(auth, (user) => {
   }
 })
 
-// Worth Looking at for help: https://github.com/CSFrequency/react-firebase-hooks
-
-// const [email, setEmail] = useState('');
-// const [password, setPassword] = useState('');
-
 export const signInWithGoogle = async () => {
   console.log('sign in with Google')
   try {
     const res = await signInWithPopup(auth, googleProvider)
-    const user = res.user
-    const q = query(collection(db, 'users'), where('uid', '==', user.uid))
-    const docs = await getDocs(q)
-    if (docs.docs.length === 0) {
-      await addDoc(collection(db, 'users'), {
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: 'google',
-        email: user.email,
-      })
-    }
+    await addUserToCollection(res.user, res.user.displayName, 'google')
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const createAccountWithUsernameAndPassword = async (
+  username: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const res = await createUserWithEmailAndPassword(auth, email, password)
+    await addUserToCollection(res.user, username, 'password')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const addUserToCollection = async (
+  user: User,
+  name: string | null,
+  provider: string
+) => {
+  const q = query(collection(db, 'users'), where('uid', '==', user.uid))
+  const docs = await getDocs(q)
+  if (docs.docs.length === 0) {
+    await addDoc(collection(db, 'users'), {
+      uid: user.uid,
+      name: name,
+      authProvider: provider,
+      email: user.email,
+      stats: {},
+    })
   }
 }
 

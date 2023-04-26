@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
-import { auth, signInWithGoogle } from '../../lib/firebase'
+import {
+  createAccountWithUsernameAndPassword,
+  signInWithGoogle,
+} from '../../lib/firebase'
 
 const CreateAccountForm = () => {
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(auth)
 
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
@@ -23,17 +23,17 @@ const CreateAccountForm = () => {
       password.length > 0 &&
       confirmPassword.length > 0
     ) {
-      return true
+      if (password === confirmPassword) {
+        return true
+      }
     }
 
     return false
   }
 
-  const handleCreateAccountButtonClick = () => {
+  const handleCreateAccountButtonClick = async () => {
     if (isValid()) {
-      createUserWithEmailAndPassword(email, password)
-      // TODO: add user to firestore users collection
-      // this is an opportunity to add a display name to the user object
+      await createAccountWithUsernameAndPassword(username, email, password)
     }
   }
 
