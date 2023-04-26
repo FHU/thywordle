@@ -20,8 +20,8 @@ const CreateAccountForm = () => {
     if (
       username.length > 0 &&
       email.length > 0 &&
-      password.length > 0 &&
-      confirmPassword.length > 0
+      password.length > 5 &&
+      confirmPassword.length > 5
     ) {
       if (password === confirmPassword) {
         return true
