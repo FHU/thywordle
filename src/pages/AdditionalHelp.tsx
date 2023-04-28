@@ -3,7 +3,6 @@ import {
   QuestionMarkCircleIcon,
 } from '@heroicons/react/outline'
 import React, { useState } from 'react'
-import { useDetectClickOutside } from 'react-detect-click-outside'
 
 import favicon from './../img/favicon.png'
 
@@ -27,14 +26,6 @@ function AdditionalHelp() {
       }
     }
   }
-
-  const oldTestamentRef = useDetectClickOutside({
-    onTriggered: () => setIsOldTestamentBooksOpen(false),
-  })
-
-  const newTestamentRef = useDetectClickOutside({
-    onTriggered: () => setIsNewTestamentBooksOpen(false),
-  })
 
   const oldTestamentBooks = [
     'GENESIS',
@@ -178,7 +169,6 @@ function AdditionalHelp() {
                 : 'text-black dark:text-white'
             } mb-8 cursor-pointer text-lg font-bold transition-all delay-100 duration-300 hover:scale-105 md:text-2xl`}
             onClick={() => handleDropdowns(1)}
-            ref={oldTestamentRef}
           >
             Old Testament Books{' '}
             <ChevronDownIcon
@@ -196,7 +186,6 @@ function AdditionalHelp() {
                 : 'text-black dark:text-white'
             } mb-8 cursor-pointer text-lg font-bold transition-all delay-100 duration-300 hover:scale-105 md:text-2xl`}
             onClick={() => handleDropdowns(2)}
-            ref={newTestamentRef}
           >
             New Testament Books{' '}
             <ChevronDownIcon
