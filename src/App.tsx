@@ -43,6 +43,7 @@ import {
   verseText,
 } from './lib/words'
 import About from './pages/About'
+import AdditionalHelp from './pages/AdditionalHelp'
 import Game from './pages/Game'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
@@ -189,6 +190,7 @@ function App() {
               }
             />
             <Route path="/about" element={<About />} />
+            <Route path="/help" element={<AdditionalHelp />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
