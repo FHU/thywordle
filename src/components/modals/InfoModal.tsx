@@ -136,7 +136,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         The number 2 is too high; try a smaller number.
       </p>
       <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
-        <div className="mt-3">
+        <div className="mt-4">
           <p>Need More Help?</p>
         </div>
         <Link
