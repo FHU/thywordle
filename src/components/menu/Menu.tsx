@@ -48,15 +48,6 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
           About
         </Link>
         <Link
-          to="/help"
-          className={`mt-8 ${menuItemClasses}`}
-          onClick={() => {
-            setShowMenu(false)
-          }}
-        >
-          Help
-        </Link>
-        <Link
           to="/leaderboard"
           className={`mt-8 ${menuItemClasses}`}
           onClick={() => {
@@ -73,6 +64,15 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
           }}
         >
           Profile
+        </Link>
+        <Link
+          to="/help"
+          className={`mt-8 ${menuItemClasses}`}
+          onClick={() => {
+            setShowMenu(false)
+          }}
+        >
+          Help
         </Link>
         <Link
           to="mailto:thywordle@gmail.com"
