@@ -1,4 +1,7 @@
+import { User } from 'firebase/auth'
+
 import { MAX_CHALLENGES } from '../constants/settings'
+import { loadStatsFromFirestore } from './firebase'
 import {
   GameStats,
   loadStatsFromLocalStorage,
@@ -7,12 +10,21 @@ import {
 
 // In stats array elements 0-5 are successes in 1-6 trys
 
-export const addStatsForCompletedGame = (
+export const addStatsForCompletedGame = async (
   gameStats: GameStats,
-  count: number
+  count: number,
+  user: User | null | undefined
 ) => {
-  // Count is number of incorrect guesses before end.
-  const stats = { ...gameStats }
+  let stats: GameStats = defaultStats
+
+  if (user) {
+    const loadedStats = await loadStatsFromFirestore(user)
+    if (loadedStats) {
+      stats = { ...loadedStats }
+    }
+  } else {
+    stats = { ...gameStats }
+  }
 
   stats.totalGames += 1
 
