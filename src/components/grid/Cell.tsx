@@ -68,6 +68,7 @@ export const Cell = ({
   )
 
   const getClassByCharType = (char: string | undefined): string => {
+    console.log(char)
     if (char) {
       if (char >= 'A' && char <= 'Z') {
         return 'letter-container mt-2'

@@ -18,7 +18,7 @@ import {
   where,
 } from 'firebase/firestore'
 
-import { GameStats } from './localStorage'
+// import { UpdateUserHook } from 'react-firebase-hooks/auth/dist/auth/useUpdateUser'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -65,14 +65,6 @@ export const createAccountWithUsernameAndPassword = async (
   }
 }
 
-export const getUserFromCollection = async (user: User) => {
-  const q = query(collection(db, 'users'), where('uid', '==', user?.uid))
-  const docs = await getDocs(q)
-  if (docs.docs.length !== 0) {
-    return docs.docs[0].data()
-  }
-}
-
 const addUserToCollection = async (
   user: User,
   name: string | null,
@@ -103,20 +95,4 @@ export const resetForgottenPassword = (email: string) => {
 
 export const logout = () => {
   signOut(auth)
-}
-
-export const loadStatsFromFirestore = async (user: User) => {
-  const userObject = await getUserFromCollection(user)
-  const stats: GameStats = {
-    winDistribution: userObject?.stats.winDistribution,
-    gamesFailed: userObject?.stats.gamesFailed,
-    currentStreak: userObject?.stats.currentStreak,
-    bestStreak: userObject?.stats.bestStreak,
-    totalGames: userObject?.stats.totalGames,
-    successRate: userObject?.stats.successRate,
-    avgNumGuesses: userObject?.stats.avgNumGuesses,
-    score: userObject?.stats.score,
-  }
-
-  return stats
 }
