@@ -4,7 +4,6 @@ import { ClockIcon } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 import { useEffect, useRef, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
@@ -19,7 +18,6 @@ import {
   NOT_ENOUGH_LETTERS_MESSAGE,
   WIN_MESSAGES,
 } from './../constants/strings'
-import { auth } from './../lib/firebase'
 import { saveGameStateToLocalStorage } from './../lib/localStorage'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
@@ -67,7 +65,6 @@ const Game: React.FC<props> = ({
   setIsVerseModalOpen,
 }) => {
   const gameDate = getGameDate()
-  const [user] = useAuthState(auth)
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
@@ -118,7 +115,7 @@ const Game: React.FC<props> = ({
     )
   }
 
-  const onEnter = async () => {
+  const onEnter = () => {
     if (isGameWon || isGameLost) {
       return
     }
@@ -177,24 +174,14 @@ const Game: React.FC<props> = ({
 
       if (winningWord) {
         if (isLatestGame) {
-          const newStats = await addStatsForCompletedGame(
-            stats,
-            guesses.length,
-            user
-          )
-          setStats(newStats)
+          setStats(addStatsForCompletedGame(stats, guesses.length))
         }
         return setIsGameWon(true)
       }
 
       if (guesses.length === MAX_CHALLENGES - 1) {
         if (isLatestGame) {
-          const newStats = await addStatsForCompletedGame(
-            stats,
-            guesses.length + 1,
-            user
-          )
-          setStats(newStats)
+          setStats(addStatsForCompletedGame(stats, guesses.length + 1))
         }
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
