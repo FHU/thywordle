@@ -3,7 +3,7 @@ import './../App.css'
 import { ClockIcon } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
@@ -16,15 +16,12 @@ import {
   CORRECT_WORD_MESSAGE,
   INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
-  WIN_MESSAGES,
 } from './../constants/strings'
-import { saveGameStateToLocalStorage } from './../lib/localStorage'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
   findFirstUnusedReveal,
   getCustomSolutionErrorMessage,
   getGameDate,
-  getIsLatestGame,
   isValidReference,
   isWinningWord,
   solution,
@@ -34,7 +31,6 @@ import {
 interface props {
   stats: any
   setStats: React.Dispatch<React.SetStateAction<any>>
-  setIsStatsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   isHardMode: boolean
   isLatestGame: boolean
   isGameWon: boolean
@@ -43,7 +39,6 @@ interface props {
   setIsGameLost: React.Dispatch<React.SetStateAction<boolean>>
   guesses: string[]
   setGuesses: React.Dispatch<React.SetStateAction<string[]>>
-  showSuccessAlert: any
   showErrorAlert: any
   setIsVerseModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -51,7 +46,6 @@ interface props {
 const Game: React.FC<props> = ({
   stats,
   setStats,
-  setIsStatsModalOpen,
   isHardMode,
   isLatestGame,
   isGameWon,
@@ -60,7 +54,6 @@ const Game: React.FC<props> = ({
   setIsGameLost,
   guesses,
   setGuesses,
-  showSuccessAlert,
   showErrorAlert,
   setIsVerseModalOpen,
 }) => {
@@ -73,29 +66,6 @@ const Game: React.FC<props> = ({
   }
 
   const verseButtonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
-  }, [guesses])
-
-  useEffect(() => {
-    if (isGameWon) {
-      const winMessage =
-        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-      const delayMs = REVEAL_TIME_MS * solution.length
-
-      showSuccessAlert(winMessage, {
-        delayMs,
-        onClose: () => setIsStatsModalOpen(true),
-      })
-    }
-
-    if (isGameLost) {
-      setTimeout(() => {
-        setIsStatsModalOpen(true)
-      }, (solution.length + 1) * REVEAL_TIME_MS)
-    }
-  }, [isGameWon, isGameLost, showSuccessAlert, setIsStatsModalOpen])
 
   const onChar = (value: string) => {
     if (!isGameWon || !isGameLost) {
