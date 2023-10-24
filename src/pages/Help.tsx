@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 
 import favicon from './../img/favicon.png'
 
-function AdditionalHelp() {
+function Help() {
   const [isOldTestamentBooksOpen, setIsOldTestamentBooksOpen] =
     useState<boolean>(false)
   const [isNewTestamentBooksOpen, setIsNewTestamentBooksOpen] =
@@ -206,4 +206,4 @@ function AdditionalHelp() {
   )
 }
 
-export default AdditionalHelp
+export default Help
