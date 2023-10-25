@@ -142,15 +142,17 @@ export const loadStatsFromFirestoreCollection = async (
     return null
   }
 
+  console.log(statsDoc.data())
+
   const stats: GameStats = {
-    avgNumGuesses: statsDoc.avgNumGuesses,
-    bestStreak: statsDoc.bestStreak,
-    currentStreak: statsDoc.currentStreak,
-    gamesFailed: statsDoc.gamesFailed,
-    score: statsDoc.score,
-    successRate: statsDoc.successRate,
-    totalGames: statsDoc.totalGames,
-    winDistribution: statsDoc.winDistribution,
+    avgNumGuesses: statsDoc.data().avgNumGuesses,
+    bestStreak: statsDoc.data().bestStreak,
+    currentStreak: statsDoc.data().currentStreak,
+    gamesFailed: statsDoc.data().gamesFailed,
+    score: statsDoc.data().score,
+    successRate: statsDoc.data().successRate,
+    totalGames: statsDoc.data().totalGames,
+    winDistribution: statsDoc.data().winDistribution,
   }
 
   return stats

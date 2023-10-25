@@ -3,21 +3,31 @@ import { User } from 'firebase/auth'
 import { GameStats } from '@/constants/types'
 
 import { MAX_CHALLENGES } from '../constants/settings'
-import { saveStatsToFirestoreCollection } from './firebase'
+import {
+  loadStatsFromFirestoreCollection,
+  saveStatsToFirestoreCollection,
+} from './firebase'
 import {
   loadStatsFromLocalStorage,
   saveStatsToLocalStorage,
 } from './localStorage'
 
-// In stats array elements 0-5 are successes in 1-6 trys
+// In stats array elements 0-5 are successes in 1-6 tries
 
-export const addStatsForCompletedGame = (
+export const addStatsForCompletedGame = async (
   gameStats: GameStats,
   count: number,
   user: User | null | undefined
 ) => {
   // Count is number of incorrect guesses before end.
-  const stats = { ...gameStats }
+  let stats = { ...gameStats }
+
+  if (user) {
+    const loadedStats = await loadStatsFromFirestoreCollection(user.uid)
+    if (loadedStats) {
+      stats = { ...loadedStats }
+    }
+  }
 
   stats.totalGames += 1
 
@@ -40,7 +50,8 @@ export const addStatsForCompletedGame = (
   saveStatsToLocalStorage(stats)
 
   if (user) {
-    saveStatsToFirestoreCollection(user.uid, stats)
+    stats.score = getScore(stats)
+    await saveStatsToFirestoreCollection(user.uid, stats)
   }
 
   return stats
@@ -89,8 +100,6 @@ export const getScore = (gameStats: GameStats): number => {
   const STREAKBONUS = 8
 
   const gamesWon = gameStats.totalGames - gameStats.gamesFailed
-
-  console.log(gameStats)
 
   const score =
     gamesWon * WINBONUS +

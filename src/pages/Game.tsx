@@ -84,8 +84,8 @@ const Game: React.FC<props> = ({
     }
   }
 
-  const updateStats = (stats: GameStats, count: number) => {
-    setStats(addStatsForCompletedGame(stats, count, user))
+  const updateStats = async (stats: GameStats, count: number) => {
+    setStats(await addStatsForCompletedGame(stats, count, user))
   }
 
   const onDelete = () => {
