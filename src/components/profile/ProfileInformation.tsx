@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { GameStats } from '@/lib/localStorage'
+import { GameStats } from '@/constants/types'
 
 import { Histogram } from '../stats/Histogram'
 import {
@@ -64,7 +64,7 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
       {/* {user && <img src={user.photoURL as string} alt="" />} */}
 
       <div>
-        <h4 className="mt-8 mb-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
+        <h4 className="mb-4 mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
           Stats
         </h4>
         <div className="flex flex-wrap justify-center">
@@ -88,7 +88,7 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
         <h4 className="mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
           {GUESS_DISTRIBUTION_TEXT}
         </h4>
-        <div className="mx-auto w-4/5 md:w-1/2 2xl:w-1/3">
+        <div className="md:w-1/2 2xl:w-1/3 mx-auto w-4/5">
           <Histogram
             isLatestGame={false}
             gameStats={gameStats}

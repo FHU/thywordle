@@ -4,7 +4,7 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_TRIES_TEXT,
 } from '../../constants/strings'
-import { GameStats } from '../../lib/localStorage'
+import { GameStats } from '../../constants/types'
 
 type Props = {
   gameStats: GameStats
