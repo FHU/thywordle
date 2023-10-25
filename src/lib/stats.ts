@@ -1,6 +1,10 @@
+import { User } from 'firebase/auth'
+
+import { GameStats } from '@/constants/types'
+
 import { MAX_CHALLENGES } from '../constants/settings'
+import { saveStatsToFirestoreCollection } from './firebase'
 import {
-  GameStats,
   loadStatsFromLocalStorage,
   saveStatsToLocalStorage,
 } from './localStorage'
@@ -9,7 +13,8 @@ import {
 
 export const addStatsForCompletedGame = (
   gameStats: GameStats,
-  count: number
+  count: number,
+  user: User | null | undefined
 ) => {
   // Count is number of incorrect guesses before end.
   const stats = { ...gameStats }
@@ -33,6 +38,11 @@ export const addStatsForCompletedGame = (
   stats.avgNumGuesses = getAverageNumberGuesses(stats)
 
   saveStatsToLocalStorage(stats)
+
+  if (user) {
+    saveStatsToFirestoreCollection(user.uid, stats)
+  }
+
   return stats
 }
 
