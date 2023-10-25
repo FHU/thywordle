@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import Countdown from 'react-countdown'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
 import {
@@ -27,6 +28,7 @@ import { referenceUrl, solutionGameDate, tomorrow } from '../../lib/words'
 import { Histogram } from '../stats/Histogram'
 import { MigrationIntro } from '../stats/MigrationIntro'
 import { StatBar } from '../stats/StatBar'
+import { auth } from './../../lib/firebase'
 import { BaseModal } from './BaseModal'
 
 type Props = {
@@ -66,6 +68,8 @@ export const StatsModal = ({
   isHighContrastMode,
   numberOfGuessesMade,
 }: Props) => {
+  const [user] = useAuthState(auth)
+
   if (gameStats.totalGames <= 0) {
     return (
       <BaseModal
@@ -170,21 +174,25 @@ export const StatsModal = ({
           </div>
         </>
       )}
-      {/* TODO: Only Show if Signed Out */}
-      <hr className="-mb-4 mt-4 border-gray-500" />
-      <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
-        <div className="mt-3 text-xs">
-          <p>Want to save your stats?</p>
-        </div>
-        <Link
-          to="/profile"
-          className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-          onClick={() => handleClose()}
-        >
-          <UserIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />{' '}
-          Sign In
-        </Link>
-      </div>
+
+      {!user && (
+        <>
+          <hr className="-mb-4 mt-4 border-gray-500" />
+          <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
+            <div className="mt-3 text-xs">
+              <p>Want to save your stats?</p>
+            </div>
+            <Link
+              to="/profile"
+              className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+              onClick={() => handleClose()}
+            >
+              <UserIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />{' '}
+              Sign In
+            </Link>
+          </div>
+        </>
+      )}
     </BaseModal>
   )
 }
