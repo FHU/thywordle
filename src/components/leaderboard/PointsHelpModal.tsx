@@ -19,6 +19,7 @@ export const PointsHelpModal = ({ isOpen, handleClose }: Props) => {
           see your point totals increase!
         </p>
         <button
+          aria-label="close"
           onClick={() => handleClose()}
           tabIndex={0}
           aria-pressed="false"

@@ -33,7 +33,7 @@ import {
   where,
 } from 'firebase/firestore'
 
-import { GameStats } from './../constants/types'
+import { GameStats, LeaderboardUser } from './../constants/types'
 import { defaultStats } from './stats'
 
 const firebaseConfig = {
@@ -194,25 +194,35 @@ export const saveStatsToFirestoreCollection = async (
   }
 }
 
-// export const getLeaderBoardByGroup = async (
-//   groupName: string
-// ): Promise<any[]> => {
-//   const group = await getGroupByGroupName(groupName)
-//   const leaderBoard: any[] = []
+// TODO: use last updated to determine if game has been played today
 
-//   if (group) {
-//     const groupUsers = group.data().users
-//     for (let i = 0; i < groupUsers.length; i++) {
-//       const user = await getDoc(groupUsers[i])
-//       if (user.exists() && user.data() !== undefined) {
-//         leaderBoard.push(user.data())
-//       }
-//     }
-//   }
+export const getLeaderBoardFromFirestore = async (
+  userId?: string
+): Promise<LeaderboardUser[]> => {
+  let leaderBoard: LeaderboardUser[] = []
 
-//   leaderBoard.sort(
-//     (a, b) =>
-//       b.totalSteps - a.totalSteps || b.userSteps.length - a.userSteps.length
-//   )
-//   return leaderBoard
-// }
+  // TODO: probably want to add limits to the number returned in the future -- will impact how rank is calculated currently
+  const q = query(collection(db, 'users'), orderBy('stats.score', 'desc'))
+  const querySnapshot = await getDocs(q)
+
+  let rank = 1
+  querySnapshot.forEach((doc) => {
+    leaderBoard.push({
+      uid: doc.data().uid,
+      rank: rank,
+      name: doc.data().name,
+      avgGuesses: doc.data().stats.avgNumGuesses,
+      points: doc.data().stats.score,
+      stats: {
+        currentStreak: doc.data().stats.currentStreak,
+        bestStreak: doc.data().stats.bestStreak,
+        successRate: doc.data().stats.successRate,
+      },
+      highlightedUser: doc.data().uid === userId,
+    })
+
+    rank++
+  })
+
+  return leaderBoard
+}

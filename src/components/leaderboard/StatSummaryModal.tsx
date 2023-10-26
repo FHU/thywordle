@@ -1,27 +1,42 @@
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
+
+import { LeaderboardUser } from '@/constants/types'
 
 import {
   BEST_STREAK_TEXT,
   CURRENT_STREAK_TEXT,
   SUCCESS_RATE_TEXT,
 } from './../../constants/strings'
+import { auth } from './../../lib/firebase'
 import { BaseModal } from './../modals/BaseModal'
 import { StatItem } from './../stats/StatBar'
 
 type Props = {
   isOpen: boolean
   handleClose: () => void
-  user: any
+  leaderboardUser: LeaderboardUser
 }
 
-export const StatSummaryModal = ({ isOpen, handleClose, user }: Props) => {
-  const signedIn = false
+export const StatSummaryModal = ({
+  isOpen,
+  handleClose,
+  leaderboardUser,
+}: Props) => {
+  const [user] = useAuthState(auth)
 
-  const profileLinkText = signedIn ? 'Profile' : 'Sign In'
+  let messageText = 'View how you compare'
+  const profileLinkText = user ? 'Profile' : 'Sign In'
+
+  if (user) {
+    if (leaderboardUser.uid === user.uid) {
+      messageText = 'Keep up the good work!'
+    }
+  }
 
   return (
     <BaseModal
-      title={`${user?.name} Stats`}
+      title={`${leaderboardUser?.name} Stats`}
       isOpen={isOpen}
       handleClose={handleClose}
     >
@@ -29,18 +44,21 @@ export const StatSummaryModal = ({ isOpen, handleClose, user }: Props) => {
         <div className="my-2 flex justify-center">
           <StatItem
             label={SUCCESS_RATE_TEXT}
-            value={`${user?.stats.successRate}%`}
+            value={`${leaderboardUser?.stats.successRate}%`}
           />
           <StatItem
             label={CURRENT_STREAK_TEXT}
-            value={user?.stats.currentStreak}
+            value={leaderboardUser?.stats.currentStreak}
           />
-          <StatItem label={BEST_STREAK_TEXT} value={user?.stats.bestStreak} />
+          <StatItem
+            label={BEST_STREAK_TEXT}
+            value={leaderboardUser?.stats.bestStreak}
+          />
         </div>
 
-        <div className="mx-auto mt-6 mb-2 flex items-center justify-center">
+        <div className="mx-auto mb-2 mt-6 flex items-center justify-center">
           <p className="mr-2 text-sm text-black dark:text-white sm:text-lg">
-            View how you compare
+            {messageText}
           </p>
           <Link
             to="/profile"
@@ -52,6 +70,7 @@ export const StatSummaryModal = ({ isOpen, handleClose, user }: Props) => {
 
         <button
           onClick={() => handleClose()}
+          aria-label="close"
           tabIndex={0}
           aria-pressed="false"
           className="absolute right-4 top-4"

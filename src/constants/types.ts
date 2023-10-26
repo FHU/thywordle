@@ -8,3 +8,13 @@ export type GameStats = {
   score: number
   avgNumGuesses: number
 }
+
+export type LeaderboardUser = {
+  uid: string
+  rank: number
+  name: string
+  avgGuesses: number
+  points: number
+  stats: { currentStreak: number; bestStreak: number; successRate: number }
+  highlightedUser: boolean
+}
