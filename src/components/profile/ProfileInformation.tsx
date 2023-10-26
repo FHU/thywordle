@@ -11,7 +11,7 @@ import {
   GUESS_DISTRIBUTION_TEXT,
   POINTS_TEXT,
   SUCCESS_RATE_TEXT,
-  TOTAL_TRIES_TEXT,
+  TOTAL_GAMES_TEXT,
 } from './../../constants/strings'
 import './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
@@ -67,7 +67,7 @@ const ProfileInformation = ({
           Stats
         </h4>
         <div className="flex flex-wrap justify-center">
-          <StatItem label={TOTAL_TRIES_TEXT} value={gameStats.totalGames} />
+          <StatItem label={TOTAL_GAMES_TEXT} value={gameStats.totalGames} />
           <StatItem
             label={SUCCESS_RATE_TEXT}
             value={`${gameStats.successRate}%`}
