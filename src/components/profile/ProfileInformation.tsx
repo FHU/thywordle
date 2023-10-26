@@ -14,14 +14,14 @@ import {
   TOTAL_TRIES_TEXT,
 } from './../../constants/strings'
 import './../../lib/stats'
-import {
-  getAverageNumberGuesses,
-  getScore,
-  getSuccessRate,
-} from './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
-const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
+const ProfileInformation = ({
+  user,
+  stats,
+  handleLogOut,
+  handleEditProfile,
+}: any) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
 
   useEffect(() => {
@@ -31,22 +31,22 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
   }, [user.providerData])
 
   const gameStats: GameStats = {
-    winDistribution: [1, 1, 1, 1, 2, 1],
-    gamesFailed: 1,
-    currentStreak: 4,
-    bestStreak: 4,
-    totalGames: 8,
-    successRate: 88,
-    score: 111000,
-    avgNumGuesses: 3.5,
+    winDistribution: stats.winDistribution,
+    gamesFailed: stats.gamesFailed,
+    currentStreak: stats.currentStreak,
+    bestStreak: stats.bestStreak,
+    totalGames: stats.totalGames,
+    successRate: stats.successRate,
+    score: stats.score,
+    avgNumGuesses: stats.avgNumGuesses,
   }
-
-  gameStats.avgNumGuesses = getAverageNumberGuesses(gameStats)
-  gameStats.successRate = getSuccessRate(gameStats)
-  gameStats.score = getScore(gameStats)
 
   return (
     <div className="my-8">
+      {user.photoURL !== '' && (
+        <img src={user.photoURL} alt="" className="mx-auto my-5 rounded-full" />
+      )}
+
       <p className="text-2xl font-bold dark:text-white">
         Welcome{' '}
         {user && (
@@ -61,7 +61,6 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
           {user.email}
         </p>
       )}
-      {/* {user && <img src={user.photoURL as string} alt="" />} */}
 
       <div>
         <h4 className="mb-4 mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
@@ -88,7 +87,7 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
         <h4 className="mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
           {GUESS_DISTRIBUTION_TEXT}
         </h4>
-        <div className="md:w-1/2 2xl:w-1/3 mx-auto w-4/5">
+        <div className="mx-auto w-4/5 md:w-1/2 2xl:w-1/3">
           <Histogram
             isLatestGame={false}
             gameStats={gameStats}

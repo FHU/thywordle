@@ -53,13 +53,13 @@ export const auth = getAuth(app)
 export const db = getFirestore(app)
 const googleProvider = new GoogleAuthProvider()
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    console.log(user.uid)
-  } else {
-    console.log('signed out')
-  }
-})
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     console.log(user.uid)
+//   } else {
+//     console.log('signed out')
+//   }
+// })
 
 export const signInWithGoogle = async (): Promise<void> => {
   try {

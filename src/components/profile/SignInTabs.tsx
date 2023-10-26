@@ -7,6 +7,7 @@ import ProfileInformation from './ProfileInformation'
 import SignInForm from './SignInForm'
 
 const SignInTabs = ({
+  stats,
   handleLogOut,
   handleEditProfile,
   handleForgotPassword,
@@ -33,6 +34,7 @@ const SignInTabs = ({
     return (
       <ProfileInformation
         user={user}
+        stats={stats}
         handleLogOut={handleLogOut}
         handleEditProfile={handleEditProfile}
       />

@@ -156,6 +156,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   id="confirm-new-password"
                   name="confirm-new-password"
                   type="password"
+                  aria-label="confirmPassword"
                   autoComplete="password"
                   className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Confirm New Password"
@@ -197,6 +198,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
         <button
           onClick={() => handleClose()}
           tabIndex={0}
+          aria-label="close"
           aria-pressed="false"
           className="absolute right-4 top-4"
         ></button>

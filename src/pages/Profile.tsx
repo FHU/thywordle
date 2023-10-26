@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import SignInTabs from '../components/profile/SignInTabs'
 import { EditProfileModal } from './../components/profile/EditProfileModal'
 import { ForgotPasswordModal } from './../components/profile/ForgotPasswordModal'
 import { LogOutModal } from './../components/profile/LogOutModal'
+import { GameStats } from './../constants/types'
 import favicon from './../img/favicon.png'
 
-function Profile() {
+interface Props {
+  stats: GameStats
+}
+
+function Profile({ stats }: Props) {
   const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
     useState<boolean>(false)
 
@@ -41,8 +46,9 @@ function Profile() {
         </h1>
       </div>
 
-      <div className="col-span-10 col-start-2 mt-2 mb-16 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+      <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <SignInTabs
+          stats={stats}
           handleLogOut={handleLogOut}
           handleEditProfile={handleEditProfile}
           handleForgotPassword={handleForgotPassword}

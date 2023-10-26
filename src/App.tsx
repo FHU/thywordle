@@ -2,6 +2,7 @@ import './App.css'
 
 import { useEffect, useState } from 'react'
 import Div100vh from 'react-div-100vh'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 import { AlertContainer } from './components/alerts/AlertContainer'
@@ -28,15 +29,17 @@ import {
   SHARE_FAILURE_TEXT,
   WIN_MESSAGES,
 } from './constants/strings'
+import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
+import { auth } from './lib/firebase'
 import {
   getStoredIsHighContrastMode,
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
   setStoredIsHighContrastMode,
 } from './lib/localStorage'
-import { loadStats } from './lib/stats'
+import { defaultStats, loadStats } from './lib/stats'
 import {
   displayReference,
   getIsLatestGame,
@@ -51,6 +54,8 @@ import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 
 function App() {
+  const [user, loading, error] = useAuthState(auth)
+
   const isLatestGame = getIsLatestGame()
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -95,13 +100,20 @@ function App() {
     return loaded.guesses
   })
 
-  const [stats, setStats] = useState(() => loadStats())
+  const [stats, setStats] = useState<GameStats>(defaultStats)
 
   const [isHardMode, setIsHardMode] = useState(
     localStorage.getItem('gameMode')
       ? localStorage.getItem('gameMode') === 'hard'
       : false
   )
+
+  useEffect(() => {
+    ;(async () => {
+      const loadedStats = await loadStats(user)
+      setStats(loadedStats)
+    })()
+  }, [user])
 
   useEffect(() => {
     // if no game state on load,
@@ -178,6 +190,15 @@ function App() {
     setStoredIsHighContrastMode(isHighContrast)
   }
 
+  if (loading || error) {
+    return (
+      <Div100vh>
+        {loading && <p>Loading...</p>}
+        {error && <p>Unknown Error...</p>}
+      </Div100vh>
+    )
+  }
+
   return (
     <Router>
       <Div100vh>
@@ -214,7 +235,7 @@ function App() {
             />
             <Route path="/about" element={<About />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile stats={stats} />} />
           </Routes>
 
           <InfoModal
@@ -256,6 +277,7 @@ function App() {
             handleClose={() => setIsDatePickerModalOpen(false)}
           />
           <MigrateStatsModal
+            stats={stats}
             isOpen={isMigrateStatsModalOpen}
             handleClose={() => setIsMigrateStatsModalOpen(false)}
           />
