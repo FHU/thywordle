@@ -5,32 +5,21 @@ import {
   User,
   createUserWithEmailAndPassword,
   getAuth,
-  onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithPopup,
   signOut,
 } from 'firebase/auth'
 import {
-  DocumentData,
-  DocumentReference,
-  DocumentSnapshot,
-  QueryDocumentSnapshot,
   Timestamp,
-  addDoc,
-  arrayRemove,
-  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
   getFirestore,
-  increment,
-  limit,
   orderBy,
   query,
   setDoc,
   updateDoc,
-  where,
 } from 'firebase/firestore'
 
 import { GameStats, LeaderboardUser } from './../constants/types'
@@ -52,14 +41,6 @@ getAnalytics(app)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 const googleProvider = new GoogleAuthProvider()
-
-// onAuthStateChanged(auth, (user) => {
-//   if (user) {
-//     console.log(user.uid)
-//   } else {
-//     console.log('signed out')
-//   }
-// })
 
 export const signInWithGoogle = async (): Promise<void> => {
   try {
