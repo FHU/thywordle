@@ -28,8 +28,8 @@ export const StatSummaryModal = ({
   let messageText = 'View how you compare'
   const profileLinkText = user ? 'Profile' : 'Sign In'
 
-  if (user) {
-    if (leaderboardUser.uid === user.uid) {
+  if (user && leaderboardUser) {
+    if (user.uid === leaderboardUser.uid) {
       messageText = 'Keep up the good work!'
     }
   }
