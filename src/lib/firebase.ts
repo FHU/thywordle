@@ -34,6 +34,7 @@ import {
 } from 'firebase/firestore'
 
 import { GameStats } from './../constants/types'
+import { defaultStats } from './stats'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -91,11 +92,8 @@ export const createAccountWithUsernameAndPassword = async (
   }
 }
 
-const getDocByUid = async (
-  userId: string,
-  collection: string
-): Promise<any> => {
-  const docRef = doc(db, collection, userId)
+const getUserDocByUid = async (userId: string): Promise<any> => {
+  const docRef = doc(db, 'users', userId)
   return await getDoc(docRef)
 }
 
@@ -104,14 +102,25 @@ const addUserToFirestoreCollection = async (
   username: string | null,
   provider: string
 ): Promise<void> => {
-  const user = await getDocByUid(u.uid, 'users')
+  const user = await getUserDocByUid(u.uid)
   if (!user.exists()) {
     await setDoc(doc(db, 'users', u.uid), {
       uid: u.uid,
       name: username,
-      photoURL: u.photoURL,
-      authProvider: provider,
       email: u.email,
+      authProvider: provider,
+      photoURL: u.photoURL ?? '',
+      lastUpdated: Timestamp.now(),
+      stats: {
+        avgNumGuesses: defaultStats.avgNumGuesses,
+        bestStreak: defaultStats.bestStreak,
+        currentStreak: defaultStats.currentStreak,
+        gamesFailed: defaultStats.gamesFailed,
+        score: defaultStats.score,
+        successRate: defaultStats.successRate,
+        totalGames: defaultStats.totalGames,
+        winDistribution: defaultStats.winDistribution,
+      },
     })
   }
 }
@@ -137,22 +146,20 @@ export const logout = () => {
 export const loadStatsFromFirestoreCollection = async (
   userId: string
 ): Promise<GameStats | null> => {
-  const statsDoc = await getDocByUid(userId, 'stats')
-  if (!statsDoc.exists()) {
+  const userDoc = await getUserDocByUid(userId)
+  if (!userDoc.exists()) {
     return null
   }
 
-  console.log(statsDoc.data())
-
   const stats: GameStats = {
-    avgNumGuesses: statsDoc.data().avgNumGuesses,
-    bestStreak: statsDoc.data().bestStreak,
-    currentStreak: statsDoc.data().currentStreak,
-    gamesFailed: statsDoc.data().gamesFailed,
-    score: statsDoc.data().score,
-    successRate: statsDoc.data().successRate,
-    totalGames: statsDoc.data().totalGames,
-    winDistribution: statsDoc.data().winDistribution,
+    avgNumGuesses: userDoc.data().stats.avgNumGuesses,
+    bestStreak: userDoc.data().stats.bestStreak,
+    currentStreak: userDoc.data().stats.currentStreak,
+    gamesFailed: userDoc.data().stats.gamesFailed,
+    score: userDoc.data().stats.score,
+    successRate: userDoc.data().stats.successRate,
+    totalGames: userDoc.data().stats.totalGames,
+    winDistribution: userDoc.data().stats.winDistribution,
   }
 
   return stats
@@ -162,41 +169,27 @@ export const saveStatsToFirestoreCollection = async (
   userId: string,
   stats: GameStats
 ): Promise<void> => {
-  const statsDoc = await getDocByUid(userId, 'stats')
+  const userDoc = await getUserDocByUid(userId)
 
-  // if stat object exists, update it
-  if (statsDoc.exists()) {
-    const statRef = doc(db, 'stats', userId)
+  if (userDoc.exists()) {
+    const docRef = doc(db, 'users', userId)
 
-    // make sure stat object being passed is not behind db
-    if (statsDoc.totalGames >= stats.totalGames) {
+    if (userDoc.data().stats.totalGames >= stats.totalGames) {
       return
     }
 
-    await updateDoc(statRef, {
+    await updateDoc(docRef, {
       lastUpdated: Timestamp.now(),
-      avgNumGuesses: stats.avgNumGuesses,
-      bestStreak: stats.bestStreak,
-      currentStreak: stats.currentStreak,
-      gamesFailed: stats.gamesFailed,
-      score: stats.score,
-      successRate: stats.successRate,
-      totalGames: stats.totalGames,
-      winDistribution: stats.winDistribution,
-    })
-  } else {
-    // otherwise, create new stat object and initialize it
-    await setDoc(doc(db, 'stats', userId), {
-      uid: userId,
-      lastUpdated: Timestamp.now(),
-      avgNumGuesses: stats.avgNumGuesses,
-      bestStreak: stats.bestStreak,
-      currentStreak: stats.currentStreak,
-      gamesFailed: stats.gamesFailed,
-      score: stats.score,
-      successRate: stats.successRate,
-      totalGames: stats.totalGames,
-      winDistribution: stats.winDistribution,
+      stats: {
+        avgNumGuesses: stats.avgNumGuesses,
+        bestStreak: stats.bestStreak,
+        currentStreak: stats.currentStreak,
+        gamesFailed: stats.gamesFailed,
+        score: stats.score,
+        successRate: stats.successRate,
+        totalGames: stats.totalGames,
+        winDistribution: stats.winDistribution,
+      },
     })
   }
 }

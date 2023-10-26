@@ -12,6 +12,17 @@ import {
   saveStatsToLocalStorage,
 } from './localStorage'
 
+export const defaultStats: GameStats = {
+  winDistribution: Array.from(new Array(MAX_CHALLENGES), () => 0),
+  gamesFailed: 0,
+  currentStreak: 0,
+  bestStreak: 0,
+  totalGames: 0,
+  successRate: 0,
+  score: 0,
+  avgNumGuesses: 0,
+}
+
 // In stats array elements 0-5 are successes in 1-6 tries
 
 export const addStatsForCompletedGame = async (
@@ -55,17 +66,6 @@ export const addStatsForCompletedGame = async (
   }
 
   return stats
-}
-
-const defaultStats: GameStats = {
-  winDistribution: Array.from(new Array(MAX_CHALLENGES), () => 0),
-  gamesFailed: 0,
-  currentStreak: 0,
-  bestStreak: 0,
-  totalGames: 0,
-  successRate: 0,
-  score: 0,
-  avgNumGuesses: 0,
 }
 
 export const loadStats = () => {
