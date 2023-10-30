@@ -67,6 +67,7 @@
     "@types/react-datepicker": "^4.4.2",
     "autoprefixer": "^10.4.4",
     "husky": "^7.0.4",
+    "jest-canvas-mock": "^2.5.2",
     "lint-staged": "^12.3.2",
     "postcss": "^8.4.5",
     "prettier": "^2.8.4",
@@ -78,6 +79,9 @@
   },
   "jest": {
     "moduleNameMapper": {
+      "setupFiles": [
+        "jest-canvas-mock"
+      ],
       "@/(.*)": "<rootDir>/src/$1"
     }
   }
