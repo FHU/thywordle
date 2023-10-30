@@ -28,6 +28,7 @@
     "egoroof-blowfish": "^2.2.2",
     "firebase": "^9.19.1",
     "grapheme-splitter": "1.0.4",
+    "lottie-react": "^2.4.0",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-countdown": "^2.3.2",

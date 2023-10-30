@@ -6,6 +6,8 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 import { AlertContainer } from './components/alerts/AlertContainer'
+import Error from './components/gameState/Error'
+import Loading from './components/gameState/Loading'
 import { Menu } from './components/menu/Menu'
 import { DatePickerModal } from './components/modals/DatePickerModal'
 import { InfoModal } from './components/modals/InfoModal'
@@ -192,10 +194,10 @@ function App() {
 
   if (loading || error) {
     return (
-      <Div100vh>
-        {loading && <p>Loading...</p>}
-        {error && <p>Unknown Error...</p>}
-      </Div100vh>
+      <>
+        {loading && <Loading />}
+        {error && <Error />}
+      </>
     )
   }
 
