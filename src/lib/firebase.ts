@@ -78,6 +78,15 @@ const getUserDocByUid = async (userId: string): Promise<any> => {
   return await getDoc(docRef)
 }
 
+export const getUserDataByUid = async (userId: string): Promise<any> => {
+  const user = await getUserDocByUid(userId)
+  if (!user.exists) {
+    return null
+  }
+
+  return user.data()
+}
+
 const addUserToFirestoreCollection = async (
   u: User,
   username: string | null,
@@ -92,6 +101,7 @@ const addUserToFirestoreCollection = async (
       authProvider: provider,
       photoURL: u.photoURL ?? '',
       lastUpdated: Timestamp.now(),
+      lastSolution: '',
       stats: {
         avgNumGuesses: defaultStats.avgNumGuesses,
         bestStreak: defaultStats.bestStreak,
@@ -148,7 +158,8 @@ export const loadStatsFromFirestoreCollection = async (
 
 export const saveStatsToFirestoreCollection = async (
   userId: string,
-  stats: GameStats
+  stats: GameStats,
+  solution: string
 ): Promise<void> => {
   const userDoc = await getUserDocByUid(userId)
 
@@ -161,6 +172,7 @@ export const saveStatsToFirestoreCollection = async (
 
     await updateDoc(docRef, {
       lastUpdated: Timestamp.now(),
+      lastSolution: solution,
       stats: {
         avgNumGuesses: stats.avgNumGuesses,
         bestStreak: stats.bestStreak,

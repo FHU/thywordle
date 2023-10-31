@@ -13,6 +13,7 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_GAMES_TEXT,
 } from './../../constants/strings'
+import { getUserDataByUid } from './../../lib/firebase'
 import './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
@@ -23,6 +24,16 @@ const ProfileInformation = ({
   handleEditProfile,
 }: any) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
+  const [userInfo, setUserInfo] = useState<any>()
+
+  useEffect(() => {
+    ;(async () => {
+      if (user) {
+        const u = await getUserDataByUid(user.uid)
+        setUserInfo(u)
+      }
+    })()
+  }, [user])
 
   useEffect(() => {
     if (user.providerData[0].providerId === 'google.com') {
@@ -51,7 +62,7 @@ const ProfileInformation = ({
         Welcome{' '}
         {user && (
           <span className="text-indigo-600 dark:text-indigo-400">
-            {user.displayName || user.email}
+            {userInfo?.name}
           </span>
         )}
         !
