@@ -23,6 +23,7 @@ import {
 } from 'firebase/firestore'
 
 import { GameStats, LeaderboardUser } from './../constants/types'
+import { StoredGameState } from './localStorage'
 import { defaultStats } from './stats'
 
 const firebaseConfig = {
@@ -100,9 +101,12 @@ const addUserToFirestoreCollection = async (
       email: u.email,
       authProvider: provider,
       photoURL: u.photoURL ?? '',
-      lastUpdated: Timestamp.now(),
-      lastSolution: '',
-      stats: {
+      gameState: {
+        lastUpdated: Timestamp.now(),
+        guesses: [],
+        lastSolution: '',
+      },
+      gameStats: {
         avgNumGuesses: defaultStats.avgNumGuesses,
         bestStreak: defaultStats.bestStreak,
         currentStreak: defaultStats.currentStreak,
@@ -143,14 +147,14 @@ export const loadStatsFromFirestoreCollection = async (
   }
 
   const stats: GameStats = {
-    avgNumGuesses: userDoc.data().stats.avgNumGuesses,
-    bestStreak: userDoc.data().stats.bestStreak,
-    currentStreak: userDoc.data().stats.currentStreak,
-    gamesFailed: userDoc.data().stats.gamesFailed,
-    score: userDoc.data().stats.score,
-    successRate: userDoc.data().stats.successRate,
-    totalGames: userDoc.data().stats.totalGames,
-    winDistribution: userDoc.data().stats.winDistribution,
+    avgNumGuesses: userDoc.data().gameStats.avgNumGuesses,
+    bestStreak: userDoc.data().gameStats.bestStreak,
+    currentStreak: userDoc.data().gameStats.currentStreak,
+    gamesFailed: userDoc.data().gameStats.gamesFailed,
+    score: userDoc.data().gameStats.score,
+    successRate: userDoc.data().gameStats.successRate,
+    totalGames: userDoc.data().gameStats.totalGames,
+    winDistribution: userDoc.data().gameStats.winDistribution,
   }
 
   return stats
@@ -162,18 +166,20 @@ export const saveStatsToFirestoreCollection = async (
   solution: string
 ): Promise<void> => {
   const userDoc = await getUserDocByUid(userId)
-
   if (userDoc.exists()) {
     const docRef = doc(db, 'users', userId)
 
-    if (userDoc.data().stats.totalGames >= stats.totalGames) {
+    if (userDoc.data().gameStats.totalGames >= stats.totalGames) {
       return
     }
 
     await updateDoc(docRef, {
-      lastUpdated: Timestamp.now(),
-      lastSolution: solution,
-      stats: {
+      gameState: {
+        lastUpdated: Timestamp.now(),
+        lastSolution: solution,
+        guesses: [],
+      },
+      gameStats: {
         avgNumGuesses: stats.avgNumGuesses,
         bestStreak: stats.bestStreak,
         currentStreak: stats.currentStreak,
@@ -187,7 +193,19 @@ export const saveStatsToFirestoreCollection = async (
   }
 }
 
-// TODO: use last updated to determine if game has been played today
+export const loadGameStateFromFirestore = async (
+  userId: string
+): Promise<StoredGameState | undefined> => {
+  const userDoc = await getUserDocByUid(userId)
+  if (!userDoc.exists()) {
+    return
+  }
+
+  return {
+    guesses: userDoc.data().gameState.guesses,
+    solution: userDoc.data().gameState.lastSolution,
+  }
+}
 
 export const getLeaderBoardFromFirestore = async (
   userId?: string
@@ -195,7 +213,7 @@ export const getLeaderBoardFromFirestore = async (
   let leaderBoard: LeaderboardUser[] = []
 
   // TODO: probably want to add limits to the number returned in the future -- will impact how rank is calculated currently
-  const q = query(collection(db, 'users'), orderBy('stats.score', 'desc'))
+  const q = query(collection(db, 'users'), orderBy('gameStats.score', 'desc'))
   const querySnapshot = await getDocs(q)
 
   let rank = 1
@@ -204,12 +222,12 @@ export const getLeaderBoardFromFirestore = async (
       uid: doc.data().uid,
       rank: rank,
       name: doc.data().name,
-      avgGuesses: doc.data().stats.avgNumGuesses,
-      points: doc.data().stats.score,
+      avgGuesses: doc.data().gameStats.avgNumGuesses,
+      points: doc.data().gameStats.score,
       stats: {
-        currentStreak: doc.data().stats.currentStreak,
-        bestStreak: doc.data().stats.bestStreak,
-        successRate: doc.data().stats.successRate,
+        currentStreak: doc.data().gameStats.currentStreak,
+        bestStreak: doc.data().gameStats.bestStreak,
+        successRate: doc.data().gameStats.successRate,
       },
       highlightedUser: doc.data().uid === userId,
     })

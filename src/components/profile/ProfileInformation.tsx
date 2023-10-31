@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -17,12 +18,19 @@ import { getUserDataByUid } from './../../lib/firebase'
 import './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
+interface Props {
+  user: User
+  stats: GameStats
+  handleLogOut: any
+  handleEditProfile: any
+}
+
 const ProfileInformation = ({
   user,
   stats,
   handleLogOut,
   handleEditProfile,
-}: any) => {
+}: Props) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
   const [userInfo, setUserInfo] = useState<any>()
 
@@ -55,14 +63,18 @@ const ProfileInformation = ({
   return (
     <div className="my-8">
       {user.photoURL !== '' && (
-        <img src={user.photoURL} alt="" className="mx-auto my-5 rounded-full" />
+        <img
+          src={user.photoURL!}
+          alt=""
+          className="mx-auto my-5 rounded-full"
+        />
       )}
 
       <p className="text-2xl font-bold dark:text-white">
         Welcome{' '}
         {user && (
           <span className="text-indigo-600 dark:text-indigo-400">
-            {userInfo?.name}
+            {userInfo?.name || user.displayName || user.email}
           </span>
         )}
         !

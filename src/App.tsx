@@ -34,7 +34,7 @@ import {
 import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
-import { auth } from './lib/firebase'
+import { auth, loadGameStateFromFirestore } from './lib/firebase'
 import {
   getStoredIsHighContrastMode,
   loadGameStateFromLocalStorage,
@@ -114,6 +114,11 @@ function App() {
     ;(async () => {
       const loadedStats = await loadStats(user)
       setStats(loadedStats)
+
+      const loadedStatsFromFirestore = user
+        ? await loadGameStateFromFirestore(user.uid)
+        : 1
+      console.log(loadedStatsFromFirestore)
     })()
   }, [user])
 
