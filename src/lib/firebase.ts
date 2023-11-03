@@ -193,6 +193,24 @@ export const saveStatsToFirestoreCollection = async (
   }
 }
 
+export const updateGameStateToFirestore = async (
+  userId: string,
+  solution: string,
+  guesses: string[]
+): Promise<void> => {
+  const userDoc = await getUserDocByUid(userId)
+  if (userDoc.exists()) {
+    const docRef = doc(db, 'users', userId)
+    await updateDoc(docRef, {
+      gameState: {
+        lastUpdated: Timestamp.now(),
+        lastSolution: solution,
+        guesses: guesses,
+      },
+    })
+  }
+}
+
 export const loadGameStateFromFirestore = async (
   userId: string
 ): Promise<StoredGameState | undefined> => {

@@ -20,7 +20,7 @@ import {
   INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
 } from './../constants/strings'
-import { auth } from './../lib/firebase'
+import { auth, updateGameStateToFirestore } from './../lib/firebase'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
   findFirstUnusedReveal,
@@ -94,7 +94,7 @@ const Game: React.FC<props> = ({
     )
   }
 
-  const onEnter = () => {
+  const onEnter = async () => {
     if (isGameWon || isGameLost) {
       return
     }
@@ -150,6 +150,13 @@ const Game: React.FC<props> = ({
     ) {
       setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
+
+      if (user) {
+        await updateGameStateToFirestore(user.uid, solution, [
+          ...guesses,
+          currentGuess,
+        ])
+      }
 
       if (winningWord) {
         if (isLatestGame) {

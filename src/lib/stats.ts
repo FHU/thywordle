@@ -69,20 +69,8 @@ export const addStatsForCompletedGame = async (
   return stats
 }
 
-export const loadStats = async (
-  user: User | null | undefined
-): Promise<GameStats> => {
-  const localStorageStats = loadStatsFromLocalStorage() || defaultStats
-
-  if (user) {
-    const firestoreStats = await loadStatsFromFirestoreCollection(user.uid)
-
-    if (firestoreStats) {
-      return firestoreStats
-    }
-  }
-
-  return localStorageStats
+export const loadStats = (): GameStats => {
+  return loadStatsFromLocalStorage() || defaultStats
 }
 
 export const getSuccessRate = (gameStats: GameStats) => {

@@ -34,14 +34,18 @@ import {
 import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
-import { auth, loadGameStateFromFirestore } from './lib/firebase'
+import {
+  auth,
+  loadGameStateFromFirestore,
+  loadStatsFromFirestoreCollection,
+} from './lib/firebase'
 import {
   getStoredIsHighContrastMode,
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
   setStoredIsHighContrastMode,
 } from './lib/localStorage'
-import { defaultStats, loadStats } from './lib/stats'
+import { loadStats } from './lib/stats'
 import {
   displayReference,
   getIsLatestGame,
@@ -57,7 +61,6 @@ import Profile from './pages/Profile'
 
 function App() {
   const [user, loading, error] = useAuthState(auth)
-
   const isLatestGame = getIsLatestGame()
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -81,9 +84,15 @@ function App() {
       ? true
       : false
   )
-  const [isHighContrastMode, setIsHighContrastMode] = useState(
+  const [isHighContrastMode, setIsHighContrastMode] = useState<boolean>(
     getStoredIsHighContrastMode()
   )
+  const [isHardMode, setIsHardMode] = useState(
+    localStorage.getItem('gameMode')
+      ? localStorage.getItem('gameMode') === 'hard'
+      : false
+  )
+  const [stats, setStats] = useState<GameStats>(() => loadStats())
   const [guesses, setGuesses] = useState<string[]>(() => {
     const loaded = loadGameStateFromLocalStorage(isLatestGame)
     if (loaded?.solution !== solution) {
@@ -102,24 +111,28 @@ function App() {
     return loaded.guesses
   })
 
-  const [stats, setStats] = useState<GameStats>(defaultStats)
+  const loadGameFromFirestore = async (uid: string) => {
+    const loadedStats = await loadStatsFromFirestoreCollection(uid)
+    if (loadedStats) setStats(loadedStats)
 
-  const [isHardMode, setIsHardMode] = useState(
-    localStorage.getItem('gameMode')
-      ? localStorage.getItem('gameMode') === 'hard'
-      : false
-  )
+    const loadedStateFromFirestore = await loadGameStateFromFirestore(uid)
+    console.log(loadedStateFromFirestore)
+    if (loadedStateFromFirestore)
+      if (loadedStateFromFirestore.guesses.length !== 0) {
+        setGuesses(loadedStateFromFirestore.guesses)
+      }
+  }
+
+  const loadGameFromLocalStorage = () => {
+    console.log('local')
+  }
 
   useEffect(() => {
-    ;(async () => {
-      const loadedStats = await loadStats(user)
-      setStats(loadedStats)
-
-      const loadedStatsFromFirestore = user
-        ? await loadGameStateFromFirestore(user.uid)
-        : 1
-      console.log(loadedStatsFromFirestore)
-    })()
+    if (user) {
+      loadGameFromFirestore(user.uid)
+    } else {
+      loadGameFromLocalStorage()
+    }
   }, [user])
 
   useEffect(() => {
