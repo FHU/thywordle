@@ -160,7 +160,7 @@ export const loadStatsFromFirestoreCollection = async (
   return stats
 }
 
-export const saveStatsToFirestoreCollection = async (
+export const saveStatsToFirestore = async (
   userId: string,
   stats: GameStats,
   solution: string
@@ -174,11 +174,6 @@ export const saveStatsToFirestoreCollection = async (
     }
 
     await updateDoc(docRef, {
-      gameState: {
-        lastUpdated: Timestamp.now(),
-        lastSolution: solution,
-        guesses: [],
-      },
       gameStats: {
         avgNumGuesses: stats.avgNumGuesses,
         bestStreak: stats.bestStreak,

@@ -93,22 +93,28 @@ function App() {
       : false
   )
   const [stats, setStats] = useState<GameStats>(() => loadStats())
-  const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage(isLatestGame)
-    if (loaded?.solution !== solution) {
-      return []
-    }
-    const gameWasWon = loaded.guesses.includes(solution)
+  const setGameState = (guesses: string[]): string[] => {
+    const gameWasWon = guesses.includes(solution)
     if (gameWasWon) {
       setIsGameWon(true)
     }
-    if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
+    if (guesses.length === MAX_CHALLENGES && !gameWasWon) {
       setIsGameLost(true)
       showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
         persist: true,
       })
     }
-    return loaded.guesses
+    return guesses
+  }
+
+  const [guesses, setGuesses] = useState<string[]>(() => {
+    const loaded = loadGameStateFromLocalStorage(isLatestGame)
+    if (loaded?.solution !== solution) {
+      return []
+    }
+
+    const gameState = setGameState(loaded.guesses)
+    return gameState
   })
 
   const loadGameFromFirestore = async (uid: string) => {
@@ -116,24 +122,16 @@ function App() {
     if (loadedStats) setStats(loadedStats)
 
     const loadedStateFromFirestore = await loadGameStateFromFirestore(uid)
-    console.log(loadedStateFromFirestore)
     if (loadedStateFromFirestore)
       if (loadedStateFromFirestore.guesses.length !== 0) {
         setGuesses(loadedStateFromFirestore.guesses)
+        setGameState(loadedStateFromFirestore.guesses)
       }
   }
 
-  const loadGameFromLocalStorage = () => {
-    console.log('local')
-  }
-
   useEffect(() => {
-    if (user) {
-      loadGameFromFirestore(user.uid)
-    } else {
-      loadGameFromLocalStorage()
-    }
-  }, [user])
+    if (user) loadGameFromFirestore(user.uid)
+  })
 
   useEffect(() => {
     // if no game state on load,

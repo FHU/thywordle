@@ -5,7 +5,7 @@ import { GameStats } from '@/constants/types'
 import { MAX_CHALLENGES } from '../constants/settings'
 import {
   loadStatsFromFirestoreCollection,
-  saveStatsToFirestoreCollection,
+  saveStatsToFirestore,
 } from './firebase'
 import {
   loadStatsFromLocalStorage,
@@ -63,7 +63,7 @@ export const addStatsForCompletedGame = async (
 
   if (user) {
     stats.score = getScore(stats)
-    await saveStatsToFirestoreCollection(user.uid, stats, solution)
+    await saveStatsToFirestore(user.uid, stats, solution)
   }
 
   return stats
