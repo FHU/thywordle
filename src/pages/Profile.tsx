@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { User } from 'firebase/auth'
+import { useEffect, useState } from 'react'
 
 import SignInTabs from '../components/profile/SignInTabs'
 import { EditProfileModal } from './../components/profile/EditProfileModal'
@@ -6,12 +7,16 @@ import { ForgotPasswordModal } from './../components/profile/ForgotPasswordModal
 import { LogOutModal } from './../components/profile/LogOutModal'
 import { GameStats } from './../constants/types'
 import favicon from './../img/favicon.png'
+import { getUserDataByUid } from './../lib/firebase'
 
 interface Props {
+  user: User | null | undefined
   stats: GameStats
 }
 
-function Profile({ stats }: Props) {
+function Profile({ user, stats }: Props) {
+  const [userInfo, setUserInfo] = useState<any>()
+
   const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
     useState<boolean>(false)
 
@@ -33,6 +38,15 @@ function Profile({ stats }: Props) {
     setIsForgotPasswordModalOpen(true)
   }
 
+  useEffect(() => {
+    ;(async () => {
+      if (user) {
+        const u = await getUserDataByUid(user.uid)
+        setUserInfo(u)
+      }
+    })()
+  }, [user])
+
   return (
     <div className="grid w-full grid-cols-12 gap-4">
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
@@ -48,6 +62,8 @@ function Profile({ stats }: Props) {
 
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <SignInTabs
+          user={user}
+          userInfo={userInfo}
           stats={stats}
           handleLogOut={handleLogOut}
           handleEditProfile={handleEditProfile}
@@ -61,6 +77,7 @@ function Profile({ stats }: Props) {
       />
 
       <EditProfileModal
+        userInfo={userInfo}
         isOpen={isEditProfileModalOpen}
         handleClose={() => setIsEditProfileModalOpen(false)}
       />

@@ -14,12 +14,12 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_GAMES_TEXT,
 } from './../../constants/strings'
-import { getUserDataByUid } from './../../lib/firebase'
 import './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
 
 interface Props {
   user: User
+  userInfo: any
   stats: GameStats
   handleLogOut: any
   handleEditProfile: any
@@ -27,21 +27,12 @@ interface Props {
 
 const ProfileInformation = ({
   user,
+  userInfo,
   stats,
   handleLogOut,
   handleEditProfile,
 }: Props) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
-  const [userInfo, setUserInfo] = useState<any>()
-
-  useEffect(() => {
-    ;(async () => {
-      if (user) {
-        const u = await getUserDataByUid(user.uid)
-        setUserInfo(u)
-      }
-    })()
-  }, [user])
 
   useEffect(() => {
     if (user.providerData[0].providerId === 'google.com') {

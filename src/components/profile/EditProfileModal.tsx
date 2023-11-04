@@ -1,18 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { BaseModal } from './../modals/BaseModal'
 
 type Props = {
+  userInfo: any
   isOpen: boolean
   handleClose: () => void
 }
 
-export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
-  const [username, setUsername] = useState<string>('Example Name')
-  const [email, setEmail] = useState<string>('example@email.com')
+export const EditProfileModal = ({ userInfo, isOpen, handleClose }: Props) => {
+  const [username, setUsername] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
   const [oldPassword, setOldPassword] = useState<string>('')
   const [newPassword, setNewPassword] = useState<string>('')
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>('')
+
+  useEffect(() => {
+    if (userInfo) {
+      setUsername(userInfo.name)
+      setEmail(userInfo.email)
+    }
+  }, [userInfo])
 
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
@@ -106,7 +114,6 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   id="old-password"
                   name="old-password"
                   type="password"
-                  autoComplete="password"
                   className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Old Password"
                   value={oldPassword}
@@ -131,7 +138,6 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   id="new-password"
                   name="new-password"
                   type="password"
-                  autoComplete="password"
                   className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="New Password"
                   value={newPassword}
@@ -157,7 +163,6 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   name="confirm-new-password"
                   type="password"
                   aria-label="confirmPassword"
-                  autoComplete="password"
                   className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
                   placeholder="Confirm New Password"
                   value={confirmNewPassword}

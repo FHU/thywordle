@@ -1,39 +1,37 @@
+import { User } from 'firebase/auth'
 import React, { useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { auth } from '../../lib/firebase'
+import { GameStats } from '@/constants/types'
+
 import CreateAccountForm from './CreateAccountForm'
 import ProfileInformation from './ProfileInformation'
 import SignInForm from './SignInForm'
 
+interface props {
+  user: User | null | undefined
+  userInfo: any
+  stats: GameStats
+  handleLogOut: any
+  handleEditProfile: any
+  handleForgotPassword: any
+}
+
 const SignInTabs = ({
+  user,
+  userInfo,
   stats,
   handleLogOut,
   handleEditProfile,
   handleForgotPassword,
-}: any) => {
-  const [user, loading, error] = useAuthState(auth)
+}: props) => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
   const tabs = ['Sign In', 'Create New Account']
 
-  if (loading) {
-    return (
-      <div className="my-4 text-2xl font-bold dark:text-white">
-        <p>Loading...</p>
-      </div>
-    )
-  }
-  if (error) {
-    return (
-      <div className="my-4 text-2xl font-bold dark:text-white">
-        <p>Error: {error}</p>
-      </div>
-    )
-  }
   if (user) {
     return (
       <ProfileInformation
         user={user}
+        userInfo={userInfo}
         stats={stats}
         handleLogOut={handleLogOut}
         handleEditProfile={handleEditProfile}

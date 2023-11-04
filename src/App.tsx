@@ -261,7 +261,10 @@ function App() {
             />
             <Route path="/about" element={<About />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile stats={stats} />} />
+            <Route
+              path="/profile"
+              element={<Profile user={user} stats={stats} />}
+            />
           </Routes>
 
           <InfoModal
