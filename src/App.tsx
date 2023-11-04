@@ -123,18 +123,23 @@ function App() {
 
     const loadedStateFromFirestore = await loadGameStateFromFirestore(uid)
     if (loadedStateFromFirestore) {
-      if (loadedStateFromFirestore.guesses.length !== 0) {
-        if (loadedStateFromFirestore.solution === solution) {
-          setGuesses(loadedStateFromFirestore.guesses)
-          setGameState(loadedStateFromFirestore.guesses)
-        }
+      if (
+        loadedStateFromFirestore.guesses.length !== 0 &&
+        loadedStateFromFirestore.solution === solution
+      ) {
+        setGuesses(loadedStateFromFirestore.guesses)
+        setGameState(loadedStateFromFirestore.guesses)
+      } else {
+        setGuesses([])
+        setGameState([])
       }
     }
   }
 
   useEffect(() => {
     if (user) loadGameFromFirestore(user.uid)
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   useEffect(() => {
     // if no game state on load,
