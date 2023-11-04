@@ -1,37 +1,71 @@
+import { Alert, Snackbar } from '@mui/material'
 import React, { useState } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
-import { auth, signInWithGoogle } from '../../lib/firebase'
+import {
+  auth,
+  checkIfEmailExistsInFirebase,
+  signInWithGoogle,
+} from '../../lib/firebase'
 
 const SignInForm = ({ handleForgotPassword }: any) => {
   const [email, setEmail] = useState<string>('')
+  const [validEmail, setValidEmail] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>('')
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
   const buttonEnabledClasses =
     'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
-  const isValid = () => {
-    if (email.length > 0 && password.length > 0) {
-      return true
+  const isValid = (validatePassword: boolean) => {
+    if (!validatePassword) {
+      const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+      return emailRegex.test(email)
     }
 
-    return false
+    if (password.length === 0) {
+      return false
+    }
+
+    return true
   }
 
-  const handleSignInButtonClick = () => {
-    if (isValid()) {
-      signInWithEmailAndPassword(email, password)
+  const handleSignInButtonClick = async (validEmail: boolean) => {
+    if (!validEmail) {
+      const isValidEmail = await checkIfEmailExistsInFirebase(email)
+      setValidEmail(isValidEmail)
+      if (!isValidEmail) {
+        setAlertMessage(
+          'That email does not exist. Please create an account or try signing in with a different email address.'
+        )
+        setIsAlertOpen(true)
+      }
+      return
+    }
+
+    if (isValid(validEmail)) {
+      const signIn = await signInWithEmailAndPassword(email, password)
+      if (signIn === undefined) {
+        setAlertMessage(
+          'That password does not match for this account. Please try again or reset your password.'
+        )
+        setIsAlertOpen(true)
+      }
     }
   }
+
+  const inputClasses =
+    'w-full rounded-md border-0 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:text-white sm:leading-6'
 
   return (
     <div className="my-6">
       <h2 className="text-xl font-bold dark:text-white md:text-2xl">Sign In</h2>
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
         <input type="hidden" name="remember" value="true" />
-        <div className="w-full rounded-md shadow-sm md:w-1/2">
+        <div className="w-full md:w-1/2">
           <div>
             <label htmlFor="email-address" className="sr-only">
               Email address
@@ -46,43 +80,59 @@ const SignInForm = ({ handleForgotPassword }: any) => {
                 setEmail(e.target.value)
               }}
               required
-              className="w-full rounded-t-md border-0 bg-white py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:leading-6"
+              className={`${inputClasses} ${
+                validEmail
+                  ? 'bg-gray-200 hover:cursor-not-allowed dark:bg-gray-600'
+                  : 'bg-white dark:bg-slate-800'
+              }`}
               placeholder="Email address"
+              disabled={validEmail}
             />
           </div>
-          <div>
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e: any) => {
-                setPassword(e.target.value)
-              }}
-              required
-              className="w-full rounded-b-md border-0 bg-white py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:leading-6"
-              placeholder="Password"
-            />
-          </div>
-        </div>
 
-        <p
-          className="my-4 cursor-pointer text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-white	"
-          onClick={() => handleForgotPassword()}
-        >
-          Forgot your password?
-        </p>
+          {validEmail && (
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e: any) => {
+                  setPassword(e.target.value)
+                }}
+                required
+                className={`${inputClasses} mt-4 bg-white dark:bg-slate-800`}
+                placeholder="Password"
+              />
+              <p
+                className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white	"
+                onClick={() => {
+                  setEmail('')
+                  setValidEmail(false)
+                }}
+              >
+                Switch Email
+              </p>
+              <p
+                className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white	"
+                onClick={() => handleForgotPassword()}
+              >
+                Forgot your password?
+              </p>
+            </div>
+          )}
+        </div>
 
         <div className="w-64">
           <button
             className={`${
-              isValid() ? buttonEnabledClasses : buttonDisabledClasses
-            } group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
-            onClick={() => handleSignInButtonClick()}
+              isValid(validEmail) ? buttonEnabledClasses : buttonDisabledClasses
+            } group relative my-4 flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+            onClick={() => handleSignInButtonClick(validEmail)}
           >
             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
               <svg
@@ -98,7 +148,7 @@ const SignInForm = ({ handleForgotPassword }: any) => {
                 />
               </svg>
             </span>
-            Sign in
+            {validEmail ? 'Sign in' : 'Continue'}
           </button>
 
           <p className="my-4 text-black dark:text-white">or</p>
@@ -108,7 +158,7 @@ const SignInForm = ({ handleForgotPassword }: any) => {
             onClick={signInWithGoogle}
           >
             <svg
-              className="mr-2 -ml-1 h-4 w-4"
+              className="-ml-1 mr-2 h-4 w-4"
               aria-hidden="true"
               focusable="false"
               data-prefix="fab"
@@ -124,6 +174,20 @@ const SignInForm = ({ handleForgotPassword }: any) => {
             </svg>
             Sign in with Google<div></div>
           </button>
+
+          <Snackbar
+            open={isAlertOpen}
+            autoHideDuration={6000}
+            onClose={() => setIsAlertOpen(false)}
+          >
+            <Alert
+              onClose={() => setIsAlertOpen(false)}
+              severity="error"
+              sx={{ width: '100%' }}
+            >
+              {alertMessage}
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     </div>

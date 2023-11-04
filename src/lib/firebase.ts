@@ -16,10 +16,12 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  limit,
   orderBy,
   query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 
 import { GameStats, LeaderboardUser } from './../constants/types'
@@ -132,6 +134,31 @@ export const resetForgottenPassword = async (
     })
 
   return false
+}
+
+export const checkIfEmailExistsInFirebase = async (
+  email: string
+): Promise<boolean> => {
+  const users = query(
+    collection(db, 'users'),
+    where('email', '==', email),
+    where('authProvider', '==', 'password'),
+    limit(1)
+  )
+
+  const querySnapshot = await getDocs(users)
+  let result = null
+  querySnapshot.forEach((doc) => {
+    if (doc.exists()) {
+      result = doc.data()
+    }
+  })
+
+  if (result === null) {
+    return false
+  }
+
+  return true
 }
 
 export const logout = () => {
