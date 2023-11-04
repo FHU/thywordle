@@ -39,9 +39,10 @@ export const Navbar = ({
         <Link
           to="/"
           className="flex grow justify-start md:w-1/2 md:justify-center"
+          reloadDocument
         >
           <ThyWordleLogo
-            className={`${transitionHoverClasses} mt-2 -ml-6 mt-3 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
+            className={`${transitionHoverClasses} -ml-6 mt-2 mt-3 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
           />
         </Link>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">

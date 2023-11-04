@@ -122,11 +122,14 @@ function App() {
     if (loadedStats) setStats(loadedStats)
 
     const loadedStateFromFirestore = await loadGameStateFromFirestore(uid)
-    if (loadedStateFromFirestore)
+    if (loadedStateFromFirestore) {
       if (loadedStateFromFirestore.guesses.length !== 0) {
-        setGuesses(loadedStateFromFirestore.guesses)
-        setGameState(loadedStateFromFirestore.guesses)
+        if (loadedStateFromFirestore.solution === solution) {
+          setGuesses(loadedStateFromFirestore.guesses)
+          setGameState(loadedStateFromFirestore.guesses)
+        }
       }
+    }
   }
 
   useEffect(() => {
