@@ -46,14 +46,12 @@ const SignInForm = ({ handleForgotPassword }: any) => {
       return
     }
 
-    if (isValid(validEmail)) {
-      const signIn = await signInWithEmailAndPassword(email, password)
-      if (signIn === undefined) {
-        setAlertMessage(
-          'That password does not match for this account. Please try again or reset your password.'
-        )
-        setIsAlertOpen(true)
-      }
+    const signIn = await signInWithEmailAndPassword(email, password)
+    if (signIn === undefined) {
+      setAlertMessage(
+        'That password does not match for this account. Please try again or reset your password.'
+      )
+      setIsAlertOpen(true)
     }
   }
 
@@ -109,7 +107,7 @@ const SignInForm = ({ handleForgotPassword }: any) => {
                 placeholder="Password"
               />
               <p
-                className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white	"
+                className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white"
                 onClick={() => {
                   setEmail('')
                   setValidEmail(false)
@@ -118,7 +116,7 @@ const SignInForm = ({ handleForgotPassword }: any) => {
                 Switch Email
               </p>
               <p
-                className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white	"
+                className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white"
                 onClick={() => handleForgotPassword()}
               >
                 Forgot your password?

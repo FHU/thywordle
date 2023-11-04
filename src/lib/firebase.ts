@@ -67,10 +67,15 @@ export const createAccountWithUsernameAndPassword = async (
   username: string,
   email: string,
   password: string
-): Promise<void> => {
+): Promise<string | undefined> => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password)
-    await addUserToFirestoreCollection(res.user, username, 'password')
+    const uid = await addUserToFirestoreCollection(
+      res.user,
+      username,
+      'password'
+    )
+    return uid
   } catch (err) {
     console.error(err)
   }
@@ -94,7 +99,7 @@ const addUserToFirestoreCollection = async (
   u: User,
   username: string | null,
   provider: string
-): Promise<void> => {
+): Promise<string | undefined> => {
   const user = await getUserDocByUid(u.uid)
   if (!user.exists()) {
     await setDoc(doc(db, 'users', u.uid), {
@@ -119,6 +124,8 @@ const addUserToFirestoreCollection = async (
         winDistribution: defaultStats.winDistribution,
       },
     })
+
+    return u.uid
   }
 }
 
@@ -139,26 +146,30 @@ export const resetForgottenPassword = async (
 export const checkIfEmailExistsInFirebase = async (
   email: string
 ): Promise<boolean> => {
-  const users = query(
-    collection(db, 'users'),
-    where('email', '==', email),
-    where('authProvider', '==', 'password'),
-    limit(1)
-  )
+  try {
+    const users = query(
+      collection(db, 'users'),
+      where('email', '==', email),
+      limit(1)
+    )
 
-  const querySnapshot = await getDocs(users)
-  let result = null
-  querySnapshot.forEach((doc) => {
-    if (doc.exists()) {
-      result = doc.data()
+    const querySnapshot = await getDocs(users)
+    let result = null
+    querySnapshot.forEach((doc) => {
+      if (doc.exists()) {
+        result = doc.data()
+      }
+    })
+
+    if (result === null) {
+      return false
     }
-  })
 
-  if (result === null) {
+    return true
+  } catch (error) {
+    console.log(error)
     return false
   }
-
-  return true
 }
 
 export const logout = () => {
