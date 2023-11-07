@@ -18,3 +18,9 @@ export type LeaderboardUser = {
   stats: { currentStreak: number; bestStreak: number; successRate: number }
   highlightedUser: boolean
 }
+
+export enum ValidEmailEnum {
+  NotFound,
+  FoundPassword,
+  FoundGoogle,
+}

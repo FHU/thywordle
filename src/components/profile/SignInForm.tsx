@@ -1,116 +1,104 @@
-import { Alert, Snackbar } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
-import {
-  auth,
-  checkIfEmailExistsInFirebase,
-  signInWithGoogle,
-} from '../../lib/firebase'
+import { auth, signInWithGoogle } from '../../lib/firebase'
+import ValidateEmailForm from './ValidateEmailForm'
 
-const SignInForm = ({ handleForgotPassword }: any) => {
+interface props {
+  handleError: any
+  inputClasses: string
+  buttonDisabledClasses: string
+  buttonEnabledClasses: string
+  handleForgotPassword: any
+}
+
+const SignInForm = ({
+  handleError,
+  inputClasses,
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  handleForgotPassword,
+}: props) => {
   const [email, setEmail] = useState<string>('')
-  const [validEmail, setValidEmail] = useState<boolean>(false)
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
-  const [alertMessage, setAlertMessage] = useState<string>('')
-  const buttonDisabledClasses =
-    'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
-  const buttonEnabledClasses =
-    'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
-  const isValid = (validatePassword: boolean) => {
-    if (!validatePassword) {
-      const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
-      return emailRegex.test(email)
-    }
-
-    if (password.length === 0) {
-      return false
-    }
-
-    return true
+  const isValid = () => {
+    return Boolean(password.length)
   }
 
-  const handleSignInButtonClick = async (validEmail: boolean) => {
-    if (!validEmail) {
-      const isValidEmail = await checkIfEmailExistsInFirebase(email)
-      setValidEmail(isValidEmail)
-      if (!isValidEmail) {
-        setAlertMessage(
-          'That email does not exist. Please create an account or try signing in with a different email address.'
-        )
-        setIsAlertOpen(true)
-      }
-      return
-    }
-
+  const handleSignInButtonClick = async () => {
     const signIn = await signInWithEmailAndPassword(email, password)
     if (signIn === undefined) {
-      setAlertMessage(
+      handleError(
         'That password does not match for this account. Please try again or reset your password.'
       )
-      setIsAlertOpen(true)
     }
   }
-
-  const inputClasses =
-    'w-full rounded-md border-0 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:text-white sm:leading-6'
 
   return (
     <div className="my-6">
       <h2 className="text-xl font-bold dark:text-white md:text-2xl">Sign In</h2>
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
-        <input type="hidden" name="remember" value="true" />
-        <div className="w-full md:w-1/2">
-          <div>
-            <label htmlFor="email-address" className="sr-only">
-              Email address
-            </label>
-            <input
-              id="email-address"
-              name="email"
-              type="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e: any) => {
-                setEmail(e.target.value)
-              }}
-              required
-              className={`${inputClasses} ${
-                validEmail
-                  ? 'bg-gray-200 hover:cursor-not-allowed dark:bg-gray-600'
-                  : 'bg-white dark:bg-slate-800'
-              }`}
-              placeholder="Email address"
-              disabled={validEmail}
+        <div className="w-full rounded-md shadow-sm md:w-1/2">
+          {!isEmailValid && (
+            <ValidateEmailForm
+              email={email}
+              setEmail={setEmail}
+              setIsEmailValid={setIsEmailValid}
+              handleError={handleError}
+              newAccount={false}
+              inputClasses={inputClasses}
+              buttonDisabledClasses={buttonDisabledClasses}
+              buttonEnabledClasses={buttonEnabledClasses}
             />
-          </div>
+          )}
 
-          {validEmail && (
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e: any) => {
-                  setPassword(e.target.value)
-                }}
-                required
-                className={`${inputClasses} mt-4 bg-white dark:bg-slate-800`}
-                placeholder="Password"
-              />
+          {isEmailValid && (
+            <>
+              <div>
+                <label htmlFor="email-address" className="sr-only">
+                  Email address
+                </label>
+                <input
+                  id="email-address"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e: any) => {
+                    setEmail(e.target.value)
+                  }}
+                  required
+                  className={`${inputClasses} rounded-t-md bg-gray-200 hover:cursor-not-allowed dark:bg-gray-600`}
+                  placeholder="Email address"
+                  disabled={true}
+                />
+              </div>
+              <div>
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={(e: any) => {
+                    setPassword(e.target.value)
+                  }}
+                  required
+                  className={`${inputClasses} rounded-b-md bg-white dark:bg-slate-800`}
+                  placeholder="Password"
+                />
+              </div>
               <p
                 className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white"
                 onClick={() => {
                   setEmail('')
-                  setValidEmail(false)
+                  setIsEmailValid(false)
                 }}
               >
                 Switch Email
@@ -121,33 +109,35 @@ const SignInForm = ({ handleForgotPassword }: any) => {
               >
                 Forgot your password?
               </p>
-            </div>
+            </>
           )}
         </div>
 
         <div className="w-64">
-          <button
-            className={`${
-              isValid(validEmail) ? buttonEnabledClasses : buttonDisabledClasses
-            } group relative my-4 flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
-            onClick={() => handleSignInButtonClick(validEmail)}
-          >
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <svg
-                className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </span>
-            {validEmail ? 'Sign in' : 'Continue'}
-          </button>
+          {isEmailValid && (
+            <button
+              className={`${
+                isValid() ? buttonEnabledClasses : buttonDisabledClasses
+              } group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+              onClick={handleSignInButtonClick}
+            >
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg
+                  className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+              Sign in
+            </button>
+          )}
 
           <p className="my-4 text-black dark:text-white">or</p>
 
@@ -172,20 +162,6 @@ const SignInForm = ({ handleForgotPassword }: any) => {
             </svg>
             Sign in with Google<div></div>
           </button>
-
-          <Snackbar
-            open={isAlertOpen}
-            autoHideDuration={6000}
-            onClose={() => setIsAlertOpen(false)}
-          >
-            <Alert
-              onClose={() => setIsAlertOpen(false)}
-              severity="error"
-              sx={{ width: '100%' }}
-            >
-              {alertMessage}
-            </Alert>
-          </Snackbar>
         </div>
       </div>
     </div>

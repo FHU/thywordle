@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from '@mui/material'
 import { User } from 'firebase/auth'
 import React, { useState } from 'react'
 
@@ -24,8 +25,22 @@ const SignInTabs = ({
   handleEditProfile,
   handleForgotPassword,
 }: props) => {
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>('')
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
   const tabs = ['Sign In', 'Create New Account']
+
+  const handleError = (errorMessage: string) => {
+    setAlertMessage(errorMessage)
+    setIsAlertOpen(true)
+  }
+
+  const inputClasses =
+    'w-full border-0 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:text-white sm:leading-6'
+  const buttonDisabledClasses =
+    'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
+  const buttonEnabledClasses =
+    'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
   if (user) {
     return (
@@ -62,11 +77,36 @@ const SignInTabs = ({
       </div>
       <div className="py-4">
         {activeTabIndex === 0 ? (
-          <SignInForm handleForgotPassword={handleForgotPassword} />
+          <SignInForm
+            handleError={handleError}
+            inputClasses={inputClasses}
+            buttonDisabledClasses={buttonDisabledClasses}
+            buttonEnabledClasses={buttonEnabledClasses}
+            handleForgotPassword={handleForgotPassword}
+          />
         ) : (
-          <CreateAccountForm />
+          <CreateAccountForm
+            handleError={handleError}
+            inputClasses={inputClasses}
+            buttonDisabledClasses={buttonDisabledClasses}
+            buttonEnabledClasses={buttonEnabledClasses}
+          />
         )}
       </div>
+
+      <Snackbar
+        open={isAlertOpen}
+        autoHideDuration={6000}
+        onClose={() => setIsAlertOpen(false)}
+      >
+        <Alert
+          onClose={() => setIsAlertOpen(false)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

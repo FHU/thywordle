@@ -24,7 +24,11 @@ import {
   where,
 } from 'firebase/firestore'
 
-import { GameStats, LeaderboardUser } from './../constants/types'
+import {
+  GameStats,
+  LeaderboardUser,
+  ValidEmailEnum,
+} from './../constants/types'
 import { StoredGameState } from './localStorage'
 import { defaultStats } from './stats'
 
@@ -143,9 +147,9 @@ export const resetForgottenPassword = async (
   return false
 }
 
-export const checkIfEmailExistsInFirebase = async (
+export const checkIfEmailExistsInFirestore = async (
   email: string
-): Promise<boolean> => {
+): Promise<ValidEmailEnum> => {
   try {
     const users = query(
       collection(db, 'users'),
@@ -154,21 +158,20 @@ export const checkIfEmailExistsInFirebase = async (
     )
 
     const querySnapshot = await getDocs(users)
-    let result = null
-    querySnapshot.forEach((doc) => {
-      if (doc.exists()) {
-        result = doc.data()
-      }
-    })
+    const result = querySnapshot.docs[0]
 
-    if (result === null) {
-      return false
+    if (!result) {
+      return ValidEmailEnum.NotFound
     }
 
-    return true
+    if (result.data().authProvider === 'google') {
+      return ValidEmailEnum.FoundGoogle
+    }
+
+    return ValidEmailEnum.FoundPassword
   } catch (error) {
     console.log(error)
-    return false
+    return ValidEmailEnum.NotFound
   }
 }
 
