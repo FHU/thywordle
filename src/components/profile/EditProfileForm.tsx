@@ -27,8 +27,8 @@ const EditProfileForm = ({
         EditProfile
       </h2>
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
-        <div className="w-full rounded-md shadow-sm md:w-1/2">
-          <div className="flex justify-between">
+        <div className="w-full rounded-md md:w-1/2">
+          <div className="flex items-center justify-between">
             <input
               id="username"
               name="username"
@@ -41,13 +41,13 @@ const EditProfileForm = ({
               disabled={true}
             />
             <button
-              className="inline-flex w-full items-center rounded-md bg-indigo-600 px-2 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
+              className="h-full w-full items-center rounded-md bg-indigo-600 px-2 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
               onClick={() => editProp(PropToEditEnum.Username)}
             >
-              Edit Username
+              <span>Edit Username</span>
             </button>
           </div>
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <input
               id="email-address"
               name="email"
@@ -60,13 +60,13 @@ const EditProfileForm = ({
               disabled={true}
             />
             <button
-              className="inline-flex w-full items-center rounded-md bg-indigo-600 px-2 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
+              className="h-full w-full items-center rounded-md bg-indigo-600 px-2 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
               onClick={() => editProp(PropToEditEnum.Email)}
             >
               Edit Email
             </button>
           </div>
-          <div className="flex justify-between">
+          <div className="flex items-center justify-between">
             <input
               id="password"
               name="password"
@@ -79,7 +79,7 @@ const EditProfileForm = ({
               disabled={true}
             />
             <button
-              className="inline-flex w-full items-center rounded-md bg-indigo-600 px-2 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
+              className="h-full w-full items-center rounded-md bg-indigo-600 px-2 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
               onClick={() => editProp(PropToEditEnum.Password)}
             >
               Edit Password
@@ -89,7 +89,7 @@ const EditProfileForm = ({
 
         <div className="mt-8 w-64">
           <button
-            className="inline-flex w-full items-center justify-between rounded-lg bg-indigo-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
+            className="w-full items-center justify-between rounded-lg bg-indigo-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
             onClick={() => setIsEdit(false)}
           >
             Return to Profile

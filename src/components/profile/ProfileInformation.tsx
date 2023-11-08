@@ -67,14 +67,9 @@ const ProfileInformation = ({
 
   return (
     <div className="my-8">
-      {user.photoURL !== '' ||
-        (user.photoURL !== null && (
-          <img
-            src={user.photoURL}
-            alt=""
-            className="mx-auto my-5 rounded-full"
-          />
-        ))}
+      {user.photoURL && (
+        <img src={user.photoURL} alt="" className="mx-auto my-5 rounded-full" />
+      )}
 
       <p className="text-2xl font-bold dark:text-white">
         Welcome{' '}
