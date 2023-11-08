@@ -1,11 +1,12 @@
+import { Alert, Snackbar } from '@mui/material'
 import { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import SignInTabs from '../components/profile/SignInTabs'
+import { ConfirmEditProfileModal } from './../components/profile/ConfirmEditProfileModal'
 import { EditProfileModal } from './../components/profile/EditProfileModal'
-import { ForgotPasswordModal } from './../components/profile/ForgotPasswordModal'
 import { LogOutModal } from './../components/profile/LogOutModal'
-import { GameStats } from './../constants/types'
+import { GameStats, PropToEditEnum } from './../constants/types'
 import favicon from './../img/favicon.png'
 import { getUserDataByUid } from './../lib/firebase'
 
@@ -16,15 +17,23 @@ interface Props {
 
 function Profile({ user, stats }: Props) {
   const [userInfo, setUserInfo] = useState<any>()
-
+  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>('')
   const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
     useState<boolean>(false)
-
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
     useState<boolean>(false)
-
-  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] =
+  const [propToEdit, setPropToEdit] = useState<PropToEditEnum>(
+    PropToEditEnum.Username
+  )
+  const [newPropValue, setNewPropValue] = useState<string>('')
+  const [isConfirmEditProfileModalOpen, setIsConfirmEditProfileModalOpen] =
     useState<boolean>(false)
+
+  const handleError = (errorMessage: string) => {
+    setAlertMessage(errorMessage)
+    setIsAlertOpen(true)
+  }
 
   const handleLogOut = () => {
     setIsLogoutConfirmationModalOpen(true)
@@ -32,10 +41,6 @@ function Profile({ user, stats }: Props) {
 
   const handleEditProfile = () => {
     setIsEditProfileModalOpen(true)
-  }
-
-  const handleForgotPassword = () => {
-    setIsForgotPasswordModalOpen(true)
   }
 
   useEffect(() => {
@@ -65,27 +70,50 @@ function Profile({ user, stats }: Props) {
           user={user}
           userInfo={userInfo}
           stats={stats}
+          setPropToEdit={setPropToEdit}
           handleLogOut={handleLogOut}
           handleEditProfile={handleEditProfile}
-          handleForgotPassword={handleForgotPassword}
+          handleError={handleError}
         />
       </div>
 
-      <ForgotPasswordModal
-        isOpen={isForgotPasswordModalOpen}
-        handleClose={() => setIsForgotPasswordModalOpen(false)}
-      />
-
       <EditProfileModal
         userInfo={userInfo}
+        propToEdit={propToEdit}
         isOpen={isEditProfileModalOpen}
         handleClose={() => setIsEditProfileModalOpen(false)}
+        handleError={handleError}
+        setNewPropValue={setNewPropValue}
+        setIsConfirmEditProfileModalOpen={setIsConfirmEditProfileModalOpen}
+      />
+
+      <ConfirmEditProfileModal
+        user={user}
+        propToEdit={propToEdit}
+        editedValue={newPropValue}
+        isOpen={isConfirmEditProfileModalOpen}
+        handleError={handleError}
+        handleClose={() => setIsConfirmEditProfileModalOpen(false)}
       />
 
       <LogOutModal
         isOpen={isLogoutConfirmationModalOpen}
         handleClose={() => setIsLogoutConfirmationModalOpen(false)}
       />
+
+      <Snackbar
+        open={isAlertOpen}
+        autoHideDuration={6000}
+        onClose={() => setIsAlertOpen(false)}
+      >
+        <Alert
+          onClose={() => setIsAlertOpen(false)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

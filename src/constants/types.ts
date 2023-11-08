@@ -24,3 +24,10 @@ export enum ValidEmailEnum {
   FoundPassword,
   FoundGoogle,
 }
+
+export enum PropToEditEnum {
+  Username,
+  Email,
+  Password,
+  Image,
+}

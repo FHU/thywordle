@@ -2,8 +2,6 @@ import { User } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { GameStats } from '@/constants/types'
-
 import { Histogram } from '../stats/Histogram'
 import {
   AVG_NUM_GUESSES_TEXT,
@@ -14,8 +12,10 @@ import {
   SUCCESS_RATE_TEXT,
   TOTAL_GAMES_TEXT,
 } from './../../constants/strings'
+import { GameStats, PropToEditEnum } from './../../constants/types'
 import './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
+import EditProfileForm from './EditProfileForm'
 
 interface Props {
   user: User
@@ -23,6 +23,7 @@ interface Props {
   stats: GameStats
   handleLogOut: any
   handleEditProfile: any
+  setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
 }
 
 const ProfileInformation = ({
@@ -31,8 +32,10 @@ const ProfileInformation = ({
   stats,
   handleLogOut,
   handleEditProfile,
+  setPropToEdit,
 }: Props) => {
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
+  const [isEdit, setIsEdit] = useState<boolean>(false)
 
   useEffect(() => {
     if (user.providerData[0].providerId === 'google.com') {
@@ -51,15 +54,27 @@ const ProfileInformation = ({
     avgNumGuesses: stats.avgNumGuesses,
   }
 
+  if (isEdit) {
+    return (
+      <EditProfileForm
+        userInfo={userInfo}
+        setIsEdit={setIsEdit}
+        setPropToEdit={setPropToEdit}
+        handleEditProfile={handleEditProfile}
+      />
+    )
+  }
+
   return (
     <div className="my-8">
-      {user.photoURL !== '' && (
-        <img
-          src={user.photoURL!}
-          alt=""
-          className="mx-auto my-5 rounded-full"
-        />
-      )}
+      {user.photoURL !== '' ||
+        (user.photoURL !== null && (
+          <img
+            src={user.photoURL}
+            alt=""
+            className="mx-auto my-5 rounded-full"
+          />
+        ))}
 
       <p className="text-2xl font-bold dark:text-white">
         Welcome{' '}
@@ -132,7 +147,7 @@ const ProfileInformation = ({
         {!signedInWithGoogle && (
           <button
             className="group relative mx-2 flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => handleEditProfile()}
+            onClick={() => setIsEdit(true)}
           >
             Edit Profile
           </button>

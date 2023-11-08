@@ -105,7 +105,7 @@ const SignInForm = ({
               </p>
               <p
                 className="my-4 cursor-pointer text-sm font-medium text-indigo-600 underline hover:text-indigo-500 dark:text-white"
-                onClick={() => handleForgotPassword()}
+                onClick={() => handleForgotPassword(email)}
               >
                 Forgot your password?
               </p>

@@ -1,10 +1,9 @@
-import { Alert, Snackbar } from '@mui/material'
 import { User } from 'firebase/auth'
 import React, { useState } from 'react'
 
-import { GameStats } from '@/constants/types'
-
+import { GameStats, PropToEditEnum } from './../../constants/types'
 import CreateAccountForm from './CreateAccountForm'
+import { ForgotPasswordModal } from './ForgotPasswordModal'
 import ProfileInformation from './ProfileInformation'
 import SignInForm from './SignInForm'
 
@@ -12,27 +11,30 @@ interface props {
   user: User | null | undefined
   userInfo: any
   stats: GameStats
+  setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
   handleLogOut: any
   handleEditProfile: any
-  handleForgotPassword: any
+  handleError: any
 }
 
 const SignInTabs = ({
   user,
   userInfo,
   stats,
+  setPropToEdit,
   handleLogOut,
   handleEditProfile,
-  handleForgotPassword,
+  handleError,
 }: props) => {
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
-  const [alertMessage, setAlertMessage] = useState<string>('')
-  const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
   const tabs = ['Sign In', 'Create New Account']
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
+  const [resetEmail, setResetEmail] = useState<string>('')
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] =
+    useState<boolean>(false)
 
-  const handleError = (errorMessage: string) => {
-    setAlertMessage(errorMessage)
-    setIsAlertOpen(true)
+  const handleForgotPassword = (email: string) => {
+    setResetEmail(email)
+    setIsForgotPasswordModalOpen(true)
   }
 
   const inputClasses =
@@ -50,6 +52,7 @@ const SignInTabs = ({
         stats={stats}
         handleLogOut={handleLogOut}
         handleEditProfile={handleEditProfile}
+        setPropToEdit={setPropToEdit}
       />
     )
   }
@@ -94,19 +97,11 @@ const SignInTabs = ({
         )}
       </div>
 
-      <Snackbar
-        open={isAlertOpen}
-        autoHideDuration={6000}
-        onClose={() => setIsAlertOpen(false)}
-      >
-        <Alert
-          onClose={() => setIsAlertOpen(false)}
-          severity="error"
-          sx={{ width: '100%' }}
-        >
-          {alertMessage}
-        </Alert>
-      </Snackbar>
+      <ForgotPasswordModal
+        email={resetEmail}
+        isOpen={isForgotPasswordModalOpen}
+        handleClose={() => setIsForgotPasswordModalOpen(false)}
+      />
     </div>
   )
 }

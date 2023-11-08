@@ -8,6 +8,7 @@ import {
   sendPasswordResetEmail,
   signInWithPopup,
   signOut,
+  updateEmail,
 } from 'firebase/auth'
 import {
   Timestamp,
@@ -133,16 +134,63 @@ const addUserToFirestoreCollection = async (
   }
 }
 
-export const resetForgottenPassword = async (
-  email: string
+export const updateFirestoreUsername = async (
+  userId: string,
+  newUsername: string
 ): Promise<boolean> => {
-  await sendPasswordResetEmail(auth, email)
-    .then(() => {
+  try {
+    const userDoc = await getUserDocByUid(userId)
+    if (userDoc.exists()) {
+      const docRef = doc(db, 'users', userId)
+      await updateDoc(docRef, {
+        name: newUsername,
+      })
       return true
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    }
+  } catch {
+    return false
+  }
+
+  return false
+}
+
+export const updateFirestoreEmail = async (
+  user: User | null | undefined,
+  newEmail: string
+): Promise<boolean> => {
+  if (!user) {
+    return false
+  }
+
+  const userDoc = await getUserDocByUid(user.uid)
+  if (userDoc.exists()) {
+    try {
+      await updateEmail(user, newEmail)
+      const docRef = doc(db, 'users', user.uid)
+      await updateDoc(docRef, {
+        email: newEmail,
+      })
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  return false
+}
+
+export const resetForgottenPassword = async (
+  email: string | null
+): Promise<boolean> => {
+  if (email) {
+    await sendPasswordResetEmail(auth, email)
+      .then(() => {
+        return true
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   return false
 }
