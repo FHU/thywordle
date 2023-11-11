@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { PropToEditEnum, ValidEmailEnum } from './../../constants/types'
+import { useAlert } from './../../context/AlertContext'
 import { checkIfEmailExistsInFirestore } from './../../lib/firebase'
 import { BaseModal } from './../modals/BaseModal'
 
@@ -9,7 +10,6 @@ type Props = {
   propToEdit: PropToEditEnum
   isOpen: boolean
   handleClose: () => void
-  handleError: any
   setNewPropValue: React.Dispatch<React.SetStateAction<string>>
   setIsConfirmEditProfileModalOpen: React.Dispatch<
     React.SetStateAction<boolean>
@@ -21,10 +21,10 @@ export const EditProfileModal = ({
   propToEdit,
   isOpen,
   handleClose,
-  handleError,
   setNewPropValue,
   setIsConfirmEditProfileModalOpen,
 }: Props) => {
+  const { showError: showErrorAlert } = useAlert()
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [updateAccountText, setUpdateAccountText] =
@@ -91,7 +91,7 @@ export const EditProfileModal = ({
         case PropToEditEnum.Email:
           const isEmailInFirestore = await checkIfEmailExistsInFirestore(email)
           if (isEmailInFirestore !== ValidEmailEnum.NotFound) {
-            handleError('That email is already associated with an account.')
+            showErrorAlert('That email is already associated with an account.')
             return
           }
           updatePropValue(email)
@@ -132,7 +132,7 @@ export const EditProfileModal = ({
                     type="text"
                     autoComplete="name"
                     className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                    placeholder="Name (Example: John Doe)"
+                    placeholder="Name"
                     value={username}
                     onChange={(e: any) => {
                       setUsername(e.target.value)

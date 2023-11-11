@@ -1,4 +1,3 @@
-import { Alert, Snackbar } from '@mui/material'
 import { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
@@ -17,8 +16,6 @@ interface Props {
 
 function Profile({ user, stats }: Props) {
   const [userInfo, setUserInfo] = useState<any>()
-  const [isAlertOpen, setIsAlertOpen] = useState<boolean>(false)
-  const [alertMessage, setAlertMessage] = useState<string>('')
   const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
     useState<boolean>(false)
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
@@ -29,11 +26,6 @@ function Profile({ user, stats }: Props) {
   const [newPropValue, setNewPropValue] = useState<string>('')
   const [isConfirmEditProfileModalOpen, setIsConfirmEditProfileModalOpen] =
     useState<boolean>(false)
-
-  const handleError = (errorMessage: string) => {
-    setAlertMessage(errorMessage)
-    setIsAlertOpen(true)
-  }
 
   const handleLogOut = () => {
     setIsLogoutConfirmationModalOpen(true)
@@ -73,7 +65,6 @@ function Profile({ user, stats }: Props) {
           setPropToEdit={setPropToEdit}
           handleLogOut={handleLogOut}
           handleEditProfile={handleEditProfile}
-          handleError={handleError}
         />
       </div>
 
@@ -82,7 +73,6 @@ function Profile({ user, stats }: Props) {
         propToEdit={propToEdit}
         isOpen={isEditProfileModalOpen}
         handleClose={() => setIsEditProfileModalOpen(false)}
-        handleError={handleError}
         setNewPropValue={setNewPropValue}
         setIsConfirmEditProfileModalOpen={setIsConfirmEditProfileModalOpen}
       />
@@ -92,7 +82,6 @@ function Profile({ user, stats }: Props) {
         propToEdit={propToEdit}
         editedValue={newPropValue}
         isOpen={isConfirmEditProfileModalOpen}
-        handleError={handleError}
         handleClose={() => setIsConfirmEditProfileModalOpen(false)}
       />
 
@@ -100,20 +89,6 @@ function Profile({ user, stats }: Props) {
         isOpen={isLogoutConfirmationModalOpen}
         handleClose={() => setIsLogoutConfirmationModalOpen(false)}
       />
-
-      <Snackbar
-        open={isAlertOpen}
-        autoHideDuration={6000}
-        onClose={() => setIsAlertOpen(false)}
-      >
-        <Alert
-          onClose={() => setIsAlertOpen(false)}
-          severity="error"
-          sx={{ width: '100%' }}
-        >
-          {alertMessage}
-        </Alert>
-      </Snackbar>
     </div>
   )
 }

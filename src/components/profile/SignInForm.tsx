@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
 import { auth, signInWithGoogle } from '../../lib/firebase'
+import { useAlert } from './../../context/AlertContext'
 import ValidateEmailForm from './ValidateEmailForm'
 
 interface props {
-  handleError: any
   inputClasses: string
   buttonDisabledClasses: string
   buttonEnabledClasses: string
@@ -13,16 +13,20 @@ interface props {
 }
 
 const SignInForm = ({
-  handleError,
   inputClasses,
   buttonDisabledClasses,
   buttonEnabledClasses,
   handleForgotPassword,
 }: props) => {
+  const { showError: showErrorAlert } = useAlert()
   const [email, setEmail] = useState<string>('')
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
   const [password, setPassword] = useState<string>('')
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
+
+  const handleIsValidEmail = (isValid: boolean) => {
+    setIsEmailValid(isValid)
+  }
 
   const isValid = () => {
     return Boolean(password.length)
@@ -31,7 +35,7 @@ const SignInForm = ({
   const handleSignInButtonClick = async () => {
     const signIn = await signInWithEmailAndPassword(email, password)
     if (signIn === undefined) {
-      handleError(
+      showErrorAlert(
         'That password does not match for this account. Please try again or reset your password.'
       )
     }
@@ -46,8 +50,7 @@ const SignInForm = ({
             <ValidateEmailForm
               email={email}
               setEmail={setEmail}
-              setIsEmailValid={setIsEmailValid}
-              handleError={handleError}
+              handleIsValidEmail={handleIsValidEmail}
               newAccount={false}
               inputClasses={inputClasses}
               buttonDisabledClasses={buttonDisabledClasses}
@@ -67,9 +70,6 @@ const SignInForm = ({
                   type="email"
                   autoComplete="email"
                   value={email}
-                  onChange={(e: any) => {
-                    setEmail(e.target.value)
-                  }}
                   required
                   className={`${inputClasses} rounded-t-md bg-gray-200 hover:cursor-not-allowed dark:bg-gray-600`}
                   placeholder="Email address"

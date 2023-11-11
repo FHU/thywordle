@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { PropToEditEnum } from './../../constants/types'
+import { useAlert } from './../../context/AlertContext'
 import {
   resetForgottenPassword,
   updateFirestoreEmail,
@@ -15,7 +16,6 @@ type Props = {
   propToEdit: PropToEditEnum
   editedValue: string
   isOpen: boolean
-  handleError: any
   handleClose: () => void
 }
 
@@ -24,9 +24,9 @@ export const ConfirmEditProfileModal = ({
   propToEdit,
   editedValue,
   isOpen,
-  handleError,
   handleClose,
 }: Props) => {
+  const { showError: showErrorAlert } = useAlert()
   const [label, setLabel] = useState<string>('')
   const [passwordReset, setPasswordReset] = useState<boolean>(false)
   const navigate = useNavigate()
@@ -48,7 +48,7 @@ export const ConfirmEditProfileModal = ({
   }, [propToEdit])
 
   const updateFailed = (errorMessage: string) => {
-    handleError(errorMessage)
+    showErrorAlert(errorMessage)
     handleClose()
   }
 

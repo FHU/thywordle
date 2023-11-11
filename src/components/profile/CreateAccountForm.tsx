@@ -4,35 +4,59 @@ import {
   createAccountWithUsernameAndPassword,
   signInWithGoogle,
 } from '../../lib/firebase'
+import { useAlert } from './../../context/AlertContext'
+import ValidateCodeForm from './ValidateCodeForm'
 import ValidateEmailForm from './ValidateEmailForm'
 
 interface props {
-  handleError: any
   inputClasses: string
   buttonDisabledClasses: string
   buttonEnabledClasses: string
 }
 
 const CreateAccountForm = ({
-  handleError,
   inputClasses,
   buttonDisabledClasses,
   buttonEnabledClasses,
 }: props) => {
+  const { showError: showErrorAlert } = useAlert()
   const [email, setEmail] = useState<string>('')
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
+  const [verificationCode, setVerificationCode] = useState<string>('')
+  const [verifyCodeFormOpen, setVerifyCodeFormOpen] = useState<boolean>(false)
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
 
+  const handleIsValidEmail = (isValid: boolean) => {
+    if (isValid) {
+      const code = String(Math.floor(100000 + Math.random() * 900000))
+      // TODO: send email with code
+      console.log(code)
+      setVerificationCode(code)
+      setVerifyCodeFormOpen(true)
+    }
+
+    if (!isValid) {
+      setIsEmailValid(false)
+    }
+  }
+
+  const handleIsValidCode = (isValid: boolean) => {
+    if (isValid) {
+      setVerifyCodeFormOpen(false)
+      setIsEmailValid(true)
+    }
+  }
+
   const isValidPassword = () => {
     if (password.length < 8 || confirmPassword.length < 8) {
-      handleError('Passwords must be at least 8 characters long.')
+      showErrorAlert('Passwords must be at least 8 characters long.')
       return false
     }
 
     if (password !== confirmPassword) {
-      handleError('Passwords must match.')
+      showErrorAlert('Passwords must match.')
       return false
     }
 
@@ -54,7 +78,7 @@ const CreateAccountForm = ({
       password
     )
     if (signIn === undefined) {
-      handleError(
+      showErrorAlert(
         'Sorry, unable to create an account at this time. Please try again later.'
       )
     }
@@ -67,13 +91,23 @@ const CreateAccountForm = ({
       </h2>
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
         <div className="w-full rounded-md shadow-sm md:w-1/2">
-          {!isEmailValid && (
+          {!isEmailValid && !verifyCodeFormOpen && (
             <ValidateEmailForm
               email={email}
               setEmail={setEmail}
-              setIsEmailValid={setIsEmailValid}
-              handleError={handleError}
+              handleIsValidEmail={handleIsValidEmail}
               newAccount={true}
+              inputClasses={inputClasses}
+              buttonDisabledClasses={buttonDisabledClasses}
+              buttonEnabledClasses={buttonEnabledClasses}
+            />
+          )}
+
+          {verifyCodeFormOpen && (
+            <ValidateCodeForm
+              email={email}
+              verificationCode={verificationCode}
+              handleIsValidCode={handleIsValidCode}
               inputClasses={inputClasses}
               buttonDisabledClasses={buttonDisabledClasses}
               buttonEnabledClasses={buttonEnabledClasses}
@@ -84,7 +118,7 @@ const CreateAccountForm = ({
             <>
               <div>
                 <label htmlFor="username" className="sr-only">
-                  Name (Example: John Doe)
+                  Name
                 </label>
                 <input
                   id="username"
@@ -97,7 +131,7 @@ const CreateAccountForm = ({
                   }}
                   required
                   className={`${inputClasses} rounded-t-md bg-white dark:bg-slate-800`}
-                  placeholder="Name (Example: John Doe)"
+                  placeholder="Name"
                 />
               </div>
               <div>
@@ -110,9 +144,6 @@ const CreateAccountForm = ({
                   type="email"
                   autoComplete="email"
                   value={email}
-                  onChange={(e: any) => {
-                    setEmail(e.target.value)
-                  }}
                   required
                   className={`${inputClasses} bg-gray-200 hover:cursor-not-allowed dark:bg-gray-600`}
                   placeholder="Email address"

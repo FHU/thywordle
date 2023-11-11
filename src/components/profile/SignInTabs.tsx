@@ -14,7 +14,6 @@ interface props {
   setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
   handleLogOut: any
   handleEditProfile: any
-  handleError: any
 }
 
 const SignInTabs = ({
@@ -24,7 +23,6 @@ const SignInTabs = ({
   setPropToEdit,
   handleLogOut,
   handleEditProfile,
-  handleError,
 }: props) => {
   const tabs = ['Sign In', 'Create New Account']
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
@@ -81,7 +79,6 @@ const SignInTabs = ({
       <div className="py-4">
         {activeTabIndex === 0 ? (
           <SignInForm
-            handleError={handleError}
             inputClasses={inputClasses}
             buttonDisabledClasses={buttonDisabledClasses}
             buttonEnabledClasses={buttonEnabledClasses}
@@ -89,7 +86,6 @@ const SignInTabs = ({
           />
         ) : (
           <CreateAccountForm
-            handleError={handleError}
             inputClasses={inputClasses}
             buttonDisabledClasses={buttonDisabledClasses}
             buttonEnabledClasses={buttonEnabledClasses}

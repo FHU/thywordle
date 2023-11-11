@@ -1,11 +1,11 @@
 import { checkIfEmailExistsInFirestore } from '../../lib/firebase'
 import { ValidEmailEnum } from './../../constants/types'
+import { useAlert } from './../../context/AlertContext'
 
 interface props {
   email: string
   setEmail: React.Dispatch<React.SetStateAction<string>>
-  setIsEmailValid: React.Dispatch<React.SetStateAction<boolean>>
-  handleError: any
+  handleIsValidEmail: any
   newAccount: boolean
   inputClasses: string
   buttonDisabledClasses: string
@@ -15,21 +15,21 @@ interface props {
 const ValidateEmailForm = ({
   email,
   setEmail,
-  setIsEmailValid,
-  handleError,
+  handleIsValidEmail,
   newAccount,
   inputClasses,
   buttonDisabledClasses,
   buttonEnabledClasses,
 }: props) => {
+  const { showError: showErrorAlert } = useAlert()
   const isValidEmail = () => {
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     return emailRegex.test(email)
   }
 
   const emailNotAllowed = (errorMessage: string) => {
-    setIsEmailValid(false)
-    handleError(errorMessage)
+    handleIsValidEmail(false)
+    showErrorAlert(errorMessage)
   }
 
   const handleButtonClick = async () => {
@@ -60,7 +60,7 @@ const ValidateEmailForm = ({
       }
     }
 
-    setIsEmailValid(true)
+    handleIsValidEmail(true)
   }
 
   return (

@@ -37,7 +37,7 @@ const EditProfileForm = ({
               value={userInfo.name}
               required
               className={inputClasses}
-              placeholder="Name (Example: John Doe)"
+              placeholder="Name"
               disabled={true}
             />
             <button
