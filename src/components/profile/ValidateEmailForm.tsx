@@ -5,7 +5,7 @@ import { useAlert } from './../../context/AlertContext'
 interface props {
   email: string
   setEmail: React.Dispatch<React.SetStateAction<string>>
-  handleIsValidEmail: any
+  setIsEmailValid: React.Dispatch<React.SetStateAction<boolean>>
   newAccount: boolean
   inputClasses: string
   buttonDisabledClasses: string
@@ -15,7 +15,7 @@ interface props {
 const ValidateEmailForm = ({
   email,
   setEmail,
-  handleIsValidEmail,
+  setIsEmailValid,
   newAccount,
   inputClasses,
   buttonDisabledClasses,
@@ -28,7 +28,7 @@ const ValidateEmailForm = ({
   }
 
   const emailNotAllowed = (errorMessage: string) => {
-    handleIsValidEmail(false)
+    setIsEmailValid(false)
     showErrorAlert(errorMessage)
   }
 
@@ -60,7 +60,7 @@ const ValidateEmailForm = ({
       }
     }
 
-    handleIsValidEmail(true)
+    setIsEmailValid(true)
   }
 
   return (

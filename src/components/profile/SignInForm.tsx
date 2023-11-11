@@ -24,10 +24,6 @@ const SignInForm = ({
   const [password, setPassword] = useState<string>('')
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth)
 
-  const handleIsValidEmail = (isValid: boolean) => {
-    setIsEmailValid(isValid)
-  }
-
   const isValid = () => {
     return Boolean(password.length)
   }
@@ -50,7 +46,7 @@ const SignInForm = ({
             <ValidateEmailForm
               email={email}
               setEmail={setEmail}
-              handleIsValidEmail={handleIsValidEmail}
+              setIsEmailValid={setIsEmailValid}
               newAccount={false}
               inputClasses={inputClasses}
               buttonDisabledClasses={buttonDisabledClasses}

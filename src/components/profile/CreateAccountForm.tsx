@@ -5,7 +5,6 @@ import {
   signInWithGoogle,
 } from '../../lib/firebase'
 import { useAlert } from './../../context/AlertContext'
-import ValidateCodeForm from './ValidateCodeForm'
 import ValidateEmailForm from './ValidateEmailForm'
 
 interface props {
@@ -22,32 +21,9 @@ const CreateAccountForm = ({
   const { showError: showErrorAlert } = useAlert()
   const [email, setEmail] = useState<string>('')
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
-  const [verificationCode, setVerificationCode] = useState<string>('')
-  const [verifyCodeFormOpen, setVerifyCodeFormOpen] = useState<boolean>(false)
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
-
-  const handleIsValidEmail = (isValid: boolean) => {
-    if (isValid) {
-      const code = String(Math.floor(100000 + Math.random() * 900000))
-      // TODO: send email with code
-      console.log(code)
-      setVerificationCode(code)
-      setVerifyCodeFormOpen(true)
-    }
-
-    if (!isValid) {
-      setIsEmailValid(false)
-    }
-  }
-
-  const handleIsValidCode = (isValid: boolean) => {
-    if (isValid) {
-      setVerifyCodeFormOpen(false)
-      setIsEmailValid(true)
-    }
-  }
 
   const isValidPassword = () => {
     if (password.length < 8 || confirmPassword.length < 8) {
@@ -91,23 +67,12 @@ const CreateAccountForm = ({
       </h2>
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
         <div className="w-full rounded-md shadow-sm md:w-1/2">
-          {!isEmailValid && !verifyCodeFormOpen && (
+          {!isEmailValid && (
             <ValidateEmailForm
               email={email}
               setEmail={setEmail}
-              handleIsValidEmail={handleIsValidEmail}
+              setIsEmailValid={setIsEmailValid}
               newAccount={true}
-              inputClasses={inputClasses}
-              buttonDisabledClasses={buttonDisabledClasses}
-              buttonEnabledClasses={buttonEnabledClasses}
-            />
-          )}
-
-          {verifyCodeFormOpen && (
-            <ValidateCodeForm
-              email={email}
-              verificationCode={verificationCode}
-              handleIsValidCode={handleIsValidCode}
               inputClasses={inputClasses}
               buttonDisabledClasses={buttonDisabledClasses}
               buttonEnabledClasses={buttonEnabledClasses}
@@ -118,7 +83,7 @@ const CreateAccountForm = ({
             <>
               <div>
                 <label htmlFor="username" className="sr-only">
-                  Name
+                  Name (Example: John Doe)
                 </label>
                 <input
                   id="username"
@@ -131,7 +96,7 @@ const CreateAccountForm = ({
                   }}
                   required
                   className={`${inputClasses} rounded-t-md bg-white dark:bg-slate-800`}
-                  placeholder="Name"
+                  placeholder="Name (Example: John Doe)"
                 />
               </div>
               <div>
