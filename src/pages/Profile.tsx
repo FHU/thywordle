@@ -79,6 +79,7 @@ function Profile({ user, stats }: Props) {
 
       <ConfirmEditProfileModal
         user={user}
+        userInfo={userInfo}
         propToEdit={propToEdit}
         editedValue={newPropValue}
         isOpen={isConfirmEditProfileModalOpen}

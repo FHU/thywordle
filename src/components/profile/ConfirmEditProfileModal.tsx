@@ -13,6 +13,7 @@ import { BaseModal } from './../modals/BaseModal'
 
 type Props = {
   user: User | null | undefined
+  userInfo: any
   propToEdit: PropToEditEnum
   editedValue: string
   isOpen: boolean
@@ -21,6 +22,7 @@ type Props = {
 
 export const ConfirmEditProfileModal = ({
   user,
+  userInfo,
   propToEdit,
   editedValue,
   isOpen,
@@ -65,12 +67,20 @@ export const ConfirmEditProfileModal = ({
   }
 
   const updateEmailAndReload = async () => {
-    const update = await updateFirestoreEmail(user!, editedValue)
+    const update = await updateFirestoreEmail(
+      user!,
+      editedValue,
+      userInfo.authProvider
+    )
     if (!update) {
       updateFailed(
         'Unable to update email at this time. Please log out, log back in, and try again.'
       )
       return
+    }
+
+    if (userInfo.authProvider === 'google') {
+      resetForgottenPassword(editedValue)
     }
 
     navigate(0)

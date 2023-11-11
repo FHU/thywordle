@@ -49,6 +49,7 @@ getAnalytics(app)
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 const googleProvider = new GoogleAuthProvider()
+googleProvider.setCustomParameters({ prompt: 'select_account' })
 
 export const signInWithGoogle = async (): Promise<void> => {
   try {
@@ -156,7 +157,8 @@ export const updateFirestoreUsername = async (
 
 export const updateFirestoreEmail = async (
   user: User | null | undefined,
-  newEmail: string
+  newEmail: string,
+  authProvider: string
 ): Promise<boolean> => {
   if (!user) {
     return false
@@ -170,6 +172,13 @@ export const updateFirestoreEmail = async (
       await updateDoc(docRef, {
         email: newEmail,
       })
+
+      if (authProvider === 'google') {
+        await updateDoc(docRef, {
+          authProvider: 'password',
+        })
+      }
+
       return true
     } catch {
       return false

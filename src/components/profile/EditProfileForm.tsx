@@ -66,25 +66,27 @@ const EditProfileForm = ({
               Edit Email
             </button>
           </div>
-          <div className="flex items-center justify-between">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              value={'dummyPassword'}
-              required
-              className={inputClasses}
-              placeholder="Password"
-              disabled={true}
-            />
-            <button
-              className="h-full w-full items-center rounded-md bg-indigo-600 px-2 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
-              onClick={() => editProp(PropToEditEnum.Password)}
-            >
-              Edit Password
-            </button>
-          </div>
+          {userInfo.authProvider === 'password' && (
+            <div className="flex items-center justify-between">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                value={'dummyPassword'}
+                required
+                className={inputClasses}
+                placeholder="Password"
+                disabled={true}
+              />
+              <button
+                className="h-full w-full items-center rounded-md bg-indigo-600 px-2 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
+                onClick={() => editProp(PropToEditEnum.Password)}
+              >
+                Edit Password
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="mt-8 w-64">

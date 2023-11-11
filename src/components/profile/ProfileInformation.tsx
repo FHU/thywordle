@@ -1,5 +1,5 @@
 import { User } from 'firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Histogram } from '../stats/Histogram'
@@ -34,14 +34,7 @@ const ProfileInformation = ({
   handleEditProfile,
   setPropToEdit,
 }: Props) => {
-  const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (user.providerData[0].providerId === 'google.com') {
-      setSignedInWithGoogle(true)
-    }
-  }, [user.providerData])
 
   const gameStats: GameStats = {
     winDistribution: stats.winDistribution,
@@ -134,19 +127,13 @@ const ProfileInformation = ({
         </div>
       </div>
 
-      <div
-        className={`${
-          signedInWithGoogle ? 'w-64' : 'w-4/5 md:w-96'
-        } mx-auto flex`}
-      >
-        {!signedInWithGoogle && (
-          <button
-            className="group relative mx-2 flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => setIsEdit(true)}
-          >
-            Edit Profile
-          </button>
-        )}
+      <div className="mx-auto flex w-4/5 md:w-96">
+        <button
+          className="group relative mx-2 flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={() => setIsEdit(true)}
+        >
+          Edit Profile
+        </button>
         <button
           className="group relative mx-2 flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           onClick={() => handleLogOut()}

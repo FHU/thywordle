@@ -27,6 +27,7 @@ export const EditProfileModal = ({
   const { showError: showErrorAlert } = useAlert()
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
+  const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
   const [updateAccountText, setUpdateAccountText] =
     useState<string>('Update Account')
 
@@ -34,6 +35,9 @@ export const EditProfileModal = ({
     if (userInfo) {
       setUsername(userInfo.name)
       setEmail(userInfo.email)
+      if (userInfo.authProvider === 'google') {
+        setSignedInWithGoogle(true)
+      }
     }
   }, [userInfo])
 
@@ -43,6 +47,10 @@ export const EditProfileModal = ({
         setUpdateAccountText('Update Username')
         return
       case PropToEditEnum.Email:
+        if (signedInWithGoogle) {
+          setUpdateAccountText('Update Email & Password')
+          return
+        }
         setUpdateAccountText('Update Email')
         return
       case PropToEditEnum.Password:
@@ -51,7 +59,7 @@ export const EditProfileModal = ({
       default:
         return
     }
-  }, [propToEdit])
+  }, [propToEdit, signedInWithGoogle])
 
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
@@ -118,12 +126,6 @@ export const EditProfileModal = ({
         <div className="my-2 flex flex-col justify-center">
           {propToEdit === PropToEditEnum.Username && (
             <div>
-              <label
-                htmlFor="username"
-                className="text-md block font-medium leading-6 text-black dark:text-white"
-              >
-                Name
-              </label>
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   <input
@@ -145,12 +147,19 @@ export const EditProfileModal = ({
 
           {propToEdit === PropToEditEnum.Email && (
             <div>
-              <label
-                htmlFor="email"
-                className="text-md mt-4 block font-medium leading-6 text-black dark:text-white"
-              >
-                Email
-              </label>
+              {signedInWithGoogle && (
+                <p className="my-4">
+                  {'Are you sure you want to update your email?'} <br />{' '}
+                  {'Your current account is tied to your '}
+                  <span className="text-indigo-600 dark:text-indigo-400">
+                    {userInfo.email}
+                  </span>{' '}
+                  {'google account.'} <br />{' '}
+                  {
+                    'Changing your email will require you to set a new password as well.'
+                  }
+                </p>
+              )}
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   <input
