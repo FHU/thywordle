@@ -25,7 +25,7 @@ export const SHARE_FAILURE_TEXT =
   'Unable to share the results. This feature is available only in secure contexts (HTTPS), in some or all supporting browsers.'
 export const MIGRATE_BUTTON_TEXT = 'Transfer'
 export const MIGRATE_DESCRIPTION_TEXT =
-  'Transfer your statistics to a new device.'
+  'Transfer your local browser statistics to a new device.'
 export const TOTAL_GAMES_TEXT = 'Total games'
 export const SUCCESS_RATE_TEXT = 'Success rate'
 export const CURRENT_STREAK_TEXT = 'Current streak'

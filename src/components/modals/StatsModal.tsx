@@ -79,7 +79,10 @@ export const StatsModal = ({
       >
         <StatBar gameStats={gameStats} />
         {ENABLE_MIGRATE_STATS && (
-          <MigrationIntro handleMigrateStatsButton={handleMigrateStatsButton} />
+          <MigrationIntro
+            handleMigrateStatsButton={handleMigrateStatsButton}
+            handleClose={handleClose}
+          />
         )}
       </BaseModal>
     )
@@ -149,10 +152,13 @@ export const StatsModal = ({
           </div>
         </div>
       )}
-      {ENABLE_MIGRATE_STATS && (
+      {ENABLE_MIGRATE_STATS && !user && (
         <div>
           <hr className="-mb-4 mt-4 border-gray-500" />
-          <MigrationIntro handleMigrateStatsButton={handleMigrateStatsButton} />
+          <MigrationIntro
+            handleMigrateStatsButton={handleMigrateStatsButton}
+            handleClose={handleClose}
+          />
         </div>
       )}
       {(isGameLost || isGameWon) && (
@@ -178,7 +184,11 @@ export const StatsModal = ({
       <hr className="-mb-4 mt-4 border-gray-500" />
       <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
         <div className="mt-3 text-xs">
-          {user ? <p>View your profile</p> : <p>Want to save your stats?</p>}
+          {user ? (
+            <p>View your profile</p>
+          ) : (
+            <p>Want to save your stats online?</p>
+          )}
         </div>
         {user ? (
           <Link
