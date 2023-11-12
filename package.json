@@ -28,6 +28,7 @@
     "egoroof-blowfish": "^2.2.2",
     "firebase": "^9.19.1",
     "grapheme-splitter": "1.0.4",
+    "lottie-react": "^2.4.0",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-countdown": "^2.3.2",
@@ -61,10 +62,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/react-datepicker": "^4.4.2",
     "autoprefixer": "^10.4.4",
     "husky": "^7.0.4",
+    "jest-canvas-mock": "^2.5.2",
     "lint-staged": "^12.3.2",
     "postcss": "^8.4.5",
     "prettier": "^2.8.4",
@@ -76,6 +79,9 @@
   },
   "jest": {
     "moduleNameMapper": {
+      "setupFiles": [
+        "jest-canvas-mock"
+      ],
       "@/(.*)": "<rootDir>/src/$1"
     }
   }

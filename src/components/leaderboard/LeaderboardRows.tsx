@@ -1,10 +1,15 @@
 import { DotsVerticalIcon } from '@heroicons/react/outline'
 
-import { LeaderboardUser, users } from './users'
+import { LeaderboardUser } from './../../constants/types'
 
-export const LeaderboardRows = ({ updateSelectedUser }: any) => {
+interface Props {
+  users: LeaderboardUser[] | undefined
+  updateSelectedUser: any
+}
+
+export const LeaderboardRows = ({ users, updateSelectedUser }: Props) => {
   const tableCellClasses = (user: any) => {
-    if (user === activeUser) {
+    if (user.highlightedUser) {
       return 'table-cell py-8 bg-indigo-600 text-white text-xl md:text-2xl'
     }
 
@@ -15,11 +20,11 @@ export const LeaderboardRows = ({ updateSelectedUser }: any) => {
     return 'table-cell py-4'
   }
 
-  const getActiveUser = () => {
-    return users.find((user) => user.name === 'Kaden King')
-  }
-
   const getLeaderboardRows = (usersList: LeaderboardUser[]) => {
+    if (!usersList) {
+      return <></>
+    }
+
     return usersList.map((user) => (
       <div
         key={user.rank}
@@ -34,45 +39,55 @@ export const LeaderboardRows = ({ updateSelectedUser }: any) => {
     ))
   }
 
-  const activeUser = getActiveUser()
+  let leaderboardRows
+  let topThreeRows
+  let surroundingRows
 
-  if (users.slice(0, 10).includes(activeUser!) || activeUser === null) {
-    const usersToDisplay = users.slice(0, 10)
-    const displayRows = getLeaderboardRows(usersToDisplay)
+  if (users) {
+    if (users.length <= 20) {
+      leaderboardRows = getLeaderboardRows(users)
+      return <div className="table-row-group">{leaderboardRows}</div>
+    }
 
-    return <div className="table-row-group">{displayRows}</div>
+    if (users.slice(0, 20).some((u) => u.highlightedUser)) {
+      leaderboardRows = getLeaderboardRows(users.slice(0, 20))
+      return <div className="table-row-group">{leaderboardRows}</div>
+    }
+
+    const highlightedUserRank = users.findIndex((u) => u.highlightedUser) + 1
+    const surroundingUsers = users.slice(
+      highlightedUserRank - 4,
+      highlightedUserRank + 3
+    )
+
+    topThreeRows = getLeaderboardRows(users.slice(0, 3))
+    surroundingRows = getLeaderboardRows(surroundingUsers)
+
+    const spacer = (
+      <div className="table-row bg-white dark:bg-slate-900">
+        <span className="table-cell py-8">
+          <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
+        </span>
+        <span className="table-cell py-8">
+          <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
+        </span>
+        <span className="table-cell py-8">
+          <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
+        </span>
+        <span className="table-cell py-8">
+          <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
+        </span>
+      </div>
+    )
+
+    return (
+      <div className="table-row-group">
+        {topThreeRows}
+        {spacer}
+        {surroundingRows}
+      </div>
+    )
   }
 
-  const surroundingUsers = users.slice(
-    activeUser!.rank - 4,
-    activeUser!.rank + 3
-  )
-
-  const topThreeRows = getLeaderboardRows(users.slice(0, 3))
-  const surroundingRows = getLeaderboardRows(surroundingUsers)
-
-  const spacer = (
-    <div className="table-row bg-white dark:bg-slate-900">
-      <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
-      </span>
-      <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
-      </span>
-      <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
-      </span>
-      <span className="table-cell py-8">
-        <DotsVerticalIcon className="mx-auto h-6 w-6 dark:stroke-white" />
-      </span>
-    </div>
-  )
-
-  return (
-    <div className="table-row-group">
-      {topThreeRows}
-      {spacer}
-      {surroundingRows}
-    </div>
-  )
+  return <></>
 }

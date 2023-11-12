@@ -3,7 +3,10 @@ import './../App.css'
 import { ClockIcon } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+
+import { GameStats } from '@/constants/types'
 
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
@@ -16,15 +19,13 @@ import {
   CORRECT_WORD_MESSAGE,
   INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
-  WIN_MESSAGES,
 } from './../constants/strings'
-import { saveGameStateToLocalStorage } from './../lib/localStorage'
+import { auth, updateGameStateToFirestore } from './../lib/firebase'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
   findFirstUnusedReveal,
   getCustomSolutionErrorMessage,
   getGameDate,
-  getIsLatestGame,
   isValidReference,
   isWinningWord,
   solution,
@@ -32,9 +33,8 @@ import {
 } from './../lib/words'
 
 interface props {
-  stats: any
+  stats: GameStats
   setStats: React.Dispatch<React.SetStateAction<any>>
-  setIsStatsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   isHardMode: boolean
   isLatestGame: boolean
   isGameWon: boolean
@@ -43,7 +43,6 @@ interface props {
   setIsGameLost: React.Dispatch<React.SetStateAction<boolean>>
   guesses: string[]
   setGuesses: React.Dispatch<React.SetStateAction<string[]>>
-  showSuccessAlert: any
   showErrorAlert: any
   setIsVerseModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -51,7 +50,6 @@ interface props {
 const Game: React.FC<props> = ({
   stats,
   setStats,
-  setIsStatsModalOpen,
   isHardMode,
   isLatestGame,
   isGameWon,
@@ -60,11 +58,11 @@ const Game: React.FC<props> = ({
   setIsGameLost,
   guesses,
   setGuesses,
-  showSuccessAlert,
   showErrorAlert,
   setIsVerseModalOpen,
 }) => {
   const gameDate = getGameDate()
+  const [user] = useAuthState(auth)
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
@@ -73,29 +71,6 @@ const Game: React.FC<props> = ({
   }
 
   const verseButtonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
-  }, [guesses])
-
-  useEffect(() => {
-    if (isGameWon) {
-      const winMessage =
-        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-      const delayMs = REVEAL_TIME_MS * solution.length
-
-      showSuccessAlert(winMessage, {
-        delayMs,
-        onClose: () => setIsStatsModalOpen(true),
-      })
-    }
-
-    if (isGameLost) {
-      setTimeout(() => {
-        setIsStatsModalOpen(true)
-      }, (solution.length + 1) * REVEAL_TIME_MS)
-    }
-  }, [isGameWon, isGameLost, showSuccessAlert, setIsStatsModalOpen])
 
   const onChar = (value: string) => {
     if (!isGameWon || !isGameLost) {
@@ -109,13 +84,17 @@ const Game: React.FC<props> = ({
     }
   }
 
+  const updateStats = async (stats: GameStats, count: number) => {
+    setStats(await addStatsForCompletedGame(stats, count, user, solution))
+  }
+
   const onDelete = () => {
     setCurrentGuess(
       new GraphemeSplitter().splitGraphemes(currentGuess).slice(0, -1).join('')
     )
   }
 
-  const onEnter = () => {
+  const onEnter = async () => {
     if (isGameWon || isGameLost) {
       return
     }
@@ -172,16 +151,23 @@ const Game: React.FC<props> = ({
       setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
 
+      if (user) {
+        await updateGameStateToFirestore(user.uid, solution, [
+          ...guesses,
+          currentGuess,
+        ])
+      }
+
       if (winningWord) {
         if (isLatestGame) {
-          setStats(addStatsForCompletedGame(stats, guesses.length))
+          updateStats(stats, guesses.length)
         }
         return setIsGameWon(true)
       }
 
       if (guesses.length === MAX_CHALLENGES - 1) {
         if (isLatestGame) {
-          setStats(addStatsForCompletedGame(stats, guesses.length + 1))
+          updateStats(stats, guesses.length + 1)
         }
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
@@ -203,7 +189,7 @@ const Game: React.FC<props> = ({
         </div>
       )}
 
-      <div className="mx-auto flex w-full grow flex-col px-1 pt-2 pb-8 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
+      <div className="mx-auto flex w-full grow flex-col px-1 pb-8 pt-2 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
         <div className="flex grow flex-col justify-center pb-6 short:pb-2">
           <Grid
             solution={solution}

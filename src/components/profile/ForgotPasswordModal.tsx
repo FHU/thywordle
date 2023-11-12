@@ -4,37 +4,23 @@ import { resetForgottenPassword } from './../../lib/firebase'
 import { BaseModal } from './../modals/BaseModal'
 
 type Props = {
+  email: string
   isOpen: boolean
   handleClose: () => void
 }
 
-export const ForgotPasswordModal = ({ isOpen, handleClose }: Props) => {
-  const [email, setEmail] = useState<string>('')
+export const ForgotPasswordModal = ({ email, isOpen, handleClose }: Props) => {
   const [emailSent, setEmailSent] = useState<boolean>(false)
-
-  const buttonDisabledClasses =
-    'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
   const buttonEnabledClasses =
     'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
-  const isValid = () => {
-    if (email.length > 0) {
-      return true
-    }
-
-    return false
-  }
-
   const handleForgotPasswordButtonClick = () => {
-    if (isValid()) {
-      resetForgottenPassword(email)
-      setEmailSent(true)
-    }
+    resetForgottenPassword(email)
+    setEmailSent(true)
   }
 
   const closeModal = () => {
     handleClose()
-    setEmail('')
     setEmailSent(false)
   }
 
@@ -44,31 +30,10 @@ export const ForgotPasswordModal = ({ isOpen, handleClose }: Props) => {
         {!emailSent ? (
           <div className="my-2 flex flex-col justify-center">
             <p className="text-black dark:text-white">
-              Enter the email address associated with your account to reset your
-              password.
+              Are you sure you would like to <br /> reset your Password?
             </p>
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e: any) => {
-                  setEmail(e.target.value)
-                }}
-                required
-                className="my-6 w-full rounded-md border-0 bg-white py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
-                placeholder="Email address"
-              />
-            </div>
             <button
-              className={`${
-                isValid() ? buttonEnabledClasses : buttonDisabledClasses
-              } group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+              className={`${buttonEnabledClasses} group relative mt-5 flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
               onClick={() => handleForgotPasswordButtonClick()}
             >
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -92,8 +57,10 @@ export const ForgotPasswordModal = ({ isOpen, handleClose }: Props) => {
           <div className="my-2 flex flex-col justify-center">
             <p className="text-black dark:text-white">
               An email has been sent to{' '}
-              <span className="text-indigo-400">{email}</span>. Visit the link
-              provided to reset your password.
+              <span className="bold text-indigo-700 dark:text-indigo-300">
+                {email}
+              </span>
+              . Visit the link provided to reset your password.
             </p>
           </div>
         )}
@@ -101,6 +68,7 @@ export const ForgotPasswordModal = ({ isOpen, handleClose }: Props) => {
         <button
           onClick={() => closeModal()}
           tabIndex={0}
+          aria-label="close"
           aria-pressed="false"
           className="absolute right-4 top-4"
         ></button>

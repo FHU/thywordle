@@ -6,6 +6,7 @@ import {
 } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import Countdown from 'react-countdown'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
 import {
@@ -21,12 +22,13 @@ import {
   STATISTICS_TITLE,
   VERSE_TEXT_BUTTON,
 } from '../../constants/strings'
-import { GameStats } from '../../lib/localStorage'
+import { GameStats } from '../../constants/types'
 import { shareStatus } from '../../lib/share'
 import { referenceUrl, solutionGameDate, tomorrow } from '../../lib/words'
 import { Histogram } from '../stats/Histogram'
 import { MigrationIntro } from '../stats/MigrationIntro'
 import { StatBar } from '../stats/StatBar'
+import { auth } from './../../lib/firebase'
 import { BaseModal } from './BaseModal'
 
 type Props = {
@@ -66,6 +68,8 @@ export const StatsModal = ({
   isHighContrastMode,
   numberOfGuessesMade,
 }: Props) => {
+  const [user] = useAuthState(auth)
+
   if (gameStats.totalGames <= 0) {
     return (
       <BaseModal
@@ -111,8 +115,8 @@ export const StatsModal = ({
             )}
             {ENABLE_ARCHIVED_GAMES && !isLatestGame && (
               <div className="mt-2 inline-flex">
-                <ClockIcon className="mr-1 mt-2 mt-1 h-5 w-5 stroke-black dark:stroke-white" />
-                <div className="mt-1 ml-1 text-center text-sm sm:text-base">
+                <ClockIcon className="mr-1 mt-1 mt-2 h-5 w-5 stroke-black dark:stroke-white" />
+                <div className="ml-1 mt-1 text-center text-sm sm:text-base">
                   <strong>{ARCHIVE_GAMEDATE_TEXT}:</strong>
                   <br />
                   {format(solutionGameDate, 'd MMMM yyyy', {
@@ -147,13 +151,13 @@ export const StatsModal = ({
       )}
       {ENABLE_MIGRATE_STATS && (
         <div>
-          <hr className="mt-4 -mb-4 border-gray-500" />
+          <hr className="-mb-4 mt-4 border-gray-500" />
           <MigrationIntro handleMigrateStatsButton={handleMigrateStatsButton} />
         </div>
       )}
       {(isGameLost || isGameWon) && (
         <>
-          <hr className="mt-4 -mb-4 border-gray-500" />
+          <hr className="-mb-4 mt-4 border-gray-500" />
           <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
             <div className="mt-3 text-xs">
               <p>Read {displayReference} at Bible.com</p>
@@ -170,20 +174,31 @@ export const StatsModal = ({
           </div>
         </>
       )}
-      {/* TODO: Only Show if Signed Out */}
-      <hr className="mt-4 -mb-4 border-gray-500" />
+
+      <hr className="-mb-4 mt-4 border-gray-500" />
       <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
         <div className="mt-3 text-xs">
-          <p>Want to save your stats?</p>
+          {user ? <p>View your profile</p> : <p>Want to save your stats?</p>}
         </div>
-        <Link
-          to="/profile"
-          className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-          onClick={() => handleClose()}
-        >
-          <UserIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />{' '}
-          Sign In
-        </Link>
+        {user ? (
+          <Link
+            to="/profile"
+            className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+            onClick={() => handleClose()}
+          >
+            <UserIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />{' '}
+            Profile
+          </Link>
+        ) : (
+          <Link
+            to="/profile"
+            className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+            onClick={() => handleClose()}
+          >
+            <UserIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />{' '}
+            Sign In
+          </Link>
+        )}
       </div>
     </BaseModal>
   )

@@ -2,9 +2,12 @@ import './App.css'
 
 import { useEffect, useState } from 'react'
 import Div100vh from 'react-div-100vh'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 import { AlertContainer } from './components/alerts/AlertContainer'
+import Error from './components/gameState/Error'
+import Loading from './components/gameState/Loading'
 import { Menu } from './components/menu/Menu'
 import { DatePickerModal } from './components/modals/DatePickerModal'
 import { InfoModal } from './components/modals/InfoModal'
@@ -17,6 +20,7 @@ import {
   DISCOURAGE_INAPP_BROWSERS,
   LONG_ALERT_TIME_MS,
   MAX_CHALLENGES,
+  REVEAL_TIME_MS,
   WELCOME_INFO_MODAL_MS,
 } from './constants/settings'
 import {
@@ -25,12 +29,21 @@ import {
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
   SHARE_FAILURE_TEXT,
+  WIN_MESSAGES,
 } from './constants/strings'
+import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
 import {
+  auth,
+  loadGameStateFromFirestore,
+  loadStatsFromFirestoreCollection,
+  updateGameStateToFirestore,
+} from './lib/firebase'
+import {
   getStoredIsHighContrastMode,
   loadGameStateFromLocalStorage,
+  saveGameStateToLocalStorage,
   setStoredIsHighContrastMode,
 } from './lib/localStorage'
 import { loadStats } from './lib/stats'
@@ -49,6 +62,7 @@ import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 
 function App() {
+  const [user, loading, error] = useAuthState(auth)
   const isLatestGame = getIsLatestGame()
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -72,34 +86,66 @@ function App() {
       ? true
       : false
   )
-  const [isHighContrastMode, setIsHighContrastMode] = useState(
+  const [isHighContrastMode, setIsHighContrastMode] = useState<boolean>(
     getStoredIsHighContrastMode()
   )
-  const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage(isLatestGame)
-    if (loaded?.solution !== solution) {
-      return []
-    }
-    const gameWasWon = loaded.guesses.includes(solution)
-    if (gameWasWon) {
-      setIsGameWon(true)
-    }
-    if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
-      setIsGameLost(true)
-      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
-        persist: true,
-      })
-    }
-    return loaded.guesses
-  })
-
-  const [stats, setStats] = useState(() => loadStats())
-
   const [isHardMode, setIsHardMode] = useState(
     localStorage.getItem('gameMode')
       ? localStorage.getItem('gameMode') === 'hard'
       : false
   )
+  const [stats, setStats] = useState<GameStats>(() => loadStats())
+  const setGameState = (guesses: string[]): string[] => {
+    const gameWasWon = guesses.includes(solution)
+    if (gameWasWon) {
+      setIsGameWon(true)
+    }
+    if (guesses.length === MAX_CHALLENGES && !gameWasWon) {
+      setIsGameLost(true)
+      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
+        persist: true,
+      })
+    }
+    return guesses
+  }
+
+  const [guesses, setGuesses] = useState<string[]>(() => {
+    const loaded = loadGameStateFromLocalStorage(isLatestGame)
+    if (loaded?.solution !== solution) {
+      return []
+    }
+
+    const gameState = setGameState(loaded.guesses)
+    return gameState
+  })
+
+  const loadGameFromFirestore = async (uid: string) => {
+    const loadedStats = await loadStatsFromFirestoreCollection(uid)
+    if (loadedStats) setStats(loadedStats)
+
+    const loadedStateFromFirestore = await loadGameStateFromFirestore(uid)
+    if (loadedStateFromFirestore) {
+      if (
+        loadedStateFromFirestore.guesses.length !== 0 &&
+        loadedStateFromFirestore.solution === solution
+      ) {
+        if (guesses.length > loadedStateFromFirestore.guesses.length) {
+          await updateGameStateToFirestore(uid, solution, guesses)
+        } else {
+          setGuesses(loadedStateFromFirestore.guesses)
+          setGameState(loadedStateFromFirestore.guesses)
+        }
+      } else {
+        setGuesses([])
+        setGameState([])
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (user) loadGameFromFirestore(user.uid)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   useEffect(() => {
     // if no game state on load,
@@ -110,6 +156,10 @@ function App() {
       }, WELCOME_INFO_MODAL_MS)
     }
   })
+
+  useEffect(() => {
+    saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
+  }, [guesses])
 
   useEffect(() => {
     DISCOURAGE_INAPP_BROWSERS &&
@@ -134,6 +184,25 @@ function App() {
     }
   }, [isDarkMode, isHighContrastMode])
 
+  useEffect(() => {
+    if (isGameWon) {
+      const winMessage =
+        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
+      const delayMs = REVEAL_TIME_MS * solution.length
+
+      showSuccessAlert(winMessage, {
+        delayMs,
+        onClose: () => setIsStatsModalOpen(true),
+      })
+    }
+
+    if (isGameLost) {
+      setTimeout(() => {
+        setIsStatsModalOpen(true)
+      }, (solution.length + 1) * REVEAL_TIME_MS)
+    }
+  }, [isGameWon, isGameLost, showSuccessAlert, setIsStatsModalOpen])
+
   const handleDarkMode = (isDark: boolean) => {
     setIsDarkMode(isDark)
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
@@ -151,6 +220,15 @@ function App() {
   const handleHighContrastMode = (isHighContrast: boolean) => {
     setIsHighContrastMode(isHighContrast)
     setStoredIsHighContrastMode(isHighContrast)
+  }
+
+  if (loading || error) {
+    return (
+      <>
+        {loading && <Loading />}
+        {error && <Error />}
+      </>
+    )
   }
 
   return (
@@ -174,7 +252,6 @@ function App() {
                 <Game
                   stats={stats}
                   setStats={setStats}
-                  setIsStatsModalOpen={setIsStatsModalOpen}
                   isHardMode={isHardMode}
                   isLatestGame={isLatestGame}
                   isGameWon={isGameWon}
@@ -183,7 +260,6 @@ function App() {
                   setIsGameLost={setIsGameLost}
                   guesses={guesses}
                   setGuesses={setGuesses}
-                  showSuccessAlert={showSuccessAlert}
                   showErrorAlert={showErrorAlert}
                   setIsVerseModalOpen={setIsVerseModalOpen}
                 />
@@ -192,7 +268,10 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/help" element={<Help />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile"
+              element={<Profile user={user} stats={stats} />}
+            />
           </Routes>
 
           <InfoModal
@@ -234,6 +313,7 @@ function App() {
             handleClose={() => setIsDatePickerModalOpen(false)}
           />
           <MigrateStatsModal
+            stats={stats}
             isOpen={isMigrateStatsModalOpen}
             handleClose={() => setIsMigrateStatsModalOpen(false)}
           />
