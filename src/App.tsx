@@ -38,6 +38,7 @@ import {
   auth,
   loadGameStateFromFirestore,
   loadStatsFromFirestoreCollection,
+  updateGameStateToFirestore,
 } from './lib/firebase'
 import {
   getStoredIsHighContrastMode,
@@ -127,8 +128,12 @@ function App() {
         loadedStateFromFirestore.guesses.length !== 0 &&
         loadedStateFromFirestore.solution === solution
       ) {
-        setGuesses(loadedStateFromFirestore.guesses)
-        setGameState(loadedStateFromFirestore.guesses)
+        if (guesses.length > loadedStateFromFirestore.guesses.length) {
+          await updateGameStateToFirestore(uid, solution, guesses)
+        } else {
+          setGuesses(loadedStateFromFirestore.guesses)
+          setGameState(loadedStateFromFirestore.guesses)
+        }
       } else {
         setGuesses([])
         setGameState([])
