@@ -1,13 +1,9 @@
-export type LeaderboardUser = {
-  rank: number
-  name: string
-  avgGuesses: number
-  points: number
-  stats: { currentStreak: number; bestStreak: number; successRate: number }
-}
+import { LeaderboardUser } from './../../constants/types'
 
 export const users: LeaderboardUser[] = [
   {
+    uid: '',
+    highlightedUser: false,
     rank: 1,
     name: 'Kenan Casey',
     avgGuesses: 2,
@@ -19,6 +15,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 2,
     name: 'Dallas Yarnell',
     avgGuesses: 3.5,
@@ -30,6 +28,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 3,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -41,6 +41,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 4,
     name: 'Anonymous Joe',
     avgGuesses: 2,
@@ -52,6 +54,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 5,
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
@@ -63,6 +67,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 6,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -74,6 +80,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 7,
     name: 'Anonymous Joe',
     avgGuesses: 2,
@@ -85,6 +93,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 8,
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
@@ -96,6 +106,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 9,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -107,6 +119,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 10,
     name: 'Anonymous Joe',
     avgGuesses: 2,
@@ -118,6 +132,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 11,
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
@@ -129,6 +145,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 12,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -140,6 +158,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 13,
     name: 'Anonymous Joe',
     avgGuesses: 2,
@@ -151,6 +171,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 14,
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
@@ -162,6 +184,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 15,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -173,6 +197,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 16,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -184,6 +210,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 17,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -195,6 +223,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 18,
     name: 'Anonymous Joe',
     avgGuesses: 5,
@@ -206,6 +236,8 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 19,
     name: 'Kaden King',
     avgGuesses: 5,
@@ -217,7 +249,269 @@ export const users: LeaderboardUser[] = [
     },
   },
   {
+    uid: '',
+    highlightedUser: false,
     rank: 20,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 50,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 21,
+    name: 'Kenan Casey',
+    avgGuesses: 2,
+    points: 1000,
+    stats: {
+      currentStreak: 10,
+      bestStreak: 10,
+      successRate: 100,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 22,
+    name: 'Dallas Yarnell',
+    avgGuesses: 3.5,
+    points: 900,
+    stats: {
+      currentStreak: 7,
+      bestStreak: 8,
+      successRate: 80,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 23,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 800,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 24,
+    name: 'Anonymous Joe',
+    avgGuesses: 2,
+    points: 700,
+    stats: {
+      currentStreak: 10,
+      bestStreak: 10,
+      successRate: 100,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 25,
+    name: 'Anonymous Joe',
+    avgGuesses: 3.5,
+    points: 650,
+    stats: {
+      currentStreak: 7,
+      bestStreak: 8,
+      successRate: 80,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 26,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 600,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: true,
+    rank: 27,
+    name: 'Anonymous Joe',
+    avgGuesses: 2,
+    points: 500,
+    stats: {
+      currentStreak: 10,
+      bestStreak: 10,
+      successRate: 100,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 28,
+    name: 'Anonymous Joe',
+    avgGuesses: 3.5,
+    points: 400,
+    stats: {
+      currentStreak: 7,
+      bestStreak: 8,
+      successRate: 80,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 29,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 400,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 30,
+    name: 'Anonymous Joe',
+    avgGuesses: 2,
+    points: 350,
+    stats: {
+      currentStreak: 10,
+      bestStreak: 10,
+      successRate: 100,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 31,
+    name: 'Anonymous Joe',
+    avgGuesses: 3.5,
+    points: 350,
+    stats: {
+      currentStreak: 7,
+      bestStreak: 8,
+      successRate: 80,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 32,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 300,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 33,
+    name: 'Anonymous Joe',
+    avgGuesses: 2,
+    points: 300,
+    stats: {
+      currentStreak: 10,
+      bestStreak: 10,
+      successRate: 100,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 34,
+    name: 'Anonymous Joe',
+    avgGuesses: 3.5,
+    points: 300,
+    stats: {
+      currentStreak: 7,
+      bestStreak: 8,
+      successRate: 80,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 35,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 250,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 36,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 250,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 37,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 200,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 38,
+    name: 'Anonymous Joe',
+    avgGuesses: 5,
+    points: 200,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 39,
+    name: 'Kaden King',
+    avgGuesses: 5,
+    points: 100,
+    stats: {
+      currentStreak: 3,
+      bestStreak: 5,
+      successRate: 60,
+    },
+  },
+  {
+    uid: '',
+    highlightedUser: false,
+    rank: 30,
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 50,

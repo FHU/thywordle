@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { User } from 'firebase/auth'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
-import { GameStats } from '@/lib/localStorage'
 
 import { Histogram } from '../stats/Histogram'
 import {
@@ -11,47 +10,65 @@ import {
   GUESS_DISTRIBUTION_TEXT,
   POINTS_TEXT,
   SUCCESS_RATE_TEXT,
-  TOTAL_TRIES_TEXT,
+  TOTAL_GAMES_TEXT,
 } from './../../constants/strings'
+import { GameStats, PropToEditEnum } from './../../constants/types'
 import './../../lib/stats'
-import {
-  getAverageNumberGuesses,
-  getScore,
-  getSuccessRate,
-} from './../../lib/stats'
 import { StatItem } from './../stats/StatBar'
+import EditProfileForm from './EditProfileForm'
 
-const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
-  const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
+interface Props {
+  user: User
+  userInfo: any
+  stats: GameStats
+  handleLogOut: any
+  handleEditProfile: any
+  setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
+}
 
-  useEffect(() => {
-    if (user.providerData[0].providerId === 'google.com') {
-      setSignedInWithGoogle(true)
-    }
-  }, [user.providerData])
+const ProfileInformation = ({
+  user,
+  userInfo,
+  stats,
+  handleLogOut,
+  handleEditProfile,
+  setPropToEdit,
+}: Props) => {
+  const [isEdit, setIsEdit] = useState<boolean>(false)
 
   const gameStats: GameStats = {
-    winDistribution: [1, 1, 1, 1, 2, 1],
-    gamesFailed: 1,
-    currentStreak: 4,
-    bestStreak: 4,
-    totalGames: 8,
-    successRate: 88,
-    score: 111000,
-    avgNumGuesses: 3.5,
+    winDistribution: stats.winDistribution,
+    gamesFailed: stats.gamesFailed,
+    currentStreak: stats.currentStreak,
+    bestStreak: stats.bestStreak,
+    totalGames: stats.totalGames,
+    successRate: stats.successRate,
+    score: stats.score,
+    avgNumGuesses: stats.avgNumGuesses,
   }
 
-  gameStats.avgNumGuesses = getAverageNumberGuesses(gameStats)
-  gameStats.successRate = getSuccessRate(gameStats)
-  gameStats.score = getScore(gameStats)
+  if (isEdit) {
+    return (
+      <EditProfileForm
+        userInfo={userInfo}
+        setIsEdit={setIsEdit}
+        setPropToEdit={setPropToEdit}
+        handleEditProfile={handleEditProfile}
+      />
+    )
+  }
 
   return (
     <div className="my-8">
+      {user.photoURL && (
+        <img src={user.photoURL} alt="" className="mx-auto my-5 rounded-full" />
+      )}
+
       <p className="text-2xl font-bold dark:text-white">
         Welcome{' '}
         {user && (
           <span className="text-indigo-600 dark:text-indigo-400">
-            {user.displayName || user.email}
+            {userInfo?.name || user.displayName || user.email}
           </span>
         )}
         !
@@ -61,14 +78,13 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
           {user.email}
         </p>
       )}
-      {/* {user && <img src={user.photoURL as string} alt="" />} */}
 
       <div>
-        <h4 className="mt-8 mb-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
+        <h4 className="mb-4 mt-8 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
           Stats
         </h4>
         <div className="flex flex-wrap justify-center">
-          <StatItem label={TOTAL_TRIES_TEXT} value={gameStats.totalGames} />
+          <StatItem label={TOTAL_GAMES_TEXT} value={gameStats.totalGames} />
           <StatItem
             label={SUCCESS_RATE_TEXT}
             value={`${gameStats.successRate}%`}
@@ -111,19 +127,13 @@ const ProfileInformation = ({ user, handleLogOut, handleEditProfile }: any) => {
         </div>
       </div>
 
-      <div
-        className={`${
-          signedInWithGoogle ? 'w-64' : 'w-4/5 md:w-96'
-        } mx-auto flex`}
-      >
-        {!signedInWithGoogle && (
-          <button
-            className="group relative mx-2 flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => handleEditProfile()}
-          >
-            Edit Profile
-          </button>
-        )}
+      <div className="mx-auto flex w-4/5 md:w-96">
+        <button
+          className="group relative mx-2 flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={() => setIsEdit(true)}
+        >
+          Edit Profile
+        </button>
         <button
           className="group relative mx-2 flex w-full justify-center rounded-md bg-slate-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           onClick={() => handleLogOut()}

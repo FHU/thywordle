@@ -4,6 +4,9 @@ import { ClockIcon } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 import { useRef, useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+
+import { GameStats } from '@/constants/types'
 
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
@@ -17,6 +20,7 @@ import {
   INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
 } from './../constants/strings'
+import { auth, updateGameStateToFirestore } from './../lib/firebase'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
   findFirstUnusedReveal,
@@ -29,7 +33,7 @@ import {
 } from './../lib/words'
 
 interface props {
-  stats: any
+  stats: GameStats
   setStats: React.Dispatch<React.SetStateAction<any>>
   isHardMode: boolean
   isLatestGame: boolean
@@ -58,6 +62,7 @@ const Game: React.FC<props> = ({
   setIsVerseModalOpen,
 }) => {
   const gameDate = getGameDate()
+  const [user] = useAuthState(auth)
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
@@ -79,13 +84,17 @@ const Game: React.FC<props> = ({
     }
   }
 
+  const updateStats = async (stats: GameStats, count: number) => {
+    setStats(await addStatsForCompletedGame(stats, count, user, solution))
+  }
+
   const onDelete = () => {
     setCurrentGuess(
       new GraphemeSplitter().splitGraphemes(currentGuess).slice(0, -1).join('')
     )
   }
 
-  const onEnter = () => {
+  const onEnter = async () => {
     if (isGameWon || isGameLost) {
       return
     }
@@ -142,16 +151,23 @@ const Game: React.FC<props> = ({
       setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
 
+      if (user) {
+        await updateGameStateToFirestore(user.uid, solution, [
+          ...guesses,
+          currentGuess,
+        ])
+      }
+
       if (winningWord) {
         if (isLatestGame) {
-          setStats(addStatsForCompletedGame(stats, guesses.length))
+          updateStats(stats, guesses.length)
         }
         return setIsGameWon(true)
       }
 
       if (guesses.length === MAX_CHALLENGES - 1) {
         if (isLatestGame) {
-          setStats(addStatsForCompletedGame(stats, guesses.length + 1))
+          updateStats(stats, guesses.length + 1)
         }
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
@@ -173,7 +189,7 @@ const Game: React.FC<props> = ({
         </div>
       )}
 
-      <div className="mx-auto flex w-full grow flex-col px-1 pt-2 pb-8 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
+      <div className="mx-auto flex w-full grow flex-col px-1 pb-8 pt-2 sm:px-6 md:max-w-7xl lg:px-8 short:pb-2 short:pt-2">
         <div className="flex grow flex-col justify-center pb-6 short:pb-2">
           <Grid
             solution={solution}

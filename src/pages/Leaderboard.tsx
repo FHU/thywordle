@@ -1,16 +1,30 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
+import { LeaderboardUser } from '@/constants/types'
+
 import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
-import { auth } from '../lib/firebase'
+import { auth, getLeaderBoardFromFirestore } from '../lib/firebase'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)
+
+  const [leaderBoard, setLeaderBoard] = useState<LeaderboardUser[]>()
+
+  useEffect(() => {
+    ;(async () => {
+      const loadedLeaderBoard = user
+        ? await getLeaderBoardFromFirestore(user.uid)
+        : await getLeaderBoardFromFirestore()
+
+      setLeaderBoard(loadedLeaderBoard)
+    })()
+  }, [user])
 
   const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
   const [isStatSummaryModalOpen, setIsStatSummaryModalOpen] =
@@ -55,7 +69,7 @@ function Leaderboard() {
         </div>
       )}
 
-      <div className="col-span-10 col-start-2 mt-2 mb-16 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+      <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <div className="table w-full border-collapse">
           <div className="table-header-group rounded-xl bg-gray-300 dark:bg-slate-700">
             <div className="text-md table-row font-semibold text-black dark:text-white md:text-2xl">
@@ -79,7 +93,10 @@ function Leaderboard() {
               </div>
             </div>
           </div>
-          <LeaderboardRows updateSelectedUser={updateSelectedUser} />
+          <LeaderboardRows
+            users={leaderBoard}
+            updateSelectedUser={updateSelectedUser}
+          />
         </div>
       </div>
 
@@ -91,7 +108,7 @@ function Leaderboard() {
       <StatSummaryModal
         isOpen={isStatSummaryModalOpen}
         handleClose={() => setIsStatSummaryModalOpen(false)}
-        user={selectedUser}
+        leaderboardUser={selectedUser}
       />
     </div>
   )

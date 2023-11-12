@@ -4,13 +4,16 @@ import { useState } from 'react'
 import { copyTextToClipboard } from '../../lib/clipboard'
 import { encrypt } from '../../lib/encryption'
 import { loadGameStateFromLocalStorage } from '../../lib/localStorage'
-import { loadStats } from '../../lib/stats'
 import { MigrationStats } from '../modals/MigrateStatsModal'
+import { GameStats } from './../../constants/types'
 
-export const EmigratePanel = () => {
+interface Props {
+  stats: GameStats
+}
+
+export const EmigratePanel = ({ stats }: Props) => {
   const [isCopyButtonEnabled, setIsCopyButtonEnabled] = useState(true)
   const [copyButtonText, setCopyButtonText] = useState('Copy')
-  const stats = loadStats()
   const gameState = loadGameStateFromLocalStorage(true)
 
   const migrationStats: MigrationStats = {
@@ -36,6 +39,7 @@ export const EmigratePanel = () => {
       </label>
       <textarea
         id="emigration-code"
+        aria-label="emigrate"
         readOnly={true}
         rows={8}
         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"

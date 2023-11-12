@@ -1,18 +1,65 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { PropToEditEnum, ValidEmailEnum } from './../../constants/types'
+import { useAlert } from './../../context/AlertContext'
+import { checkIfEmailExistsInFirestore } from './../../lib/firebase'
 import { BaseModal } from './../modals/BaseModal'
 
 type Props = {
+  userInfo: any
+  propToEdit: PropToEditEnum
   isOpen: boolean
   handleClose: () => void
+  setNewPropValue: React.Dispatch<React.SetStateAction<string>>
+  setIsConfirmEditProfileModalOpen: React.Dispatch<
+    React.SetStateAction<boolean>
+  >
 }
 
-export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
-  const [username, setUsername] = useState<string>('Example Name')
-  const [email, setEmail] = useState<string>('example@email.com')
-  const [oldPassword, setOldPassword] = useState<string>('')
-  const [newPassword, setNewPassword] = useState<string>('')
-  const [confirmNewPassword, setConfirmNewPassword] = useState<string>('')
+export const EditProfileModal = ({
+  userInfo,
+  propToEdit,
+  isOpen,
+  handleClose,
+  setNewPropValue,
+  setIsConfirmEditProfileModalOpen,
+}: Props) => {
+  const { showError: showErrorAlert } = useAlert()
+  const [username, setUsername] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
+  const [updateAccountText, setUpdateAccountText] =
+    useState<string>('Update Account')
+
+  useEffect(() => {
+    if (userInfo) {
+      setUsername(userInfo.name)
+      setEmail(userInfo.email)
+      if (userInfo.authProvider === 'google') {
+        setSignedInWithGoogle(true)
+      }
+    }
+  }, [userInfo])
+
+  useEffect(() => {
+    switch (propToEdit) {
+      case PropToEditEnum.Username:
+        setUpdateAccountText('Update Username')
+        return
+      case PropToEditEnum.Email:
+        if (signedInWithGoogle) {
+          setUpdateAccountText('Update Email & Password')
+          return
+        }
+        setUpdateAccountText('Update Email')
+        return
+      case PropToEditEnum.Password:
+        setUpdateAccountText('Send Password Reset Email')
+        return
+      default:
+        return
+    }
+  }, [propToEdit, signedInWithGoogle])
 
   const buttonDisabledClasses =
     'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
@@ -20,153 +67,117 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
     'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
   const isValid = () => {
-    if (
-      username.length > 0 &&
-      email.length > 0 &&
-      oldPassword.length > 0 &&
-      newPassword.length > 0 &&
-      confirmNewPassword.length > 0
-    ) {
-      return true
-    }
+    switch (propToEdit) {
+      case PropToEditEnum.Username:
+        return Boolean(username.length)
 
-    return false
+      case PropToEditEnum.Email:
+        const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+        return emailRegex.test(email)
+
+      case PropToEditEnum.Password:
+        return true
+
+      default:
+        return false
+    }
   }
 
-  const handleEditAccountButtonClick = () => {
+  const updatePropValue = (newValue: string) => {
+    handleClose()
+    setNewPropValue(newValue)
+    setIsConfirmEditProfileModalOpen(true)
+  }
+
+  const handleEditAccountButtonClick = async () => {
     if (isValid()) {
-      console.log('edit user')
+      switch (propToEdit) {
+        case PropToEditEnum.Username:
+          updatePropValue(username)
+          return
+
+        case PropToEditEnum.Email:
+          const isEmailInFirestore = await checkIfEmailExistsInFirestore(email)
+          if (isEmailInFirestore !== ValidEmailEnum.NotFound) {
+            showErrorAlert('That email is already associated with an account.')
+            return
+          }
+          updatePropValue(email)
+          return
+
+        case PropToEditEnum.Password:
+          handleClose()
+          setIsConfirmEditProfileModalOpen(true)
+          return
+
+        default:
+          return false
+      }
     }
   }
 
   return (
-    <BaseModal title="Edit Profile" isOpen={isOpen} handleClose={handleClose}>
+    <BaseModal
+      title={updateAccountText}
+      isOpen={isOpen}
+      handleClose={handleClose}
+    >
       <div className="transform overflow-hidden transition-all">
         <div className="my-2 flex flex-col justify-center">
-          <div>
-            <label
-              htmlFor="username"
-              className="text-md block font-medium leading-6 text-black dark:text-white"
-            >
-              Name
-            </label>
-            <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autoComplete="name"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                  placeholder="Name (Example: John Doe)"
-                  value={username}
-                  onChange={(e: any) => {
-                    setUsername(e.target.value)
-                  }}
-                />
+          {propToEdit === PropToEditEnum.Username && (
+            <div>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    autoComplete="name"
+                    className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
+                    placeholder="Name"
+                    value={username}
+                    onChange={(e: any) => {
+                      setUsername(e.target.value)
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
-          <div>
-            <label
-              htmlFor="email"
-              className="text-md mt-4 block font-medium leading-6 text-black dark:text-white"
-            >
-              Email
-            </label>
-            <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e: any) => {
-                    setEmail(e.target.value)
-                  }}
-                />
+          {propToEdit === PropToEditEnum.Email && (
+            <div>
+              {signedInWithGoogle && (
+                <p className="my-4">
+                  {'Are you sure you want to update your email?'} <br />{' '}
+                  {'Your current account is tied to your '}
+                  <span className="text-indigo-600 dark:text-indigo-400">
+                    {userInfo.email}
+                  </span>{' '}
+                  {'google account.'} <br />{' '}
+                  {
+                    'Changing your email will require you to set a new password as well.'
+                  }
+                </p>
+              )}
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    id="email-address"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e: any) => {
+                      setEmail(e.target.value)
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="old-password"
-              className="text-md mt-4 block font-medium leading-6 text-black dark:text-white"
-            >
-              Old Password
-            </label>
-            <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  id="old-password"
-                  name="old-password"
-                  type="password"
-                  autoComplete="password"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                  placeholder="Old Password"
-                  value={oldPassword}
-                  onChange={(e: any) => {
-                    setOldPassword(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="new-password"
-              className="text-md mt-4 block font-medium leading-6 text-black dark:text-white"
-            >
-              New Password
-            </label>
-            <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  id="new-password"
-                  name="new-password"
-                  type="password"
-                  autoComplete="password"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                  placeholder="New Password"
-                  value={newPassword}
-                  onChange={(e: any) => {
-                    setNewPassword(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label
-              htmlFor="confirm-new-password"
-              className="text-md mt-4 block font-medium leading-6 text-black dark:text-white"
-            >
-              Confirm New Password
-            </label>
-            <div className="mt-2">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  id="confirm-new-password"
-                  name="confirm-new-password"
-                  type="password"
-                  autoComplete="password"
-                  className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white sm:text-sm sm:leading-6"
-                  placeholder="Confirm New Password"
-                  value={confirmNewPassword}
-                  onChange={(e: any) => {
-                    setConfirmNewPassword(e.target.value)
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+          )}
 
           <div className="mx-auto mt-8 w-64">
             <button
@@ -189,7 +200,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
                   />
                 </svg>
               </span>
-              Edit Account
+              {updateAccountText}
             </button>
           </div>
         </div>
@@ -197,6 +208,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: Props) => {
         <button
           onClick={() => handleClose()}
           tabIndex={0}
+          aria-label="close"
           aria-pressed="false"
           className="absolute right-4 top-4"
         ></button>

@@ -1,18 +1,45 @@
+import { User } from 'firebase/auth'
+
+import { GameStats } from '@/constants/types'
+
 import { MAX_CHALLENGES } from '../constants/settings'
 import {
-  GameStats,
+  loadStatsFromFirestoreCollection,
+  saveStatsToFirestore,
+} from './firebase'
+import {
   loadStatsFromLocalStorage,
   saveStatsToLocalStorage,
 } from './localStorage'
 
-// In stats array elements 0-5 are successes in 1-6 trys
+export const defaultStats: GameStats = {
+  winDistribution: Array.from(new Array(MAX_CHALLENGES), () => 0),
+  gamesFailed: 0,
+  currentStreak: 0,
+  bestStreak: 0,
+  totalGames: 0,
+  successRate: 0,
+  score: 0,
+  avgNumGuesses: 0,
+}
 
-export const addStatsForCompletedGame = (
+// In stats array elements 0-5 are successes in 1-6 tries
+
+export const addStatsForCompletedGame = async (
   gameStats: GameStats,
-  count: number
+  count: number,
+  user: User | null | undefined,
+  solution: string
 ) => {
   // Count is number of incorrect guesses before end.
-  const stats = { ...gameStats }
+  let stats = { ...gameStats }
+
+  if (user) {
+    const loadedStats = await loadStatsFromFirestoreCollection(user.uid)
+    if (loadedStats) {
+      stats = { ...loadedStats }
+    }
+  }
 
   stats.totalGames += 1
 
@@ -33,21 +60,16 @@ export const addStatsForCompletedGame = (
   stats.avgNumGuesses = getAverageNumberGuesses(stats)
 
   saveStatsToLocalStorage(stats)
+
+  if (user) {
+    stats.score = getScore(stats)
+    await saveStatsToFirestore(user.uid, stats, solution)
+  }
+
   return stats
 }
 
-const defaultStats: GameStats = {
-  winDistribution: Array.from(new Array(MAX_CHALLENGES), () => 0),
-  gamesFailed: 0,
-  currentStreak: 0,
-  bestStreak: 0,
-  totalGames: 0,
-  successRate: 0,
-  score: 0,
-  avgNumGuesses: 0,
-}
-
-export const loadStats = () => {
+export const loadStats = (): GameStats => {
   return loadStatsFromLocalStorage() || defaultStats
 }
 
@@ -72,23 +94,21 @@ export const getAverageNumberGuesses = (gameStats: GameStats) => {
 }
 
 export const getScore = (gameStats: GameStats): number => {
-  const WINBONUS = 256
-  const LOSEBONUS = 32
-  const SUCCESSRATEBONUS = 64
-  const AVGGUESSBONUS = 512
-  const STREAKBONUS = 8
+  const WIN_BONUS = 256
+  const LOSE_BONUS = 32
+  const SUCCESS_RATE_BONUS = 64
+  const AVG_GUESS_BONUS = 512
+  const STREAK_BONUS = 8
 
   const gamesWon = gameStats.totalGames - gameStats.gamesFailed
 
-  console.log(gameStats)
-
   const score =
-    gamesWon * WINBONUS +
-    gameStats.gamesFailed * LOSEBONUS +
-    gameStats.successRate * SUCCESSRATEBONUS +
-    (6 - gameStats.avgNumGuesses) * AVGGUESSBONUS +
-    gameStats.currentStreak * STREAKBONUS +
-    gameStats.bestStreak * STREAKBONUS
+    gamesWon * WIN_BONUS +
+    gameStats.gamesFailed * LOSE_BONUS +
+    gameStats.successRate * SUCCESS_RATE_BONUS +
+    (6 - gameStats.avgNumGuesses) * AVG_GUESS_BONUS +
+    gameStats.currentStreak * STREAK_BONUS +
+    gameStats.bestStreak * STREAK_BONUS
 
   return Math.round(score)
 }

@@ -35,6 +35,7 @@ export const LogOutModal = ({ isOpen, handleClose }: Props) => {
 
         <button
           onClick={() => handleClose()}
+          aria-label="close"
           tabIndex={0}
           aria-pressed="false"
           className="absolute right-4 top-4"
