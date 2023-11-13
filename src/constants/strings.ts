@@ -34,6 +34,8 @@ export const AVG_NUM_GUESSES_TEXT = 'Average Number of Guesses'
 export const POINTS_TEXT = 'Total Points'
 export const DISCOURAGE_INAPP_BROWSER_TEXT =
   "You are using an embedded browser and may experience problems sharing or saving your results. We encourage you rather to use your device's default browser."
+export const NEW_ACCOUNT_FEATURE_TEXT =
+  'NEW! Create a ThyWordle account, save your stats online, and see how you compare to other players! Click HERE to learn more!'
 
 export const DATEPICKER_TITLE = 'Choose a past date'
 export const DATEPICKER_CHOOSE_TEXT = 'Choose'

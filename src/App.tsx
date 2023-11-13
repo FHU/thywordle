@@ -28,6 +28,7 @@ import {
   DISCOURAGE_INAPP_BROWSER_TEXT,
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
+  NEW_ACCOUNT_FEATURE_TEXT,
   SHARE_FAILURE_TEXT,
   WIN_MESSAGES,
 } from './constants/strings'
@@ -59,6 +60,7 @@ import About from './pages/About'
 import Game from './pages/Game'
 import Help from './pages/Help'
 import Leaderboard from './pages/Leaderboard'
+import NewAccountFeature from './pages/NewAccountFeature'
 import Profile from './pages/Profile'
 
 function App() {
@@ -143,6 +145,7 @@ function App() {
   }
 
   useEffect(() => {
+    showSuccessAlert(NEW_ACCOUNT_FEATURE_TEXT)
     if (user) loadGameFromFirestore(user.uid)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
@@ -272,6 +275,10 @@ function App() {
               element={<Profile user={user} stats={stats} />}
             />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route
+              path="/new-accounts-feature"
+              element={<NewAccountFeature />}
+            />
           </Routes>
 
           <InfoModal
