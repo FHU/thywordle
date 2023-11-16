@@ -7,6 +7,7 @@ import { NEW_ACCOUNT_FEATURE_TEXT } from './../../constants/strings'
 
 type props = {
   isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   message: string
   variant?: 'success' | 'error'
   topMost?: boolean
@@ -14,6 +15,7 @@ type props = {
 
 export const Alert = ({
   isOpen,
+  setIsOpen,
   message,
   variant = 'error',
   topMost = false,
@@ -26,6 +28,7 @@ export const Alert = ({
 
   const handleClick = () => {
     if (isClickable()) {
+      setIsOpen(false)
       navigate('/new-accounts-feature')
     }
   }

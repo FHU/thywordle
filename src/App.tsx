@@ -145,7 +145,10 @@ function App() {
   }
 
   useEffect(() => {
-    showSuccessAlert(NEW_ACCOUNT_FEATURE_TEXT)
+    showSuccessAlert(NEW_ACCOUNT_FEATURE_TEXT, {
+      delayMs: 1500,
+      durationMs: 5000,
+    })
     if (user) loadGameFromFirestore(user.uid)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
