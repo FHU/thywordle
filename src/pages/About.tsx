@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-target-blank */
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 import BellTowerLogo from './../components/logo/BellTowerLogo'
@@ -45,6 +43,7 @@ function About() {
           <a
             href="https://fhu.edu"
             target="_blank"
+            rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             FHU
@@ -52,7 +51,8 @@ function About() {
           <a
             href="https://fhu.edu/cs"
             target="_blank"
-            className="text-l my-2 mx-auto w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            rel="noreferrer noopener"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             FHU Computer Science
           </a>
@@ -62,12 +62,12 @@ function About() {
         <img
           src={gitLogo}
           alt="GitHub"
-          className="mx-auto mt-20 mb-10 block h-auto w-24 dark:hidden md:w-32 lg:mb-16"
+          className="mx-auto mb-10 mt-20 block h-auto w-24 dark:hidden md:w-32 lg:mb-16"
         />
         <img
           src={gitLogoWhite}
           alt="GitHub"
-          className="mx-auto mt-20 mb-10 hidden h-auto w-24 dark:block md:w-32 lg:mb-16"
+          className="mx-auto mb-10 mt-20 hidden h-auto w-24 dark:block md:w-32 lg:mb-16"
         />
         <h2 className="text-center text-2xl font-bold text-black dark:text-white">
           Learn More <br className="block md:hidden" /> about the code
@@ -76,6 +76,7 @@ function About() {
           <a
             href="https://github.com/FHU/thywordle"
             target="_blank"
+            rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             ThyWordle Repo
@@ -83,6 +84,7 @@ function About() {
           <a
             href="https://github.com/cwackerfuss/react-wordle"
             target="_blank"
+            rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             Reactle Repo

@@ -129,6 +129,7 @@ const addUserToFirestoreCollection = async (
         totalGames: defaultStats.totalGames,
         winDistribution: defaultStats.winDistribution,
       },
+      groups: [],
     })
 
     return u.uid
@@ -347,4 +348,15 @@ export const getLeaderBoardFromFirestore = async (
   })
 
   return leaderBoard
+}
+
+export const getGroupsByUidFromFirestore = async (
+  userId: string
+): Promise<string[]> => {
+  const userDoc = await getUserDocByUid(userId)
+  if (!userDoc.exists()) {
+    return []
+  }
+
+  return userDoc.data().groups
 }

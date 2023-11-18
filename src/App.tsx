@@ -57,6 +57,8 @@ import {
 } from './lib/words'
 import About from './pages/About'
 import Game from './pages/Game'
+import GroupLeaderboard from './pages/GroupLeaderboard'
+import Groups from './pages/Groups'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
 
@@ -265,11 +267,13 @@ function App() {
               }
             />
             <Route path="/about" element={<About />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route
               path="/profile"
               element={<Profile user={user} stats={stats} />}
             />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/groups" element={<Groups />} />
+            <Route path="/groups/:groupName" element={<GroupLeaderboard />} />
           </Routes>
 
           <InfoModal
