@@ -8,6 +8,7 @@ export const users: LeaderboardUser[] = [
     name: 'Kenan Casey',
     avgGuesses: 2,
     points: 1000,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -21,6 +22,7 @@ export const users: LeaderboardUser[] = [
     name: 'Dallas Yarnell',
     avgGuesses: 3.5,
     points: 900,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -34,6 +36,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 800,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -47,6 +50,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 700,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -60,6 +64,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 650,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -73,6 +78,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 600,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -86,6 +92,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 500,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -99,6 +106,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 400,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -112,6 +120,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 400,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -125,6 +134,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 350,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -138,6 +148,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 350,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -151,6 +162,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 300,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -164,6 +176,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 300,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -177,6 +190,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 300,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -190,6 +204,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 250,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -203,6 +218,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 250,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -216,6 +232,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 200,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -229,6 +246,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 200,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -242,6 +260,7 @@ export const users: LeaderboardUser[] = [
     name: 'Kaden King',
     avgGuesses: 5,
     points: 100,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -255,6 +274,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 50,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -268,6 +288,7 @@ export const users: LeaderboardUser[] = [
     name: 'Kenan Casey',
     avgGuesses: 2,
     points: 1000,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -281,6 +302,7 @@ export const users: LeaderboardUser[] = [
     name: 'Dallas Yarnell',
     avgGuesses: 3.5,
     points: 900,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -294,6 +316,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 800,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -307,6 +330,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 700,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -320,6 +344,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 650,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -333,6 +358,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 600,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -346,6 +372,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 500,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -359,6 +386,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 400,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -372,6 +400,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 400,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -385,6 +414,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 350,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -398,6 +428,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 350,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -411,6 +442,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 300,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -424,6 +456,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 2,
     points: 300,
+    lastPlayed: '',
     stats: {
       currentStreak: 10,
       bestStreak: 10,
@@ -437,6 +470,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 3.5,
     points: 300,
+    lastPlayed: '',
     stats: {
       currentStreak: 7,
       bestStreak: 8,
@@ -450,6 +484,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 250,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -463,6 +498,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 250,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -476,6 +512,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 200,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -489,6 +526,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 200,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -502,6 +540,7 @@ export const users: LeaderboardUser[] = [
     name: 'Kaden King',
     avgGuesses: 5,
     points: 100,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
@@ -515,6 +554,7 @@ export const users: LeaderboardUser[] = [
     name: 'Anonymous Joe',
     avgGuesses: 5,
     points: 50,
+    lastPlayed: '',
     stats: {
       currentStreak: 3,
       bestStreak: 5,
