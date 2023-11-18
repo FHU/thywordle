@@ -19,7 +19,7 @@ export const StatItem = ({
 }) => {
   return (
     <div className="m-1 w-1/4 items-center justify-center dark:text-white">
-      <div className="text-3xl font-bold">{value}</div>
+      <div className="text-2xl font-bold">{value}</div>
       <div className="text-xs">{label}</div>
     </div>
   )
