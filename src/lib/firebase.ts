@@ -27,6 +27,7 @@ import {
 
 import {
   GameStats,
+  Group,
   LeaderboardUser,
   ValidEmailEnum,
 } from './../constants/types'
@@ -359,4 +360,62 @@ export const getGroupsByUidFromFirestore = async (
   }
 
   return userDoc.data().groups
+}
+
+export const getGroupByGroupNameFromFirestore = async (
+  groupName: string | undefined,
+  uid: string
+): Promise<Group | null> => {
+  if (!groupName) {
+    return null
+  }
+
+  try {
+    const groupQuery = query(
+      collection(db, 'groups'),
+      where('groupName', '==', groupName),
+      limit(1)
+    )
+
+    const querySnapshot = await getDocs(groupQuery)
+    const result = querySnapshot.docs[0]
+
+    if (!result) {
+      return null
+    }
+
+    const groupLeaderboard: LeaderboardUser[] = []
+
+    let rank = 1
+    for (let i = 0; i < result.data().users.length; i++) {
+      const userDoc = await getDoc(result.data().users[i])
+      const userData: any = userDoc.data()
+      if (userDoc.exists() && userDoc.data() !== undefined) {
+        const u = {
+          uid: userData.uid,
+          rank: rank,
+          name: userData.name,
+          avgGuesses: userData.gameStats.avgNumGuesses,
+          points: userData.gameStats.score,
+          stats: {
+            currentStreak: userData.gameStats.currentStreak,
+            bestStreak: userData.gameStats.bestStreak,
+            successRate: userData.gameStats.successRate,
+          },
+          highlightedUser: userData.uid === uid,
+        }
+
+        groupLeaderboard.push(u)
+        rank++
+      }
+    }
+
+    return {
+      groupName: result.data().groupName,
+      users: groupLeaderboard,
+    }
+  } catch (error) {
+    console.log(error)
+    return null
+  }
 }

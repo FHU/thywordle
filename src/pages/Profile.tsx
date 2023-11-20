@@ -2,6 +2,7 @@ import { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import SignInTabs from '../components/profile/SignInTabs'
+import Loading from './../components/gameState/Loading'
 import { ConfirmEditProfileModal } from './../components/profile/ConfirmEditProfileModal'
 import { EditProfileModal } from './../components/profile/EditProfileModal'
 import { LogOutModal } from './../components/profile/LogOutModal'
@@ -15,6 +16,7 @@ interface Props {
 }
 
 function Profile({ user, stats }: Props) {
+  const [loading, setLoading] = useState<boolean>(false)
   const [userInfo, setUserInfo] = useState<any>()
   const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
     useState<boolean>(false)
@@ -38,11 +40,17 @@ function Profile({ user, stats }: Props) {
   useEffect(() => {
     ;(async () => {
       if (user) {
+        setLoading(true)
         const u = await getUserDataByUid(user.uid)
         setUserInfo(u)
+        setLoading(false)
       }
     })()
   }, [user])
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div className="grid w-full grid-cols-12 gap-4">

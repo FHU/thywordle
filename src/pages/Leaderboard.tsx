@@ -7,22 +7,25 @@ import { LeaderboardUser } from '@/constants/types'
 
 import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
 import { auth, getLeaderBoardFromFirestore } from '../lib/firebase'
+import Loading from './../components/gameState/Loading'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)
-
+  const [loading, setLoading] = useState<boolean>(false)
   const [leaderBoard, setLeaderBoard] = useState<LeaderboardUser[]>()
 
   useEffect(() => {
     ;(async () => {
+      setLoading(true)
       const loadedLeaderBoard = user
         ? await getLeaderBoardFromFirestore(user.uid)
         : await getLeaderBoardFromFirestore()
 
       setLeaderBoard(loadedLeaderBoard)
+      setLoading(false)
     })()
   }, [user])
 
@@ -35,6 +38,10 @@ function Leaderboard() {
   const updateSelectedUser = (user: any) => {
     setSelectedUser(user)
     setIsStatSummaryModalOpen(true)
+  }
+
+  if (loading) {
+    return <Loading />
   }
 
   return (

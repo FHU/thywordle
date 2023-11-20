@@ -2,24 +2,31 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
+import Loading from './../components/gameState/Loading'
 import { UserGroups } from './../components/groups/UserGroups'
 import favicon from './../img/favicon.png'
 import { auth, getGroupsByUidFromFirestore } from './../lib/firebase'
 
 function Groups() {
   const [user] = useAuthState(auth)
-
+  const [loading, setLoading] = useState<boolean>(false)
   const [userGroups, setUserGroups] = useState<string[]>([])
 
   useEffect(() => {
     ;(async () => {
+      setLoading(true)
       const loadedUserGroups = user
         ? await getGroupsByUidFromFirestore(user.uid)
         : []
 
       setUserGroups(loadedUserGroups)
+      setLoading(false)
     })()
   }, [user])
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div className="grid w-full grid-cols-12 gap-4">

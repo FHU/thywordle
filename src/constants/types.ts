@@ -19,6 +19,11 @@ export type LeaderboardUser = {
   highlightedUser: boolean
 }
 
+export type Group = {
+  groupName: string
+  users: LeaderboardUser[]
+}
+
 export enum ValidEmailEnum {
   NotFound,
   FoundPassword,
