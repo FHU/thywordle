@@ -51,7 +51,7 @@ function Groups() {
               Please sign or create an account to join a group.
             </p>
             <Link
-              to="/"
+              to="/profile"
               className="text-ll mb-12 inline-block rounded-lg bg-black p-4 px-12 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
             >
               Sign in
