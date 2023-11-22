@@ -362,7 +362,31 @@ export const getGroupsByUidFromFirestore = async (
   return userDoc.data().groups
 }
 
-export const getGroupByGroupNameFromFirestore = async (
+export const checkIfGroupNameExistsInFirestore = async (
+  groupName: string
+): Promise<boolean> => {
+  try {
+    const groups = query(
+      collection(db, 'groups'),
+      where('groupName', '==', groupName),
+      limit(1)
+    )
+
+    const querySnapshot = await getDocs(groups)
+    const result = querySnapshot.docs[0]
+
+    if (!result) {
+      return false
+    }
+
+    return true
+  } catch (error) {
+    console.log(error)
+    return true
+  }
+}
+
+export const getGroupLeaderboardByGroupNameFromFirestore = async (
   groupName: string | undefined,
   uid: string
 ): Promise<Group | null> => {

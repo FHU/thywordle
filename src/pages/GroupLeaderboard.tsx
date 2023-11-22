@@ -11,7 +11,7 @@ import { Group } from './../constants/types'
 import favicon from './../img/favicon.png'
 import {
   auth,
-  getGroupByGroupNameFromFirestore,
+  getGroupLeaderboardByGroupNameFromFirestore,
   getGroupsByUidFromFirestore,
 } from './../lib/firebase'
 
@@ -42,7 +42,7 @@ function GroupLeaderboard() {
           setUnauthorized(true)
         }
 
-        const loadedGroup = await getGroupByGroupNameFromFirestore(
+        const loadedGroup = await getGroupLeaderboardByGroupNameFromFirestore(
           params.groupName,
           user.uid
         )
@@ -84,14 +84,28 @@ function GroupLeaderboard() {
             </p>
             <Link
               to="/profile"
-              className="text-ll mb-12 inline-block rounded-lg bg-black p-4 px-12 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+              className="group relative mx-auto mb-12 flex w-40 justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg
+                  className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
               Sign in
             </Link>
           </>
         )}
 
-        {!group && (
+        {user && !group && (
           <>
             <p className="my-8 text-lg text-black dark:text-white">
               Create a new group and invite your friends!
@@ -106,7 +120,7 @@ function GroupLeaderboard() {
           </>
         )}
 
-        {group && unauthorized && (
+        {user && group && unauthorized && (
           <>
             <p className="my-8 text-lg text-black dark:text-white">
               You are not a member of this group. Request to join or create a
@@ -122,7 +136,7 @@ function GroupLeaderboard() {
           </>
         )}
 
-        {group && !unauthorized && (
+        {user && group && !unauthorized && (
           <>
             <div className="table w-full border-collapse">
               <div className="table-header-group rounded-xl bg-gray-300 dark:bg-slate-700">
