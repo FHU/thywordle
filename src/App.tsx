@@ -57,6 +57,7 @@ import {
 } from './lib/words'
 import About from './pages/About'
 import Game from './pages/Game'
+import GroupCreate from './pages/GroupCreate'
 import GroupLeaderboard from './pages/GroupLeaderboard'
 import Groups from './pages/Groups'
 import Leaderboard from './pages/Leaderboard'
@@ -273,6 +274,7 @@ function App() {
             />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/groups" element={<Groups />} />
+            <Route path="/groups/create" element={<GroupCreate />} />
             <Route path="/groups/:groupName" element={<GroupLeaderboard />} />
           </Routes>
 
