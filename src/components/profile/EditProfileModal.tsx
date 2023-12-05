@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
 
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+} from './../../constants/classes'
 import { PropToEditEnum, ValidEmailEnum } from './../../constants/types'
 import { useAlert } from './../../context/AlertContext'
 import { checkIfEmailExistsInFirestore } from './../../lib/firebase'
@@ -61,11 +65,6 @@ export const EditProfileModal = ({
     }
   }, [propToEdit, signedInWithGoogle])
 
-  const buttonDisabledClasses =
-    'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
-  const buttonEnabledClasses =
-    'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
-
   const isValid = () => {
     switch (propToEdit) {
       case PropToEditEnum.Username:
@@ -122,7 +121,7 @@ export const EditProfileModal = ({
       isOpen={isOpen}
       handleClose={handleClose}
     >
-      <div className="transform overflow-hidden transition-all">
+      <div className="transform overflow-hidden text-black transition-all dark:text-white">
         <div className="my-2 flex flex-col justify-center">
           {propToEdit === PropToEditEnum.Username && (
             <div>

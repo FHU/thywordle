@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { buttonEnabledClasses } from './../../constants/classes'
 import { resetForgottenPassword } from './../../lib/firebase'
 import { BaseModal } from './../modals/BaseModal'
 
@@ -11,8 +12,6 @@ type Props = {
 
 export const ForgotPasswordModal = ({ email, isOpen, handleClose }: Props) => {
   const [emailSent, setEmailSent] = useState<boolean>(false)
-  const buttonEnabledClasses =
-    'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
   const handleForgotPasswordButtonClick = () => {
     resetForgottenPassword(email)

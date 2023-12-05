@@ -4,20 +4,15 @@ import {
   createAccountWithUsernameAndPassword,
   signInWithGoogle,
 } from '../../lib/firebase'
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  inputClasses,
+} from './../../constants/classes'
 import { useAlert } from './../../context/AlertContext'
 import ValidateEmailForm from './ValidateEmailForm'
 
-interface props {
-  inputClasses: string
-  buttonDisabledClasses: string
-  buttonEnabledClasses: string
-}
-
-const CreateAccountForm = ({
-  inputClasses,
-  buttonDisabledClasses,
-  buttonEnabledClasses,
-}: props) => {
+const CreateAccountForm = () => {
   const { showError: showErrorAlert } = useAlert()
   const [email, setEmail] = useState<string>('')
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
@@ -73,9 +68,6 @@ const CreateAccountForm = ({
               setEmail={setEmail}
               setIsEmailValid={setIsEmailValid}
               newAccount={true}
-              inputClasses={inputClasses}
-              buttonDisabledClasses={buttonDisabledClasses}
-              buttonEnabledClasses={buttonEnabledClasses}
             />
           )}
 

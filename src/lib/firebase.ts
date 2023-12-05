@@ -386,6 +386,25 @@ export const checkIfGroupNameExistsInFirestore = async (
   }
 }
 
+export const checkIfGroupIsPrivateByGroupNameFromFirestore = async (
+  groupName: string
+): Promise<boolean> => {
+  try {
+    const groupQuery = query(
+      collection(db, 'groups'),
+      where('groupName', '==', groupName),
+      limit(1)
+    )
+
+    const querySnapshot = await getDocs(groupQuery)
+    const result = querySnapshot.docs[0]
+    return result.data().isPrivate
+  } catch (error) {
+    console.log(error)
+    return true
+  }
+}
+
 export const getGroupLeaderboardByGroupNameFromFirestore = async (
   groupName: string | undefined,
   uid: string
@@ -436,6 +455,7 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
 
     return {
       groupName: result.data().groupName,
+      isPrivate: result.data().isPrivate,
       users: groupLeaderboard,
     }
   } catch (error) {

@@ -1,22 +1,21 @@
 import { checkIfGroupNameExistsInFirestore } from '../../lib/firebase'
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  inputClasses,
+} from './../../constants/classes'
 import { useAlert } from './../../context/AlertContext'
 
 interface props {
   groupName: string
   setGroupName: React.Dispatch<React.SetStateAction<string>>
   setIsGroupNameValid: React.Dispatch<React.SetStateAction<boolean>>
-  inputClasses: string
-  buttonDisabledClasses: string
-  buttonEnabledClasses: string
 }
 
 const ValidateGroupNameForm = ({
   groupName,
   setGroupName,
   setIsGroupNameValid,
-  inputClasses,
-  buttonDisabledClasses,
-  buttonEnabledClasses,
 }: props) => {
   const { showError: showErrorAlert } = useAlert()
 

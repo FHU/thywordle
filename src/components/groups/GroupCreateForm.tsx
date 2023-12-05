@@ -1,21 +1,18 @@
 import { useState } from 'react'
 
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  inputClasses,
+} from './../../constants/classes'
 import { useAlert } from './../../context/AlertContext'
 import ValidateGroupNameForm from './ValidateGroupNameForm'
 
 interface props {
   isPrivate: boolean
-  inputClasses: string
-  buttonDisabledClasses: string
-  buttonEnabledClasses: string
 }
 
-const GroupCreateForm = ({
-  isPrivate,
-  inputClasses,
-  buttonDisabledClasses,
-  buttonEnabledClasses,
-}: props) => {
+const GroupCreateForm = ({ isPrivate }: props) => {
   const { showError: showErrorAlert } = useAlert()
   const [groupName, setGroupName] = useState<string>('')
   const [isGroupNameValid, setIsGroupNameValid] = useState<boolean>(false)
@@ -55,9 +52,6 @@ const GroupCreateForm = ({
               groupName={groupName}
               setGroupName={setGroupName}
               setIsGroupNameValid={setIsGroupNameValid}
-              inputClasses={inputClasses}
-              buttonDisabledClasses={buttonDisabledClasses}
-              buttonEnabledClasses={buttonEnabledClasses}
             />
           )}
 

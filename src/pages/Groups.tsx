@@ -3,14 +3,31 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
 import Loading from './../components/gameState/Loading'
+import { ConfirmJoinGroupModal } from './../components/groups/ConfirmJoinGroupModal'
 import { UserGroups } from './../components/groups/UserGroups'
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  inputClasses,
+} from './../constants/classes'
+import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
-import { auth, getGroupsByUidFromFirestore } from './../lib/firebase'
+import {
+  auth,
+  checkIfGroupIsPrivateByGroupNameFromFirestore,
+  checkIfGroupNameExistsInFirestore,
+  getGroupsByUidFromFirestore,
+} from './../lib/firebase'
 
 function Groups() {
   const [user] = useAuthState(auth)
+  const { showError: showErrorAlert } = useAlert()
   const [loading, setLoading] = useState<boolean>(false)
   const [userGroups, setUserGroups] = useState<string[]>([])
+  const [searchedGroupName, setSearchedGroupName] = useState<string>('')
+  const [isGroupPrivate, setIsGroupPrivate] = useState<boolean>(true)
+  const [isConfirmJoinGroupModalOpen, setIsConfirmJoinGroupModalOpen] =
+    useState<boolean>(false)
 
   useEffect(() => {
     ;(async () => {
@@ -24,12 +41,24 @@ function Groups() {
     })()
   }, [user])
 
-  // const inputClasses =
-  //   'w-full border-0 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:text-white sm:leading-6'
-  // const buttonDisabledClasses =
-  //   'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
-  const buttonEnabledClasses =
-    'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
+  const handleSearchButtonClick = async () => {
+    const isGroupNameInFirestore = await checkIfGroupNameExistsInFirestore(
+      searchedGroupName
+    )
+
+    if (!isGroupNameInFirestore) {
+      showErrorAlert(
+        'That group does not exist. Please enter the exact group name you would like to find.'
+      )
+      return
+    }
+
+    const x = await checkIfGroupIsPrivateByGroupNameFromFirestore(
+      searchedGroupName
+    )
+    setIsGroupPrivate(x)
+    setIsConfirmJoinGroupModalOpen(true)
+  }
 
   if (loading) {
     return <Loading />
@@ -43,10 +72,10 @@ function Groups() {
           alt="ThyWordle Favicon"
           className="mx-auto my-12 w-48"
         />
-        <h1 className="text-l font-bold dark:text-white sm:text-xl md:text-3xl">
+        <h1 className="text-xl font-bold dark:text-white md:text-3xl">
           Groups
         </h1>
-        <p className="mx-auto mb-8 mt-4 text-base dark:text-white md:text-xl">
+        <p className="mx-4 mb-8 mt-4 text-base dark:text-white md:text-xl">
           Create or join a group to track your stats against your friends!
         </p>
       </div>
@@ -82,7 +111,7 @@ function Groups() {
       ) : (
         <>
           <div className="col-span-10 col-start-2 mb-0 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-5 lg:col-start-2 lg:col-end-7 lg:mb-8">
-            <h2 className="my-8 text-center text-2xl font-bold text-black dark:text-white">
+            <h2 className="my-8 text-center text-xl font-bold text-black dark:text-white md:text-2xl">
               My Groups
             </h2>
             <div className="my-4 flex flex-col text-center">
@@ -98,13 +127,13 @@ function Groups() {
           </div>
 
           <div className="col-span-10 col-start-2 mb-8 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-5 lg:col-end-12">
-            <h2 className="my-8 text-center text-2xl font-bold text-black dark:text-white">
+            <h2 className="my-8 text-center text-xl font-bold text-black dark:text-white md:text-2xl">
               Create or Join a New Group
             </h2>
             <div className="my-12 flex flex-col text-center">
               <Link
                 to="/groups/create"
-                className={`${buttonEnabledClasses} group relative mx-auto mb-12 flex w-1/2 justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+                className={`${buttonEnabledClasses} group relative mx-auto mb-12 flex w-64 justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <svg
@@ -123,12 +152,67 @@ function Groups() {
                 Create New Group
               </Link>
 
-              {/* TODO: Group List / Search Component */}
-              {/* TODO: Firebase Call: Request to Join Group */}
+              <div>
+                <h2 className="text-l my-4 text-center font-bold text-black dark:text-white md:text-xl">
+                  Search for Existing Group
+                </h2>
+                <div className="mx-auto w-3/4">
+                  <label htmlFor="searchedGroupName" className="sr-only">
+                    Group Name
+                  </label>
+                  <input
+                    id="searchedGroupName"
+                    name="searchedGroupName"
+                    type="text"
+                    value={searchedGroupName}
+                    onChange={(e: any) => {
+                      setSearchedGroupName(e.target.value)
+                    }}
+                    required
+                    className={`${inputClasses} rounded-md bg-white dark:bg-slate-800`}
+                    placeholder="Group Name"
+                    disabled={false}
+                  />
+                </div>
+
+                <div className="mx-auto mt-5 w-64">
+                  <button
+                    className={`${
+                      Boolean(searchedGroupName.length)
+                        ? buttonEnabledClasses
+                        : buttonDisabledClasses
+                    } group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+                    onClick={handleSearchButtonClick}
+                  >
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                      <svg
+                        className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                    Search for Group
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </>
       )}
+
+      <ConfirmJoinGroupModal
+        groupName={searchedGroupName}
+        isGroupPrivate={isGroupPrivate}
+        isOpen={isConfirmJoinGroupModalOpen}
+        handleClose={() => setIsConfirmJoinGroupModalOpen(false)}
+      />
     </div>
   )
 }

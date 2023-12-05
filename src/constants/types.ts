@@ -21,6 +21,7 @@ export type LeaderboardUser = {
 
 export type Group = {
   groupName: string
+  isPrivate: boolean
   users: LeaderboardUser[]
 }
 

@@ -2,22 +2,19 @@ import { useState } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
 import { auth, signInWithGoogle } from '../../lib/firebase'
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  inputClasses,
+} from './../../constants/classes'
 import { useAlert } from './../../context/AlertContext'
 import ValidateEmailForm from './ValidateEmailForm'
 
 interface props {
-  inputClasses: string
-  buttonDisabledClasses: string
-  buttonEnabledClasses: string
   handleForgotPassword: any
 }
 
-const SignInForm = ({
-  inputClasses,
-  buttonDisabledClasses,
-  buttonEnabledClasses,
-  handleForgotPassword,
-}: props) => {
+const SignInForm = ({ handleForgotPassword }: props) => {
   const { showError: showErrorAlert } = useAlert()
   const [email, setEmail] = useState<string>('')
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
@@ -48,9 +45,6 @@ const SignInForm = ({
               setEmail={setEmail}
               setIsEmailValid={setIsEmailValid}
               newAccount={false}
-              inputClasses={inputClasses}
-              buttonDisabledClasses={buttonDisabledClasses}
-              buttonEnabledClasses={buttonEnabledClasses}
             />
           )}
 
