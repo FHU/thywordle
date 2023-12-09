@@ -22,12 +22,10 @@ const CreateAccountForm = () => {
 
   const isValidPassword = () => {
     if (password.length < 8 || confirmPassword.length < 8) {
-      showErrorAlert('Passwords must be at least 8 characters long.')
       return false
     }
 
     if (password !== confirmPassword) {
-      showErrorAlert('Passwords must match.')
       return false
     }
 
@@ -43,6 +41,10 @@ const CreateAccountForm = () => {
   }
 
   const handleCreateAccountButtonClick = async () => {
+    if (!isValid()) {
+      return
+    }
+
     const signIn = await createAccountWithUsernameAndPassword(
       username,
       email,

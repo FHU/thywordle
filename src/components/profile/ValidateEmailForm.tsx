@@ -22,7 +22,7 @@ const ValidateEmailForm = ({
 }: props) => {
   const { showError: showErrorAlert } = useAlert()
   const isValidEmail = () => {
-    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+    const emailRegex = /^[a-zA-Z]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
     return emailRegex.test(email)
   }
 
@@ -32,6 +32,10 @@ const ValidateEmailForm = ({
   }
 
   const handleButtonClick = async () => {
+    if (!isValidEmail()) {
+      return
+    }
+
     const isEmailInFirestore = await checkIfEmailExistsInFirestore(email)
 
     if (isEmailInFirestore === ValidEmailEnum.FoundGoogle) {

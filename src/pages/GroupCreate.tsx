@@ -12,7 +12,7 @@ function GroupCreate() {
   const [isAllowedToCreateGroup, setIsAllowedToCreateGroup] =
     useState<boolean>(true)
 
-  const tabs = ['Private Group', 'Public Group']
+  const tabs = ['Public Group', 'Private Group']
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
 
   useEffect(() => {
@@ -83,7 +83,7 @@ function GroupCreate() {
               </div>
             </div>
             <div className="py-4">
-              <GroupCreateForm isPrivate={activeTabIndex === 0} />
+              <GroupCreateForm isPrivate={activeTabIndex === 1} />
             </div>
           </>
         )}

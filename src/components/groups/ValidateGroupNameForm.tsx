@@ -1,4 +1,4 @@
-import { checkIfGroupNameExistsInFirestore } from '../../lib/firebase'
+import { checkIfGroupExistsInFirestore } from '../../lib/firebase'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,
@@ -25,11 +25,11 @@ const ValidateGroupNameForm = ({
   }
 
   const handleButtonClick = async () => {
-    const isGroupNameInFirestore = await checkIfGroupNameExistsInFirestore(
+    const isGroupNameInFirestore = await checkIfGroupExistsInFirestore(
       groupName
     )
 
-    if (isGroupNameInFirestore) {
+    if (isGroupNameInFirestore !== null) {
       groupNameNotAllowed(
         'A group with that name already exists. Please choose a different name.'
       )

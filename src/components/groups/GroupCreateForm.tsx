@@ -32,6 +32,7 @@ const GroupCreateForm = ({ isPrivate }: props) => {
       'Sorry, unable to create a new group at this time. Please try again later.'
     )
     // }
+    // TODO: do not allow any special characters in group Names
     // TODO: show confirm create group modal
   }
 

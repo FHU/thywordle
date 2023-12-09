@@ -11,6 +11,7 @@ import { Group } from './../constants/types'
 import favicon from './../img/favicon.png'
 import {
   auth,
+  getCleanedGroupName,
   getGroupLeaderboardByGroupNameFromFirestore,
   getGroupsByUidFromFirestore,
 } from './../lib/firebase'
@@ -26,7 +27,7 @@ function GroupLeaderboard() {
   const [isStatSummaryModalOpen, setIsStatSummaryModalOpen] =
     useState<boolean>(false)
 
-  const [selectedUser, setSelectedUser] = useState<any>(null)
+  const [selectedUser, setSelectedUser] = useState<any>()
   const updateSelectedUser = (user: any) => {
     setSelectedUser(user)
     setIsStatSummaryModalOpen(true)
@@ -37,8 +38,11 @@ function GroupLeaderboard() {
       if (user && params.groupName) {
         setLoading(true)
         const loadedUserGroups = await getGroupsByUidFromFirestore(user.uid)
+        loadedUserGroups.forEach((group) => {
+          group = getCleanedGroupName(group)
+        })
 
-        if (!loadedUserGroups.includes(params.groupName)) {
+        if (loadedUserGroups.includes(params.groupName)) {
           setUnauthorized(true)
         }
 

@@ -14,8 +14,7 @@ import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
 import {
   auth,
-  checkIfGroupIsPrivateByGroupNameFromFirestore,
-  checkIfGroupNameExistsInFirestore,
+  checkIfGroupExistsInFirestore,
   getGroupsByUidFromFirestore,
 } from './../lib/firebase'
 
@@ -42,21 +41,19 @@ function Groups() {
   }, [user])
 
   const handleSearchButtonClick = async () => {
-    const isGroupNameInFirestore = await checkIfGroupNameExistsInFirestore(
+    const isGroupNameInFirestore = await checkIfGroupExistsInFirestore(
       searchedGroupName
     )
 
-    if (!isGroupNameInFirestore) {
+    if (isGroupNameInFirestore === null) {
       showErrorAlert(
         'That group does not exist. Please enter the exact group name you would like to find.'
       )
       return
     }
 
-    const x = await checkIfGroupIsPrivateByGroupNameFromFirestore(
-      searchedGroupName
-    )
-    setIsGroupPrivate(x)
+    setSearchedGroupName(isGroupNameInFirestore.groupName)
+    setIsGroupPrivate(isGroupNameInFirestore.isPrivate)
     setIsConfirmJoinGroupModalOpen(true)
   }
 

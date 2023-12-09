@@ -76,7 +76,11 @@ export const createAccountWithUsernameAndPassword = async (
   password: string
 ): Promise<string | undefined> => {
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, password)
+    const res = await createUserWithEmailAndPassword(
+      auth,
+      email.toLocaleLowerCase(),
+      password
+    )
     const uid = await addUserToFirestoreCollection(
       res.user,
       username,
@@ -112,7 +116,7 @@ const addUserToFirestoreCollection = async (
     await setDoc(doc(db, 'users', u.uid), {
       uid: u.uid,
       name: username,
-      email: u.email,
+      email: u.email?.toLocaleLowerCase(),
       authProvider: provider,
       photoURL: u.photoURL ?? '',
       gameState: {
@@ -169,10 +173,10 @@ export const updateFirestoreEmail = async (
   const userDoc = await getUserDocByUid(user.uid)
   if (userDoc.exists()) {
     try {
-      await updateEmail(user, newEmail)
+      await updateEmail(user, newEmail.toLocaleLowerCase())
       const docRef = doc(db, 'users', user.uid)
       await updateDoc(docRef, {
-        email: newEmail,
+        email: newEmail.toLocaleLowerCase(),
       })
 
       if (authProvider === 'google') {
@@ -212,7 +216,7 @@ export const checkIfEmailExistsInFirestore = async (
   try {
     const users = query(
       collection(db, 'users'),
-      where('email', '==', email),
+      where('email', '==', email.toLocaleLowerCase()),
       limit(1)
     )
 
@@ -362,13 +366,17 @@ export const getGroupsByUidFromFirestore = async (
   return userDoc.data().groups
 }
 
-export const checkIfGroupNameExistsInFirestore = async (
+export const getCleanedGroupName = (groupName: string): string => {
+  return groupName.toLocaleLowerCase().replace(/\s/g, '')
+}
+
+export const checkIfGroupExistsInFirestore = async (
   groupName: string
-): Promise<boolean> => {
+): Promise<any> => {
   try {
     const groups = query(
       collection(db, 'groups'),
-      where('groupName', '==', groupName),
+      where('queryName', '==', getCleanedGroupName(groupName)),
       limit(1)
     )
 
@@ -376,29 +384,14 @@ export const checkIfGroupNameExistsInFirestore = async (
     const result = querySnapshot.docs[0]
 
     if (!result) {
-      return false
+      return null
     }
 
-    return true
-  } catch (error) {
-    console.log(error)
-    return true
-  }
-}
-
-export const checkIfGroupIsPrivateByGroupNameFromFirestore = async (
-  groupName: string
-): Promise<boolean> => {
-  try {
-    const groupQuery = query(
-      collection(db, 'groups'),
-      where('groupName', '==', groupName),
-      limit(1)
-    )
-
-    const querySnapshot = await getDocs(groupQuery)
-    const result = querySnapshot.docs[0]
-    return result.data().isPrivate
+    return {
+      groupName: result.data().groupName,
+      queryName: result.data().queryName,
+      isPrivate: result.data().isPrivate,
+    }
   } catch (error) {
     console.log(error)
     return true
@@ -416,7 +409,7 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
   try {
     const groupQuery = query(
       collection(db, 'groups'),
-      where('groupName', '==', groupName),
+      where('queryName', '==', getCleanedGroupName(groupName)),
       limit(1)
     )
 
