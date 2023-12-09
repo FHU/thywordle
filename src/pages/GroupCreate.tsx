@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { Link } from 'react-router-dom'
 
 import Loading from './../components/gameState/Loading'
 import GroupCreateForm from './../components/groups/GroupCreateForm'
+import { buttonEnabledClasses } from './../constants/classes'
 import favicon from './../img/favicon.png'
 import { auth, getGroupsByUidFromFirestore } from './../lib/firebase'
 
@@ -51,40 +53,72 @@ function GroupCreate() {
       </div>
 
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center text-black dark:bg-slate-800 dark:text-white">
-        {!isAllowedToCreateGroup ? (
+        {!user ? (
           <>
-            <h2 className="my-8 text-xl font-bold md:text-2xl">
-              Unable to Create a New Group
-            </h2>
-            <p className="mx-4 my-8">
-              You are only allowed to be in 5 groups at one time. Consider
-              leaving a group if you wish to create a new one.
-            </p>
+            <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+              <p className="mx-4 my-8 text-lg text-black dark:text-white">
+                Please sign or create an account to join a group.
+              </p>
+              <Link
+                to="/profile"
+                className={`${buttonEnabledClasses} group relative mx-auto mb-12 flex w-40 justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+              >
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <svg
+                    className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+                Sign in
+              </Link>
+            </div>
           </>
         ) : (
           <>
-            <div className="flex space-x-3 border-b">
-              <div className="mx-auto">
-                {tabs.map((tab, idx) => {
-                  return (
-                    <button
-                      key={idx}
-                      className={`mx-4 border-b-4 py-2 transition-colors duration-300 dark:text-white ${
-                        idx === activeTabIndex
-                          ? 'border-indigo-600'
-                          : 'border-transparent hover:border-gray-200 dark:hover:border-slate-500'
-                      }`}
-                      onClick={() => setActiveTabIndex(idx)}
-                    >
-                      {tab}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-            <div className="py-4">
-              <GroupCreateForm isPrivate={activeTabIndex === 1} />
-            </div>
+            {!isAllowedToCreateGroup ? (
+              <>
+                <h2 className="my-8 text-xl font-bold md:text-2xl">
+                  Unable to Create a New Group
+                </h2>
+                <p className="mx-4 my-8">
+                  You are only allowed to be in 5 groups at one time. Consider
+                  leaving a group if you wish to create a new one.
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="flex space-x-3 border-b">
+                  <div className="mx-auto">
+                    {tabs.map((tab, idx) => {
+                      return (
+                        <button
+                          key={idx}
+                          className={`mx-4 border-b-4 py-2 transition-colors duration-300 dark:text-white ${
+                            idx === activeTabIndex
+                              ? 'border-indigo-600'
+                              : 'border-transparent hover:border-gray-200 dark:hover:border-slate-500'
+                          }`}
+                          onClick={() => setActiveTabIndex(idx)}
+                        >
+                          {tab}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+                <div className="py-4">
+                  <GroupCreateForm isPrivate={activeTabIndex === 1} />
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useNavigate } from 'react-router-dom'
 
 import {
   buttonDisabledClasses,
@@ -6,6 +8,12 @@ import {
   inputClasses,
 } from './../../constants/classes'
 import { useAlert } from './../../context/AlertContext'
+import {
+  auth,
+  createNewGroup,
+  getCleanedGroupName,
+  getGroupsByUidFromFirestore,
+} from './../../lib/firebase'
 import ValidateGroupNameForm from './ValidateGroupNameForm'
 
 interface props {
@@ -14,26 +22,46 @@ interface props {
 
 const GroupCreateForm = ({ isPrivate }: props) => {
   const { showError: showErrorAlert } = useAlert()
+  const [user] = useAuthState(auth)
   const [groupName, setGroupName] = useState<string>('')
   const [isGroupNameValid, setIsGroupNameValid] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   const isValid = () => {
     return Boolean(groupName.length)
   }
 
-  const handleCreateAccountButtonClick = async () => {
-    // const signIn = await createAccountWithUsernameAndPassword(
-    //   username,
-    //   groupName,
-    //   password
-    // )
-    // if (signIn === undefined) {
+  const showErrorCreatingGroup = () => {
     showErrorAlert(
       'Sorry, unable to create a new group at this time. Please try again later.'
     )
-    // }
-    // TODO: do not allow any special characters in group Names
-    // TODO: show confirm create group modal
+  }
+
+  const handleCreateGroupButtonClick = async () => {
+    if (!user) {
+      showErrorCreatingGroup()
+      return
+    }
+
+    const userGroups = await getGroupsByUidFromFirestore(user.uid)
+    if (userGroups.length === 5) {
+      showErrorCreatingGroup()
+      return
+    }
+
+    const tryCreateNewGroup = await createNewGroup(
+      groupName,
+      isPrivate,
+      user.email,
+      user.uid
+    )
+
+    if (!tryCreateNewGroup) {
+      showErrorCreatingGroup()
+      return
+    }
+
+    navigate(`/groups/${getCleanedGroupName(groupName)}`)
   }
 
   return (
@@ -41,11 +69,12 @@ const GroupCreateForm = ({ isPrivate }: props) => {
       <h2 className="text-xl font-bold md:text-2xl">
         {`Create a New ${isPrivate ? 'Private' : 'Public'} Group!`}
       </h2>
-      <p className="mx-4 my-8">
+      <p className="mx-4 mt-8">
         {isPrivate
           ? 'Manually accept each person allowed to join your group and control who has access to it.'
           : 'Allow anyone to join or leave your group at any time.'}
       </p>
+      <p className="my-4">No special characters are allowed in group names.</p>
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
         <div className="w-full rounded-md shadow-sm md:w-1/2">
           {!isGroupNameValid && (
@@ -107,7 +136,7 @@ const GroupCreateForm = ({ isPrivate }: props) => {
               className={`${
                 isValid() ? buttonEnabledClasses : buttonDisabledClasses
               } group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
-              onClick={handleCreateAccountButtonClick}
+              onClick={handleCreateGroupButtonClick}
             >
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg

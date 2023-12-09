@@ -1,4 +1,4 @@
-import { checkIfGroupExistsInFirestore } from '../../lib/firebase'
+import { getGroupByGroupName } from '../../lib/firebase'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,
@@ -19,24 +19,33 @@ const ValidateGroupNameForm = ({
 }: props) => {
   const { showError: showErrorAlert } = useAlert()
 
+  const isGroupNameValid = () => {
+    if (Boolean(groupName.length)) {
+      const noSpecialCharsRegex = /^[a-zA-Z0-9\s]*$/
+      return noSpecialCharsRegex.test(groupName)
+    }
+
+    return false
+  }
+
   const groupNameNotAllowed = (errorMessage: string) => {
     setIsGroupNameValid(false)
     showErrorAlert(errorMessage)
   }
 
   const handleButtonClick = async () => {
-    const isGroupNameInFirestore = await checkIfGroupExistsInFirestore(
-      groupName
-    )
+    if (isGroupNameValid()) {
+      const isGroupNameInFirestore = await getGroupByGroupName(groupName)
 
-    if (isGroupNameInFirestore !== null) {
-      groupNameNotAllowed(
-        'A group with that name already exists. Please choose a different name.'
-      )
-      return
+      if (isGroupNameInFirestore) {
+        groupNameNotAllowed(
+          'A group with that name already exists. Please choose a different name.'
+        )
+        return
+      }
+
+      setIsGroupNameValid(true)
     }
-
-    setIsGroupNameValid(true)
   }
 
   return (
@@ -63,9 +72,7 @@ const ValidateGroupNameForm = ({
       <div className="mx-auto mt-5 w-64">
         <button
           className={`${
-            Boolean(groupName.length)
-              ? buttonEnabledClasses
-              : buttonDisabledClasses
+            isGroupNameValid() ? buttonEnabledClasses : buttonDisabledClasses
           } group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
           onClick={handleButtonClick}
         >

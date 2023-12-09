@@ -14,7 +14,7 @@ import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
 import {
   auth,
-  checkIfGroupExistsInFirestore,
+  getGroupInfoByGroupName,
   getGroupsByUidFromFirestore,
 } from './../lib/firebase'
 
@@ -41,7 +41,7 @@ function Groups() {
   }, [user])
 
   const handleSearchButtonClick = async () => {
-    const isGroupNameInFirestore = await checkIfGroupExistsInFirestore(
+    const isGroupNameInFirestore = await getGroupInfoByGroupName(
       searchedGroupName
     )
 
