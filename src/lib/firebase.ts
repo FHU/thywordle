@@ -467,16 +467,22 @@ export const createNewGroup = async (
 export const removeUserFromGroup = async (
   groupName: string,
   uid: string
-): Promise<void> => {
-  const group = await getGroupByGroupName(groupName)
-  if (group.exists()) {
-    const docRef = doc(db, 'groups', group.id)
-    await updateDoc(docRef, {
-      users: arrayRemove(doc(db, `users/${uid}`)),
-    })
+): Promise<boolean> => {
+  try {
+    const group = await getGroupByGroupName(groupName)
+    if (group.exists()) {
+      const docRef = doc(db, 'groups', group.id)
+      await updateDoc(docRef, {
+        users: arrayRemove(doc(db, `users/${uid}`)),
+      })
 
-    await removeGroupFromUserDoc(uid, groupName)
+      await removeGroupFromUserDoc(uid, groupName)
+      return true
+    }
+  } catch {
+    return false
   }
+  return false
 }
 
 export const getGroupLeaderboardByGroupNameFromFirestore = async (

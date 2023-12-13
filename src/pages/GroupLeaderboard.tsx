@@ -1,7 +1,7 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import Loading from './../components/gameState/Loading'
 import { LeaderboardRows } from './../components/leaderboard/LeaderboardRows'
@@ -9,6 +9,7 @@ import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import { buttonEnabledClasses } from './../constants/classes'
 import { Group } from './../constants/types'
+import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
 import {
   auth,
@@ -20,7 +21,9 @@ import {
 
 function GroupLeaderboard() {
   const params = useParams()
+  const navigate = useNavigate()
   const [user] = useAuthState(auth)
+  const { showError: showErrorAlert } = useAlert()
   const [loading, setLoading] = useState<boolean>(false)
   const [unauthorized, setUnauthorized] = useState<boolean>(false)
   const [group, setGroup] = useState<Group>()
@@ -64,7 +67,14 @@ function GroupLeaderboard() {
   }, [user, params.groupName])
 
   const handleLeaveGroupButtonClick = async () => {
-    await removeUserFromGroup(group?.groupName!, user?.uid!)
+    const tryRemove = await removeUserFromGroup(group?.groupName!, user?.uid!)
+    if (!tryRemove) {
+      showErrorAlert(
+        'Sorry, unable to leave this group at this time. Please try again later.'
+      )
+    }
+
+    navigate('/groups')
   }
 
   if (loading) {
