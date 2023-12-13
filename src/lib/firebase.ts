@@ -13,6 +13,7 @@ import {
 import {
   Timestamp,
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -324,6 +325,19 @@ export const addGroupToUserDoc = async (
   }
 }
 
+export const removeGroupFromUserDoc = async (
+  userId: string,
+  groupName: string
+): Promise<void> => {
+  const userDoc = await getUserDocByUid(userId)
+  if (userDoc.exists()) {
+    const docRef = doc(db, 'users', userId)
+    await updateDoc(docRef, {
+      groups: arrayRemove(groupName),
+    })
+  }
+}
+
 export const loadGameStateFromFirestore = async (
   userId: string
 ): Promise<StoredGameState | undefined> => {
@@ -384,36 +398,6 @@ export const getCleanedGroupName = (groupName: string): string => {
   return groupName.toLocaleLowerCase().replace(/\s/g, '')
 }
 
-export const createNewGroup = async (
-  groupName: string,
-  isPrivate: boolean,
-  adminEmail: string | null,
-  uid: string
-): Promise<boolean> => {
-  if (adminEmail === null && isPrivate) {
-    return false
-  }
-
-  try {
-    const group = await getGroupByGroupName(groupName)
-    if (!group) {
-      await addDoc(collection(db, 'groups'), {
-        groupName: groupName,
-        queryName: getCleanedGroupName(groupName),
-        adminEmail: adminEmail,
-        isPrivate: isPrivate,
-        users: [doc(db, `users/${uid}`)],
-      })
-
-      await addGroupToUserDoc(uid, groupName)
-    }
-  } catch {
-    return false
-  }
-
-  return true
-}
-
 export const getGroupByGroupName = async (groupName: string): Promise<any> => {
   try {
     const groups = query(
@@ -450,6 +434,51 @@ export const getGroupInfoByGroupName = async (
   }
 }
 
+export const createNewGroup = async (
+  groupName: string,
+  isPrivate: boolean,
+  adminEmail: string | null,
+  uid: string
+): Promise<boolean> => {
+  if (adminEmail === null && isPrivate) {
+    return false
+  }
+
+  try {
+    const group = await getGroupByGroupName(groupName)
+    if (!group) {
+      await addDoc(collection(db, 'groups'), {
+        groupName: groupName,
+        queryName: getCleanedGroupName(groupName),
+        adminEmail: adminEmail,
+        isPrivate: isPrivate,
+        users: [doc(db, `users/${uid}`)],
+      })
+
+      await addGroupToUserDoc(uid, groupName)
+    }
+  } catch {
+    return false
+  }
+
+  return true
+}
+
+export const removeUserFromGroup = async (
+  groupName: string,
+  uid: string
+): Promise<void> => {
+  const group = await getGroupByGroupName(groupName)
+  if (group.exists()) {
+    const docRef = doc(db, 'groups', group.id)
+    await updateDoc(docRef, {
+      users: arrayRemove(doc(db, `users/${uid}`)),
+    })
+
+    await removeGroupFromUserDoc(uid, groupName)
+  }
+}
+
 export const getGroupLeaderboardByGroupNameFromFirestore = async (
   groupName: string | undefined,
   uid: string
@@ -459,29 +488,19 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
   }
 
   try {
-    const groupQuery = query(
-      collection(db, 'groups'),
-      where('queryName', '==', getCleanedGroupName(groupName)),
-      limit(1)
-    )
-
-    const querySnapshot = await getDocs(groupQuery)
-    const result = querySnapshot.docs[0]
-
+    const result = await getGroupByGroupName(groupName)
     if (!result) {
       return null
     }
 
     const groupLeaderboard: LeaderboardUser[] = []
-
-    let rank = 1
     for (let i = 0; i < result.data().users.length; i++) {
       const userDoc = await getDoc(result.data().users[i])
       const userData: any = userDoc.data()
       if (userDoc.exists() && userDoc.data() !== undefined) {
         const u = {
           uid: userData.uid,
-          rank: rank,
+          rank: 0,
           name: userData.name,
           avgGuesses: userData.gameStats.avgNumGuesses,
           points: userData.gameStats.score,
@@ -494,9 +513,15 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
         }
 
         groupLeaderboard.push(u)
-        rank++
       }
     }
+
+    groupLeaderboard.sort((a, b) => b.points - a.points)
+    let xRank = 1
+    groupLeaderboard.forEach((x) => {
+      x.rank = xRank
+      xRank++
+    })
 
     return {
       groupName: result.data().groupName,
