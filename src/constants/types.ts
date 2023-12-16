@@ -24,6 +24,7 @@ export type Group = {
   adminEmail: string
   isPrivate: boolean
   users: LeaderboardUser[]
+  requestedUsers: any[]
 }
 
 export enum ValidEmailEnum {

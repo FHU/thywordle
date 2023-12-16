@@ -139,6 +139,7 @@ const addUserToFirestoreCollection = async (
         winDistribution: defaultStats.winDistribution,
       },
       groups: [],
+      requestedGroups: [],
     })
 
     return u.uid
@@ -315,14 +316,21 @@ export const updateGameStateToFirestore = async (
 
 export const addGroupToUserDoc = async (
   userId: string,
-  groupName: string
+  groupName: string,
+  isRequest: boolean
 ): Promise<void> => {
   const userDoc = await getUserDocByUid(userId)
   if (userDoc.exists()) {
     const docRef = doc(db, 'users', userId)
-    await updateDoc(docRef, {
-      groups: arrayUnion(groupName),
-    })
+    if (isRequest) {
+      await updateDoc(docRef, {
+        requestedGroups: arrayUnion(groupName),
+      })
+    } else {
+      await updateDoc(docRef, {
+        groups: arrayUnion(groupName),
+      })
+    }
   }
 }
 
@@ -463,15 +471,45 @@ export const createNewGroup = async (
         adminEmail: adminEmail,
         isPrivate: isPrivate,
         users: [doc(db, `users/${uid}`)],
+        requestedUsers: [],
       })
 
-      await addGroupToUserDoc(uid, groupName)
+      await addGroupToUserDoc(uid, groupName, false)
     }
   } catch {
     return false
   }
 
   return true
+}
+
+export const addUserToGroup = async (
+  groupName: string,
+  uid: string,
+  isPrivate: boolean
+): Promise<boolean> => {
+  try {
+    const group = await getGroupByGroupName(groupName)
+    if (group.exists()) {
+      const docRef = doc(db, 'groups', group.id)
+      if (isPrivate) {
+        await addGroupToUserDoc(uid, groupName, true)
+        await updateDoc(docRef, {
+          requestedUsers: arrayUnion(doc(db, `users/${uid}`)),
+        })
+      } else {
+        await addGroupToUserDoc(uid, groupName, false)
+        await updateDoc(docRef, {
+          users: arrayUnion(doc(db, `users/${uid}`)),
+        })
+      }
+
+      return true
+    }
+  } catch {
+    return false
+  }
+  return false
 }
 
 export const removeUserFromGroup = async (
@@ -540,6 +578,20 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
       }
     }
 
+    const requestedUsersList: any[] = []
+    for (let i = 0; i < result.data().requestedUsers.length; i++) {
+      const userDoc = await getDoc(result.data().requestedUsers[i])
+      const userData: any = userDoc.data()
+      if (userDoc.exists() && userDoc.data() !== undefined) {
+        const reqU = {
+          uid: userData.uid,
+          name: userData.name,
+        }
+
+        requestedUsersList.push(reqU)
+      }
+    }
+
     groupLeaderboard.sort((a, b) => b.points - a.points)
     let xRank = 1
     groupLeaderboard.forEach((x) => {
@@ -552,6 +604,7 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
       adminEmail: result.data().adminEmail,
       isPrivate: result.data().isPrivate,
       users: groupLeaderboard,
+      requestedUsers: requestedUsersList,
     }
   } catch (error) {
     console.log(error)

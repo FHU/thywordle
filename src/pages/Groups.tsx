@@ -14,13 +14,15 @@ import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
 import {
   auth,
+  getCleanedGroupName,
   getGroupInfoByGroupName,
   getGroupsByUidFromFirestore,
 } from './../lib/firebase'
 
 function Groups() {
   const [user] = useAuthState(auth)
-  const { showError: showErrorAlert } = useAlert()
+  const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
+    useAlert()
   const [loading, setLoading] = useState<boolean>(false)
   const [userGroups, setUserGroups] = useState<string[]>([])
   const [searchedGroupName, setSearchedGroupName] = useState<string>('')
@@ -55,6 +57,27 @@ function Groups() {
     setSearchedGroupName(isGroupNameInFirestore.groupName)
     setIsGroupPrivate(isGroupNameInFirestore.isPrivate)
     setIsConfirmJoinGroupModalOpen(true)
+  }
+
+  const hasAlreadyJoined = (groupName: string): boolean => {
+    const cleanedGroupNames: string[] = []
+    userGroups.forEach((group) => {
+      cleanedGroupNames.push(getCleanedGroupName(group))
+    })
+
+    if (cleanedGroupNames.includes(getCleanedGroupName(groupName))) {
+      return true
+    }
+
+    return false
+  }
+
+  const handleJoinAlert = (isFailure: boolean, message: string) => {
+    if (isFailure) {
+      showErrorAlert(message)
+    } else {
+      showSuccessAlert(message)
+    }
   }
 
   if (loading) {
@@ -207,6 +230,9 @@ function Groups() {
       <ConfirmJoinGroupModal
         groupName={searchedGroupName}
         isGroupPrivate={isGroupPrivate}
+        uid={user?.uid ?? ''}
+        alreadyJoined={hasAlreadyJoined(searchedGroupName)}
+        showAlert={handleJoinAlert}
         isOpen={isConfirmJoinGroupModalOpen}
         handleClose={() => setIsConfirmJoinGroupModalOpen(false)}
       />

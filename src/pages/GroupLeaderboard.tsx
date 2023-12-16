@@ -58,6 +58,8 @@ function GroupLeaderboard() {
           user.uid
         )
 
+        console.log(loadedGroup)
+
         if (loadedGroup) {
           setGroup(loadedGroup)
         }
@@ -180,7 +182,11 @@ function GroupLeaderboard() {
             </div>
           </div>
 
-          <div className="col-span-10 col-start-2 mb-16 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+          <div
+            className={`${
+              Boolean(group.adminEmail === user.email) ? '' : 'mb-16'
+            } col-span-10 col-start-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800`}
+          >
             <p className="my-8 text-lg text-black dark:text-white">
               {`Leave ${group.groupName}`}
             </p>
@@ -191,6 +197,13 @@ function GroupLeaderboard() {
               Leave
             </button>
           </div>
+
+          {/* TODO: requested users if admin */}
+          {Boolean(group.adminEmail === user.email) && (
+            <div className="col-span-10 col-start-2 mb-16 mt-4 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+              <p className="my-8">You are the admin</p>
+            </div>
+          )}
         </>
       )}
 
