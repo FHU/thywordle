@@ -1,9 +1,10 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import Loading from './../components/gameState/Loading'
+import { ConfirmLeaveGroupModal } from './../components/groups/ConfirmLeaveGroupModal'
 import { LeaderboardRows } from './../components/leaderboard/LeaderboardRows'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
@@ -16,12 +17,10 @@ import {
   getCleanedGroupName,
   getGroupLeaderboardByGroupNameFromFirestore,
   getGroupsByUidFromFirestore,
-  removeUserFromGroup,
 } from './../lib/firebase'
 
 function GroupLeaderboard() {
   const params = useParams()
-  const navigate = useNavigate()
   const [user] = useAuthState(auth)
   const { showError: showErrorAlert } = useAlert()
   const [loading, setLoading] = useState<boolean>(false)
@@ -30,6 +29,8 @@ function GroupLeaderboard() {
 
   const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
   const [isStatSummaryModalOpen, setIsStatSummaryModalOpen] =
+    useState<boolean>(false)
+  const [isLeaveGroupModalOpen, setIsLeaveGroupModalOpen] =
     useState<boolean>(false)
 
   const [selectedUser, setSelectedUser] = useState<any>()
@@ -65,17 +66,6 @@ function GroupLeaderboard() {
       }
     })()
   }, [user, params.groupName])
-
-  const handleLeaveGroupButtonClick = async () => {
-    const tryRemove = await removeUserFromGroup(group?.groupName!, user?.uid!)
-    if (!tryRemove) {
-      showErrorAlert(
-        'Sorry, unable to leave this group at this time. Please try again later.'
-      )
-    }
-
-    navigate('/groups')
-  }
 
   if (loading) {
     return <Loading />
@@ -196,7 +186,7 @@ function GroupLeaderboard() {
             </p>
             <button
               className={`${buttonEnabledClasses} group relative mx-auto mb-8 flex w-32 justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
-              onClick={handleLeaveGroupButtonClick}
+              onClick={() => setIsLeaveGroupModalOpen(true)}
             >
               Leave
             </button>
@@ -213,6 +203,16 @@ function GroupLeaderboard() {
         isOpen={isStatSummaryModalOpen}
         handleClose={() => setIsStatSummaryModalOpen(false)}
         leaderboardUser={selectedUser}
+      />
+
+      <ConfirmLeaveGroupModal
+        groupName={group?.groupName!}
+        isGroupPrivate={group?.isPrivate!}
+        uid={user?.uid ?? ''}
+        isAdmin={Boolean(user?.email === group?.adminEmail)}
+        showErrorAlert={showErrorAlert}
+        isOpen={isLeaveGroupModalOpen}
+        handleClose={() => setIsLeaveGroupModalOpen(false)}
       />
     </div>
   )

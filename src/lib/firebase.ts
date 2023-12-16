@@ -16,6 +16,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -338,6 +339,15 @@ export const removeGroupFromUserDoc = async (
   }
 }
 
+export const removeGroupFromAllUserDocs = async (
+  groupName: string,
+  users: any
+): Promise<void> => {
+  for (let i = 0; i < users.length; i++) {
+    await removeGroupFromUserDoc(users[i].id, groupName)
+  }
+}
+
 export const loadGameStateFromFirestore = async (
   userId: string
 ): Promise<StoredGameState | undefined> => {
@@ -426,7 +436,7 @@ export const getGroupInfoByGroupName = async (
       groupName: result.data().groupName,
       queryName: result.data().queryName,
       isPrivate: result.data().isPrivate,
-      admin: result.data().admin,
+      adminEmail: result.data().adminEmail,
     }
   } catch (error) {
     console.log(error)
@@ -466,17 +476,25 @@ export const createNewGroup = async (
 
 export const removeUserFromGroup = async (
   groupName: string,
-  uid: string
+  uid: string,
+  isAdmin: boolean
 ): Promise<boolean> => {
   try {
     const group = await getGroupByGroupName(groupName)
     if (group.exists()) {
       const docRef = doc(db, 'groups', group.id)
-      await updateDoc(docRef, {
-        users: arrayRemove(doc(db, `users/${uid}`)),
-      })
+      if (isAdmin) {
+        await removeGroupFromAllUserDocs(groupName, group.data().users)
+        await deleteDoc(docRef)
+      }
 
-      await removeGroupFromUserDoc(uid, groupName)
+      if (!isAdmin) {
+        await removeGroupFromUserDoc(uid, groupName)
+        await updateDoc(docRef, {
+          users: arrayRemove(doc(db, `users/${uid}`)),
+        })
+      }
+
       return true
     }
   } catch {
@@ -531,7 +549,7 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
 
     return {
       groupName: result.data().groupName,
-      admin: result.data().admin,
+      adminEmail: result.data().adminEmail,
       isPrivate: result.data().isPrivate,
       users: groupLeaderboard,
     }
