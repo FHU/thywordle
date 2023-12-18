@@ -105,21 +105,23 @@ export const getLeaderBoardFromFirestore = async (
 
   let rank = 1
   querySnapshot.forEach((doc) => {
-    leaderBoard.push({
-      uid: doc.data().uid,
-      rank: rank,
-      name: doc.data().name,
-      avgGuesses: doc.data().gameStats.avgNumGuesses,
-      points: doc.data().gameStats.score,
-      stats: {
-        currentStreak: doc.data().gameStats.currentStreak,
-        bestStreak: doc.data().gameStats.bestStreak,
-        successRate: doc.data().gameStats.successRate,
-      },
-      highlightedUser: doc.data().uid === userId,
-    })
+    if (doc.data().displayPublic) {
+      leaderBoard.push({
+        uid: doc.data().uid,
+        rank: rank,
+        name: doc.data().name,
+        avgGuesses: doc.data().gameStats.avgNumGuesses,
+        points: doc.data().gameStats.score,
+        stats: {
+          currentStreak: doc.data().gameStats.currentStreak,
+          bestStreak: doc.data().gameStats.bestStreak,
+          successRate: doc.data().gameStats.successRate,
+        },
+        highlightedUser: doc.data().uid === userId,
+      })
 
-    rank++
+      rank++
+    }
   })
 
   return leaderBoard

@@ -11,12 +11,15 @@ import Loading from './../components/gameState/Loading'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
+import { getPublicDisplaySetting } from './../lib/firebaseAuth'
 import { getLeaderBoardFromFirestore } from './../lib/firebaseStats'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)
   const [loading, setLoading] = useState<boolean>(false)
   const [leaderBoard, setLeaderBoard] = useState<LeaderboardUser[]>()
+  const [publicDisplaySetting, setPublicDisplaySetting] =
+    useState<boolean>(true)
 
   useEffect(() => {
     ;(async () => {
@@ -24,6 +27,11 @@ function Leaderboard() {
       const loadedLeaderBoard = user
         ? await getLeaderBoardFromFirestore(user.uid)
         : await getLeaderBoardFromFirestore()
+
+      if (user) {
+        const getSetting = await getPublicDisplaySetting(user.uid)
+        setPublicDisplaySetting(getSetting)
+      }
 
       setLeaderBoard(loadedLeaderBoard)
       setLoading(false)
@@ -72,6 +80,23 @@ function Leaderboard() {
               className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
             >
               Sign In
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {!publicDisplaySetting && (
+        <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+          <div className="mx-auto my-2">
+            <p className="m-4 text-sm text-black dark:text-white sm:text-lg">
+              Want to see how you compare? <br /> Update your profile to allow
+              your name to be publicly displayed on this leaderboard.
+            </p>
+            <Link
+              to="/profile"
+              className="my-4 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+            >
+              Edit Profile
             </Link>
           </div>
         </div>

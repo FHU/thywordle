@@ -67,20 +67,6 @@ export const createAccountWithUsernameAndPassword = async (
   }
 }
 
-export const getUserDocByUid = async (userId: string): Promise<any> => {
-  const docRef = doc(db, 'users', userId)
-  return await getDoc(docRef)
-}
-
-export const getUserDataByUid = async (userId: string): Promise<any> => {
-  const user = await getUserDocByUid(userId)
-  if (!user.exists) {
-    return null
-  }
-
-  return user.data()
-}
-
 const addUserToFirestoreCollection = async (
   u: User,
   username: string | null,
@@ -94,6 +80,7 @@ const addUserToFirestoreCollection = async (
       email: u.email?.toLocaleLowerCase(),
       authProvider: provider,
       photoURL: u.photoURL ?? '',
+      displayPublic: true,
       gameState: {
         lastUpdated: Timestamp.now(),
         guesses: [],
@@ -115,6 +102,27 @@ const addUserToFirestoreCollection = async (
 
     return u.uid
   }
+}
+
+export const getUserDocByUid = async (userId: string): Promise<any> => {
+  const docRef = doc(db, 'users', userId)
+  return await getDoc(docRef)
+}
+
+export const getUserDataByUid = async (userId: string): Promise<any> => {
+  const user = await getUserDocByUid(userId)
+  if (!user.exists) {
+    return null
+  }
+
+  return user.data()
+}
+
+export const getPublicDisplaySetting = async (
+  userId: string
+): Promise<boolean> => {
+  const userData = await getUserDataByUid(userId)
+  return userData.displayPublic
 }
 
 export const updateFirestoreUsername = async (
@@ -165,6 +173,26 @@ export const updateFirestoreEmail = async (
     } catch {
       return false
     }
+  }
+
+  return false
+}
+
+export const updateFirestorePublicDisplaySetting = async (
+  userId: string,
+  shouldDisplayPublic: boolean
+): Promise<boolean> => {
+  try {
+    const userDoc = await getUserDocByUid(userId)
+    if (userDoc.exists()) {
+      const docRef = doc(db, 'users', userId)
+      await updateDoc(docRef, {
+        displayPublic: shouldDisplayPublic,
+      })
+      return true
+    }
+  } catch {
+    return false
   }
 
   return false
