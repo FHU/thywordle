@@ -28,6 +28,7 @@ import {
   DISCOURAGE_INAPP_BROWSER_TEXT,
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
+  NEW_ACCOUNT_FEATURE_TEXT,
   SHARE_FAILURE_TEXT,
   WIN_MESSAGES,
 } from './constants/strings'
@@ -60,7 +61,9 @@ import Game from './pages/Game'
 import GroupCreate from './pages/GroupCreate'
 import GroupLeaderboard from './pages/GroupLeaderboard'
 import Groups from './pages/Groups'
+import Help from './pages/Help'
 import Leaderboard from './pages/Leaderboard'
+import NewAccountFeature from './pages/NewAccountFeature'
 import Profile from './pages/Profile'
 
 function App() {
@@ -145,6 +148,10 @@ function App() {
   }
 
   useEffect(() => {
+    showSuccessAlert(NEW_ACCOUNT_FEATURE_TEXT, {
+      delayMs: 1500,
+      durationMs: 5000,
+    })
     if (user) loadGameFromFirestore(user.uid)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
@@ -268,6 +275,7 @@ function App() {
               }
             />
             <Route path="/about" element={<About />} />
+            <Route path="/help" element={<Help />} />
             <Route
               path="/profile"
               element={<Profile user={user} stats={stats} />}
@@ -276,6 +284,10 @@ function App() {
             <Route path="/groups" element={<Groups />} />
             <Route path="/groups/create" element={<GroupCreate />} />
             <Route path="/groups/:groupName" element={<GroupLeaderboard />} />
+            <Route
+              path="/new-accounts-feature"
+              element={<NewAccountFeature />}
+            />
           </Routes>
 
           <InfoModal

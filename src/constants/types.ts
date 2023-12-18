@@ -15,6 +15,7 @@ export type LeaderboardUser = {
   name: string
   avgGuesses: number
   points: number
+  lastPlayed: string
   stats: { currentStreak: number; bestStreak: number; successRate: number }
   highlightedUser: boolean
 }

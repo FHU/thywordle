@@ -147,7 +147,7 @@ export const EditProfileModal = ({
           {propToEdit === PropToEditEnum.Email && (
             <div>
               {signedInWithGoogle && (
-                <p className="my-4">
+                <p className="text:black my-4 dark:text-white">
                   {'Are you sure you want to update your email?'} <br />{' '}
                   {'Your current account is tied to your '}
                   <span className="text-indigo-600 dark:text-indigo-400">

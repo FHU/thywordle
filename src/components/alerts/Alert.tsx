@@ -1,9 +1,13 @@
 import { Transition } from '@headlessui/react'
 import classNames from 'classnames'
 import { Fragment } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-type Props = {
+import { NEW_ACCOUNT_FEATURE_TEXT } from './../../constants/strings'
+
+type props = {
   isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
   message: string
   variant?: 'success' | 'error'
   topMost?: boolean
@@ -11,12 +15,28 @@ type Props = {
 
 export const Alert = ({
   isOpen,
+  setIsOpen,
   message,
   variant = 'error',
   topMost = false,
-}: Props) => {
+}: props) => {
+  const navigate = useNavigate()
+
+  const isClickable = (): boolean => {
+    return message === NEW_ACCOUNT_FEATURE_TEXT
+  }
+
+  const handleClick = () => {
+    if (isClickable()) {
+      setIsOpen(false)
+      navigate('/new-accounts-feature')
+    }
+  }
+
   const classes = classNames(
-    'fixed z-20 top-14 left-1/2 transform -translate-x-1/2 max-w-sm shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden',
+    `fixed z-20 top-14 left-1/2 transform -translate-x-1/2 max-w-sm shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden ${
+      isClickable() && 'cursor-pointer'
+    }`,
     {
       'bg-rose-500 text-white': variant === 'error',
       'bg-blue-500 text-white': variant === 'success',
@@ -34,7 +54,7 @@ export const Alert = ({
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className={classes}>
+      <div className={classes} onClick={handleClick}>
         <div className="p-2">
           <p className="text-center text-sm font-medium">{message}</p>
         </div>

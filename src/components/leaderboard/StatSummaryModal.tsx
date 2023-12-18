@@ -41,19 +41,28 @@ export const StatSummaryModal = ({
       handleClose={handleClose}
     >
       <div className="transform overflow-hidden transition-all">
-        <div className="my-2 flex justify-center">
+        <div className="my-2 flex justify-around">
           <StatItem
-            label={SUCCESS_RATE_TEXT}
-            value={`${leaderboardUser?.stats.successRate}%`}
+            label={BEST_STREAK_TEXT}
+            value={leaderboardUser?.stats.bestStreak}
           />
           <StatItem
             label={CURRENT_STREAK_TEXT}
             value={leaderboardUser?.stats.currentStreak}
           />
+        </div>
+
+        <div className="my-2 flex justify-around">
           <StatItem
-            label={BEST_STREAK_TEXT}
-            value={leaderboardUser?.stats.bestStreak}
+            label={SUCCESS_RATE_TEXT}
+            value={`${leaderboardUser?.stats.successRate}%`}
           />
+          <div className="m-1 w-1/4 items-center dark:text-white">
+            <div className="-ml-2 text-lg font-bold md:mx-0 lg:text-xl">
+              {leaderboardUser?.lastPlayed}
+            </div>
+            <div className="text-xs">Last Played</div>
+          </div>
         </div>
 
         <div className="mx-auto mb-2 mt-6 flex items-center justify-center">
