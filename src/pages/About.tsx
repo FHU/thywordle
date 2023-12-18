@@ -27,12 +27,18 @@ function About() {
           developed by Computer Science students at Freed-Hardeman Unviersity as
           part of their senior capstone course.
         </p>
-        <div className="my-12 ">
+        <div className="m-auto my-8 flex w-64 flex-col">
           <Link
             to="/"
-            className="text-ll inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             Play the Game
+          </Link>
+          <Link
+            to="/help"
+            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+          >
+            Learn More
           </Link>
         </div>
       </div>

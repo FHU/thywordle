@@ -21,6 +21,7 @@ type AlertContextValue = {
   status: AlertStatus
   message: string | null
   isVisible: boolean
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
   showSuccess: (message: string, options?: ShowOptions) => void
   showError: (message: string, options?: ShowOptions) => void
 }
@@ -29,6 +30,7 @@ export const AlertContext = createContext<AlertContextValue | null>({
   status: 'success',
   message: null,
   isVisible: false,
+  setIsVisible: () => false,
   showSuccess: () => null,
   showError: () => null,
 })
@@ -92,6 +94,7 @@ export const AlertProvider = ({ children }: Props) => {
         status,
         message,
         isVisible,
+        setIsVisible,
         showError,
         showSuccess,
       }}

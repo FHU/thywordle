@@ -14,9 +14,21 @@ export const PointsHelpModal = ({ isOpen, handleClose }: Props) => {
     >
       <div className="transform overflow-hidden transition-all">
         <p className="m-4 text-left text-lg text-black dark:text-white">
-          Points are calculated by a combination of <b>Current Steak</b> and{' '}
-          <b>Average Number of Guesses</b>. Continue to improve your stats to
-          see your point totals increase!
+          {'Points are most impacted by '}
+          <span className="font-bold text-indigo-600 dark:text-indigo-400">
+            Games Won
+          </span>
+          {', '}
+          <span className="font-bold text-indigo-600 dark:text-indigo-400">
+            Average Number of Guesses
+          </span>
+          {', and '}
+          <span className="font-bold text-indigo-600 dark:text-indigo-400">
+            Success Rate
+          </span>
+          {
+            '. Continue to improve your stats to see your point totals increase!'
+          }
         </p>
         <button
           aria-label="close"

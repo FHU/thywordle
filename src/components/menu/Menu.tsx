@@ -24,7 +24,7 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
     <React.Fragment>
       <div
         ref={ref}
-        className={`fixed top-0 left-0 z-10 h-full w-3/4 bg-slate-400 p-8 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-1/3 md:pl-8 ${
+        className={`fixed left-0 top-0 z-10 h-full w-3/4 bg-slate-400 p-8 text-white duration-300 ease-in-out dark:bg-slate-700 md:w-1/2 md:w-1/3 md:pl-8 ${
           showMenu ? 'translate-x-0 ' : '-translate-x-full'
         }`}
       >
@@ -48,13 +48,13 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
           About
         </Link>
         <Link
-          to="/leaderboard"
+          to="/help"
           className={`mt-8 ${menuItemClasses}`}
           onClick={() => {
             setShowMenu(false)
           }}
         >
-          Leaderboard
+          Help
         </Link>
         <Link
           to="/profile"
@@ -66,11 +66,20 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
           Profile
         </Link>
         <Link
+          to="/leaderboard"
+          className={`mt-8 ${menuItemClasses}`}
+          onClick={() => {
+            setShowMenu(false)
+          }}
+        >
+          Leaderboard
+        </Link>
+        <Link
           to="mailto:thywordle@gmail.com"
           target="_blank"
           className={
             menuItemClasses +
-            ' absolute bottom-0 right-0 py-16 px-8 md:py-8 md:text-lg'
+            ' absolute bottom-0 right-0 px-8 py-16 md:py-8 md:text-lg'
           }
           onClick={() => {
             setShowMenu(false)
