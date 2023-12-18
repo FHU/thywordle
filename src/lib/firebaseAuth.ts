@@ -10,6 +10,7 @@ import {
 import {
   Timestamp,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -22,6 +23,11 @@ import {
 
 import { ValidEmailEnum } from './../constants/types'
 import { auth, db } from './firebaseConfig'
+import {
+  getGroupInfoByGroupName,
+  getGroupsByUidFromFirestore,
+  removeUserFromGroup,
+} from './firebaseGroups'
 import { defaultStats } from './stats'
 
 export const googleProvider = new GoogleAuthProvider()
@@ -64,6 +70,29 @@ export const createAccountWithUsernameAndPassword = async (
     return uid
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const deleteAccount = async (
+  user: User | null | undefined
+): Promise<boolean> => {
+  if (!user) {
+    return false
+  }
+
+  try {
+    const groups = await getGroupsByUidFromFirestore(user.uid)
+    for (let i = 0; i < groups.length; i++) {
+      const groupInfo = await getGroupInfoByGroupName(groups[i])
+      const isAdmin = Boolean(groupInfo.adminEmail === user.email)
+      await removeUserFromGroup(groups[i], user.uid, isAdmin)
+    }
+
+    await deleteDoc(doc(db, 'users', user.uid))
+    user.delete()
+    return true
+  } catch {
+    return false
   }
 }
 

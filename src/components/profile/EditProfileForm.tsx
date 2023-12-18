@@ -7,6 +7,7 @@ interface props {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
   setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
   handleEditProfile: any
+  handleDeleteAccount: any
 }
 
 const EditProfileForm = ({
@@ -14,6 +15,7 @@ const EditProfileForm = ({
   setIsEdit,
   setPropToEdit,
   handleEditProfile,
+  handleDeleteAccount,
 }: props) => {
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
@@ -54,7 +56,7 @@ const EditProfileForm = ({
               name="username"
               type="text"
               autoComplete="name"
-              value={userInfo.name}
+              value={userInfo.name ?? ''}
               required
               className={inputClasses}
               placeholder="Name"
@@ -137,6 +139,13 @@ const EditProfileForm = ({
             onClick={() => setIsEdit(false)}
           >
             Return to Profile
+          </button>
+
+          <button
+            className="mt-8 w-full items-center justify-between rounded-lg bg-gray-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
+            onClick={handleDeleteAccount}
+          >
+            Delete Account
           </button>
         </div>
       </div>

@@ -14,6 +14,7 @@ interface props {
   setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
   handleLogOut: any
   handleEditProfile: any
+  handleDeleteAccount: any
 }
 
 const SignInTabs = ({
@@ -23,6 +24,7 @@ const SignInTabs = ({
   setPropToEdit,
   handleLogOut,
   handleEditProfile,
+  handleDeleteAccount,
 }: props) => {
   const tabs = ['Sign In', 'Create New Account']
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
@@ -43,6 +45,7 @@ const SignInTabs = ({
         stats={stats}
         handleLogOut={handleLogOut}
         handleEditProfile={handleEditProfile}
+        handleDeleteAccount={handleDeleteAccount}
         setPropToEdit={setPropToEdit}
       />
     )

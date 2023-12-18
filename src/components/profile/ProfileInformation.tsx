@@ -23,6 +23,7 @@ interface Props {
   stats: GameStats
   handleLogOut: any
   handleEditProfile: any
+  handleDeleteAccount: any
   setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
 }
 
@@ -32,6 +33,7 @@ const ProfileInformation = ({
   stats,
   handleLogOut,
   handleEditProfile,
+  handleDeleteAccount,
   setPropToEdit,
 }: Props) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -54,6 +56,7 @@ const ProfileInformation = ({
         setIsEdit={setIsEdit}
         setPropToEdit={setPropToEdit}
         handleEditProfile={handleEditProfile}
+        handleDeleteAccount={handleDeleteAccount}
       />
     )
   }
