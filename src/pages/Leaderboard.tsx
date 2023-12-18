@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom'
 import { LeaderboardUser } from '@/constants/types'
 
 import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
-import { auth, getLeaderBoardFromFirestore } from '../lib/firebase'
+import { auth } from '../lib/firebaseConfig'
 import Loading from './../components/gameState/Loading'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
+import { getLeaderBoardFromFirestore } from './../lib/firebaseStats'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)

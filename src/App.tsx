@@ -34,12 +34,12 @@ import {
 import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
+import { auth } from './lib/firebaseConfig'
 import {
-  auth,
   loadGameStateFromFirestore,
   loadStatsFromFirestoreCollection,
   updateGameStateToFirestore,
-} from './lib/firebase'
+} from './lib/firebaseStats'
 import {
   getStoredIsHighContrastMode,
   loadGameStateFromLocalStorage,

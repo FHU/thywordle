@@ -3,7 +3,7 @@ import { useState } from 'react'
 import {
   createAccountWithUsernameAndPassword,
   signInWithGoogle,
-} from '../../lib/firebase'
+} from '../../lib/firebaseAuth'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,

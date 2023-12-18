@@ -8,6 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { GameStats } from '@/constants/types'
 
+import { auth } from '../lib/firebaseConfig'
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
 import {
@@ -20,7 +21,7 @@ import {
   INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
 } from './../constants/strings'
-import { auth, updateGameStateToFirestore } from './../lib/firebase'
+import { updateGameStateToFirestore } from './../lib/firebaseStats'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
   findFirstUnusedReveal,

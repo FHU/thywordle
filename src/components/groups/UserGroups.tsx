@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { getCleanedGroupName } from './../../lib/firebase'
+import { getCleanedGroupName } from '../../lib/firebaseGroups'
 
 interface props {
   groups: string[]

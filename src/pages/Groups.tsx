@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
+import { auth } from '../lib/firebaseConfig'
 import Loading from './../components/gameState/Loading'
 import { ConfirmJoinGroupModal } from './../components/groups/ConfirmJoinGroupModal'
 import { UserGroups } from './../components/groups/UserGroups'
@@ -13,11 +14,10 @@ import {
 import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
 import {
-  auth,
   getCleanedGroupName,
   getGroupInfoByGroupName,
   getGroupsByUidFromFirestore,
-} from './../lib/firebase'
+} from './../lib/firebaseGroups'
 
 function Groups() {
   const [user] = useAuthState(auth)

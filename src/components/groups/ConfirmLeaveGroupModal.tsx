@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
+import { removeUserFromGroup } from '../../lib/firebaseGroups'
 import { BaseModal } from '../modals/BaseModal'
-import { removeUserFromGroup } from './../../lib/firebase'
 
 type Props = {
   groupName: string

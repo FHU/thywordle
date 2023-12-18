@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import { buttonEnabledClasses } from '../../constants/classes'
 import { BaseModal } from '../modals/BaseModal'
-import { addUserToGroup, getCleanedGroupName } from './../../lib/firebase'
+import { addUserToGroup, getCleanedGroupName } from './../../lib/firebaseGroups'
 
 type Props = {
   groupName: string

@@ -1,4 +1,4 @@
-import { checkIfEmailExistsInFirestore } from '../../lib/firebase'
+import { checkIfEmailExistsInFirestore } from '../../lib/firebaseAuth'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,

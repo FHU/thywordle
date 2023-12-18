@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
+import { checkIfEmailExistsInFirestore } from '../../lib/firebaseAuth'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,
 } from './../../constants/classes'
 import { PropToEditEnum, ValidEmailEnum } from './../../constants/types'
 import { useAlert } from './../../context/AlertContext'
-import { checkIfEmailExistsInFirestore } from './../../lib/firebase'
 import { BaseModal } from './../modals/BaseModal'
 
 type Props = {

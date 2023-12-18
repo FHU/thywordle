@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
+import { auth } from '../lib/firebaseConfig'
 import Loading from './../components/gameState/Loading'
 import GroupCreateForm from './../components/groups/GroupCreateForm'
 import { buttonEnabledClasses } from './../constants/classes'
 import favicon from './../img/favicon.png'
-import { auth, getGroupsByUidFromFirestore } from './../lib/firebase'
+import { getGroupsByUidFromFirestore } from './../lib/firebaseGroups'
 
 function GroupCreate() {
   const [user] = useAuthState(auth)

@@ -6,7 +6,7 @@ import { MAX_CHALLENGES } from '../constants/settings'
 import {
   loadStatsFromFirestoreCollection,
   saveStatsToFirestore,
-} from './firebase'
+} from './firebaseStats'
 import {
   loadStatsFromLocalStorage,
   saveStatsToLocalStorage,

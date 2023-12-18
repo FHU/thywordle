@@ -2,13 +2,13 @@ import { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import SignInTabs from '../components/profile/SignInTabs'
+import { getUserDataByUid } from '../lib/firebaseAuth'
 import Loading from './../components/gameState/Loading'
 import { ConfirmEditProfileModal } from './../components/profile/ConfirmEditProfileModal'
 import { EditProfileModal } from './../components/profile/EditProfileModal'
 import { LogOutModal } from './../components/profile/LogOutModal'
 import { GameStats, PropToEditEnum } from './../constants/types'
 import favicon from './../img/favicon.png'
-import { getUserDataByUid } from './../lib/firebase'
 
 interface Props {
   user: User | null | undefined
