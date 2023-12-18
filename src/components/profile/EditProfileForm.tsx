@@ -1,3 +1,4 @@
+import { SettingsToggle } from '../modals/SettingsToggle'
 import { PropToEditEnum } from './../../constants/types'
 import { useAlert } from './../../context/AlertContext'
 import { updateFirestorePublicDisplaySetting } from './../../lib/firebaseAuth'
@@ -117,19 +118,11 @@ const EditProfileForm = ({
             leaderboard?
           </p>
           <div className="my-4 flex items-center justify-center">
-            <input
-              aria-label="public-display-checkbox"
-              type="checkbox"
-              checked={userInfo.displayPublic}
-              onChange={handleDisplayPublicInput}
-              className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+            <SettingsToggle
+              settingName="Display Name"
+              flag={userInfo.displayPublic}
+              handleFlag={handleDisplayPublicInput}
             />
-            <label
-              htmlFor="default-checkbox"
-              className="ms-2 text-base font-medium text-gray-900 dark:text-gray-300"
-            >
-              {userInfo.displayPublic ? 'Yes' : 'No'}
-            </label>
           </div>
         </div>
 

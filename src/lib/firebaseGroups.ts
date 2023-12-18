@@ -271,12 +271,17 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
       const userDoc = await getDoc(result.data().users[i])
       const userData: any = userDoc.data()
       if (userDoc.exists() && userDoc.data() !== undefined) {
+        const lastPlayed = userData.gameState.lastUpdated
+          .toDate()
+          .toLocaleDateString()
+
         const u = {
           uid: userData.uid,
           rank: 0,
           name: userData.name,
           avgGuesses: userData.gameStats.avgNumGuesses,
           points: userData.gameStats.score,
+          lastPlayed: lastPlayed,
           stats: {
             currentStreak: userData.gameStats.currentStreak,
             bestStreak: userData.gameStats.bestStreak,

@@ -74,7 +74,6 @@ const GroupCreateForm = ({ isPrivate }: props) => {
           ? 'Manually accept each person allowed to join your group and control who has access to it.'
           : 'Allow anyone to join or leave your group at any time.'}
       </p>
-      <p className="my-4">No special characters are allowed in group names.</p>
       <div className="flex w-full flex-col items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
         <div className="w-full rounded-md shadow-sm md:w-1/2">
           {!isGroupNameValid && (

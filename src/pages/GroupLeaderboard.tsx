@@ -1,4 +1,4 @@
-import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
+import { DuplicateIcon, QuestionMarkCircleIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate, useParams } from 'react-router-dom'
@@ -20,6 +20,7 @@ import { buttonEnabledClasses } from './../constants/classes'
 import { Group } from './../constants/types'
 import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
+import { copyTextToClipboard } from './../lib/clipboard'
 import { auth } from './../lib/firebaseConfig'
 
 function GroupLeaderboard() {
@@ -30,6 +31,8 @@ function GroupLeaderboard() {
     useAlert()
   const [loading, setLoading] = useState<boolean>(false)
   const [unauthorized, setUnauthorized] = useState<boolean>(false)
+  const [copyButtonText, setCopyButtonText] = useState('Copy')
+  const [isCopyButtonEnabled, setIsCopyButtonEnabled] = useState(true)
   const [group, setGroup] = useState<Group>()
 
   const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
@@ -74,6 +77,12 @@ function GroupLeaderboard() {
     })()
   }, [user, params.groupName])
 
+  const copyLinkToClipboard = () => {
+    copyTextToClipboard(`thywordle.com/groups/${params.groupName}`)
+    setCopyButtonText('Copied!')
+    setIsCopyButtonEnabled(false)
+  }
+
   const handleJoinAlert = (isFailure: boolean, message: string) => {
     if (isFailure) {
       showErrorAlert(message)
@@ -109,14 +118,49 @@ function GroupLeaderboard() {
           alt="ThyWordle Favicon"
           className="mx-auto my-12 w-48"
         />
-        <h1 className="text-l font-bold dark:text-white sm:text-xl md:text-3xl">
-          {group ? group.groupName : 'Group does not exist'}
+        <h1 className="text-l text-3xl font-bold dark:text-white">
+          <span>{group ? group.groupName : 'Group does not exist'}</span>
+          {group && (
+            <>
+              <br /> Leaderboard
+            </>
+          )}
         </h1>
         <p className="mx-auto mb-8 mt-4 text-base dark:text-white md:text-xl">
-          {`${
-            group ? (group.isPrivate ? 'Private' : 'Public') : ''
-          } Group Leaderboard`}
+          {group ? (group.isPrivate ? 'Private Group' : 'Public Group') : ''}
         </p>
+        {group && (
+          <div className="my-8 flex flex-col items-center justify-center">
+            <p className="text-black dark:text-white">
+              Share group link with friends!
+            </p>
+            {/* <button
+              className="mt-2 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `thywordle.com/groups/${params.groupName}`
+                )
+              }
+            >
+              {isCopyButtonEnabled && (
+                <DuplicateIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />
+              )}
+              Copy Link
+            </button> */}
+            <button
+              disabled={!isCopyButtonEnabled}
+              onClick={copyLinkToClipboard}
+              type="button"
+              className="mt-2 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-left text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:border-gray-200
+          disabled:bg-white disabled:text-gray-900 disabled:focus:outline-none disabled:dark:border-gray-600 disabled:dark:bg-gray-800 disabled:dark:text-gray-400 sm:text-sm"
+            >
+              {isCopyButtonEnabled && (
+                <DuplicateIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />
+              )}
+              {copyButtonText}
+            </button>
+          </div>
+        )}
       </div>
 
       {!user && (
