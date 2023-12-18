@@ -8,6 +8,8 @@ export const HARD_MODE_ALERT_MESSAGE =
   'Hard Mode can be enabled only at the start!'
 export const HARD_MODE_DESCRIPTION =
   'Any revealed hints must be used in subsequent guesses'
+export const AUTO_FILL_MODE_DESCRIPTION =
+  'Auto-fill correct books in subsequent guesses'
 export const HIGH_CONTRAST_MODE_DESCRIPTION = 'For improved color vision'
 export const CORRECT_WORD_MESSAGE = (solution: string) =>
   `The word was ${solution}`
