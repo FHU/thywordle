@@ -103,6 +103,7 @@ function Leaderboard() {
           <LeaderboardRows
             users={leaderBoard}
             updateSelectedUser={updateSelectedUser}
+            showAllUsers={false}
           />
         </div>
       </div>

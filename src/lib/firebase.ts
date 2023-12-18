@@ -336,14 +336,22 @@ export const addGroupToUserDoc = async (
 
 export const removeGroupFromUserDoc = async (
   userId: string,
-  groupName: string
+  groupName: string,
+  isRequest: boolean
 ): Promise<void> => {
   const userDoc = await getUserDocByUid(userId)
   if (userDoc.exists()) {
     const docRef = doc(db, 'users', userId)
-    await updateDoc(docRef, {
-      groups: arrayRemove(groupName),
-    })
+    if (isRequest) {
+      console.log(2)
+      await updateDoc(docRef, {
+        requestedGroups: arrayRemove(groupName),
+      })
+    } else {
+      await updateDoc(docRef, {
+        groups: arrayRemove(groupName),
+      })
+    }
   }
 }
 
@@ -352,7 +360,7 @@ export const removeGroupFromAllUserDocs = async (
   users: any
 ): Promise<void> => {
   for (let i = 0; i < users.length; i++) {
-    await removeGroupFromUserDoc(users[i].id, groupName)
+    await removeGroupFromUserDoc(users[i].id, groupName, false)
   }
 }
 
@@ -527,7 +535,7 @@ export const removeUserFromGroup = async (
       }
 
       if (!isAdmin) {
-        await removeGroupFromUserDoc(uid, groupName)
+        await removeGroupFromUserDoc(uid, groupName, false)
         await updateDoc(docRef, {
           users: arrayRemove(doc(db, `users/${uid}`)),
         })
@@ -539,6 +547,51 @@ export const removeUserFromGroup = async (
     return false
   }
   return false
+}
+
+export const acceptJoinPrivateGroup = async (
+  groupName: string,
+  uid: string
+): Promise<boolean> => {
+  try {
+    const group = await getGroupByGroupName(groupName)
+    if (group.exists()) {
+      const docRef = doc(db, 'groups', group.id)
+      await removeGroupFromUserDoc(uid, groupName, true)
+      await addGroupToUserDoc(uid, groupName, false)
+
+      await updateDoc(docRef, {
+        requestedUsers: arrayRemove(doc(db, `users/${uid}`)),
+      })
+
+      await updateDoc(docRef, {
+        users: arrayUnion(doc(db, `users/${uid}`)),
+      })
+    }
+    return true
+  } catch {
+    return false
+  }
+}
+
+export const denyJoinPrivateGroup = async (
+  groupName: string,
+  uid: string
+): Promise<boolean> => {
+  console.log(1)
+  try {
+    const group = await getGroupByGroupName(groupName)
+    if (group.exists()) {
+      const docRef = doc(db, 'groups', group.id)
+      await removeGroupFromUserDoc(uid, groupName, true)
+      await updateDoc(docRef, {
+        requestedUsers: arrayRemove(doc(db, `users/${uid}`)),
+      })
+    }
+    return true
+  } catch {
+    return false
+  }
 }
 
 export const getGroupLeaderboardByGroupNameFromFirestore = async (

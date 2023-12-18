@@ -5,9 +5,14 @@ import { LeaderboardUser } from './../../constants/types'
 interface Props {
   users: LeaderboardUser[] | undefined
   updateSelectedUser: any
+  showAllUsers: boolean
 }
 
-export const LeaderboardRows = ({ users, updateSelectedUser }: Props) => {
+export const LeaderboardRows = ({
+  users,
+  updateSelectedUser,
+  showAllUsers,
+}: Props) => {
   const tableCellClasses = (user: any) => {
     if (user.highlightedUser) {
       return 'table-cell py-8 bg-indigo-600 text-white text-xl md:text-2xl'
@@ -44,7 +49,7 @@ export const LeaderboardRows = ({ users, updateSelectedUser }: Props) => {
   let surroundingRows
 
   if (users) {
-    if (users.length <= 20) {
+    if (users.length <= 20 || showAllUsers) {
       leaderboardRows = getLeaderboardRows(users)
       return <div className="table-row-group">{leaderboardRows}</div>
     }

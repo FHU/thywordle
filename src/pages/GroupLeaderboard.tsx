@@ -1,9 +1,10 @@
 import { QuestionMarkCircleIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import Loading from './../components/gameState/Loading'
+import { ConfirmJoinGroupModal } from './../components/groups/ConfirmJoinGroupModal'
 import { ConfirmLeaveGroupModal } from './../components/groups/ConfirmLeaveGroupModal'
 import { LeaderboardRows } from './../components/leaderboard/LeaderboardRows'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
@@ -13,7 +14,9 @@ import { Group } from './../constants/types'
 import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
 import {
+  acceptJoinPrivateGroup,
   auth,
+  denyJoinPrivateGroup,
   getCleanedGroupName,
   getGroupLeaderboardByGroupNameFromFirestore,
   getGroupsByUidFromFirestore,
@@ -21,14 +24,18 @@ import {
 
 function GroupLeaderboard() {
   const params = useParams()
+  const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { showError: showErrorAlert } = useAlert()
+  const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
+    useAlert()
   const [loading, setLoading] = useState<boolean>(false)
   const [unauthorized, setUnauthorized] = useState<boolean>(false)
   const [group, setGroup] = useState<Group>()
 
   const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
   const [isStatSummaryModalOpen, setIsStatSummaryModalOpen] =
+    useState<boolean>(false)
+  const [isConfirmJoinGroupModalOpen, setIsConfirmJoinGroupModalOpen] =
     useState<boolean>(false)
   const [isLeaveGroupModalOpen, setIsLeaveGroupModalOpen] =
     useState<boolean>(false)
@@ -58,8 +65,6 @@ function GroupLeaderboard() {
           user.uid
         )
 
-        console.log(loadedGroup)
-
         if (loadedGroup) {
           setGroup(loadedGroup)
         }
@@ -68,6 +73,29 @@ function GroupLeaderboard() {
       }
     })()
   }, [user, params.groupName])
+
+  const handleJoinAlert = (isFailure: boolean, message: string) => {
+    if (isFailure) {
+      showErrorAlert(message)
+    } else {
+      showSuccessAlert(message)
+    }
+  }
+
+  const handleUserJoinRequestClick = async (uid: string, isDeny: boolean) => {
+    const tryRequest = isDeny
+      ? await denyJoinPrivateGroup(group?.groupName!, uid)
+      : await acceptJoinPrivateGroup(group?.groupName!, uid)
+
+    if (!tryRequest) {
+      showErrorAlert(
+        'Unable to process user request at this time. Please try again later.'
+      )
+      return
+    }
+
+    navigate(0)
+  }
 
   if (loading) {
     return <Loading />
@@ -135,17 +163,24 @@ function GroupLeaderboard() {
 
       {user && group && unauthorized && (
         <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
-          <p className="my-8 text-lg text-black dark:text-white">
+          <p className="mx-8 my-8 text-lg text-black dark:text-white">
             You are not a member of this group. Request to join or create a new
             group.
           </p>
-          <Link
-            to="/groups/create"
-            className="text-ll mb-12 inline-block rounded-lg bg-black p-4 px-12 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
-          >
-            Create New Group
-          </Link>
-          {/* TODO: Link to Join Group */}
+          <div className="mx-auto flex w-1/2 flex-col">
+            <Link
+              to="/groups/create"
+              className="text-ll mb-12 inline-block rounded-lg bg-black p-4 px-12 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            >
+              Create New Group
+            </Link>
+            <button
+              className="text-ll mb-12 inline-block rounded-lg bg-black p-4 px-12 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+              onClick={() => setIsConfirmJoinGroupModalOpen(true)}
+            >
+              {`${group?.isPrivate! ? 'Request to' : ''} Join Group`}
+            </button>
+          </div>
         </div>
       )}
 
@@ -178,16 +213,59 @@ function GroupLeaderboard() {
               <LeaderboardRows
                 users={group.users}
                 updateSelectedUser={updateSelectedUser}
+                showAllUsers={true}
               />
             </div>
           </div>
 
+          {Boolean(group.adminEmail === user.email) &&
+            Boolean(group.requestedUsers.length) && (
+              <div className="col-span-10 col-start-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+                <p className="my-4 text-lg dark:text-white">
+                  Users Requested to Join Group
+                </p>
+                <div className="my-4 table w-full table-fixed">
+                  {group?.requestedUsers.map((user) => (
+                    <div
+                      key={user.uid}
+                      className="text-md table-row text-black dark:text-white md:text-lg"
+                    >
+                      <div className="table-cell py-4">{user.name}</div>
+                      <div className="table-cell py-4">
+                        <button
+                          className="group relative mx-auto flex justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 md:w-32"
+                          onClick={() =>
+                            handleUserJoinRequestClick(user.uid, true)
+                          }
+                        >
+                          Deny
+                        </button>
+                      </div>
+                      <div className="table-cell py-4">
+                        <button
+                          className={`${buttonEnabledClasses} group relative mx-auto flex justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 md:w-32`}
+                          onClick={() =>
+                            handleUserJoinRequestClick(user.uid, false)
+                          }
+                        >
+                          Accept
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
           <div
             className={`${
-              Boolean(group.adminEmail === user.email) ? '' : 'mb-16'
-            } col-span-10 col-start-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800`}
+              Boolean(group.adminEmail === user.email) &&
+              Boolean(group.requestedUsers.length)
+                ? 'mt-4'
+                : ''
+            } col-span-10 col-start-2 mb-16 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800`}
           >
-            <p className="my-8 text-lg text-black dark:text-white">
+            <p className="my-4 text-lg text-black dark:text-white">
               {`Leave ${group.groupName}`}
             </p>
             <button
@@ -197,13 +275,6 @@ function GroupLeaderboard() {
               Leave
             </button>
           </div>
-
-          {/* TODO: requested users if admin */}
-          {Boolean(group.adminEmail === user.email) && (
-            <div className="col-span-10 col-start-2 mb-16 mt-4 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
-              <p className="my-8">You are the admin</p>
-            </div>
-          )}
         </>
       )}
 
@@ -216,6 +287,16 @@ function GroupLeaderboard() {
         isOpen={isStatSummaryModalOpen}
         handleClose={() => setIsStatSummaryModalOpen(false)}
         leaderboardUser={selectedUser}
+      />
+
+      <ConfirmJoinGroupModal
+        groupName={group?.groupName!}
+        isGroupPrivate={group?.isPrivate!}
+        uid={user?.uid ?? ''}
+        alreadyJoined={false}
+        showAlert={handleJoinAlert}
+        isOpen={isConfirmJoinGroupModalOpen}
+        handleClose={() => setIsConfirmJoinGroupModalOpen(false)}
       />
 
       <ConfirmLeaveGroupModal
