@@ -99,6 +99,11 @@ function App() {
       ? localStorage.getItem('gameMode') === 'hard'
       : false
   )
+  const [isAutoFillMode, setIsAutoFillMode] = useState(
+    localStorage.getItem('autoFillMode')
+      ? localStorage.getItem('autoFillMode') === 'true'
+      : false
+  )
   const [stats, setStats] = useState<GameStats>(() => loadStats())
   const setGameState = (guesses: string[]): string[] => {
     const gameWasWon = guesses.includes(solution)
@@ -226,6 +231,11 @@ function App() {
     }
   }
 
+  const handleAutoFillMode = (isAutoFill: boolean) => {
+    setIsAutoFillMode(isAutoFill)
+    localStorage.setItem('autoFillMode', isAutoFill ? 'true' : 'false')
+  }
+
   const handleHighContrastMode = (isHighContrast: boolean) => {
     setIsHighContrastMode(isHighContrast)
     setStoredIsHighContrastMode(isHighContrast)
@@ -262,6 +272,7 @@ function App() {
                   stats={stats}
                   setStats={setStats}
                   isHardMode={isHardMode}
+                  isAutoFillMode={isAutoFillMode}
                   isLatestGame={isLatestGame}
                   isGameWon={isGameWon}
                   setIsGameWon={setIsGameWon}
@@ -338,6 +349,8 @@ function App() {
             handleClose={() => setIsSettingsModalOpen(false)}
             isHardMode={isHardMode}
             handleHardMode={handleHardMode}
+            isAutoFillMode={isAutoFillMode}
+            handleAutoFillMode={handleAutoFillMode}
             isDarkMode={isDarkMode}
             handleDarkMode={handleDarkMode}
             isHighContrastMode={isHighContrastMode}
