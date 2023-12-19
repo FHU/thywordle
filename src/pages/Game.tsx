@@ -10,6 +10,7 @@ import { GameStats } from '@/constants/types'
 
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
+import { BOOKS } from './../constants/booklist'
 import {
   DATE_LOCALE,
   MAX_CHALLENGES,
@@ -36,6 +37,7 @@ interface props {
   stats: GameStats
   setStats: React.Dispatch<React.SetStateAction<any>>
   isHardMode: boolean
+  isAutoFillMode: boolean
   isLatestGame: boolean
   isGameWon: boolean
   setIsGameWon: React.Dispatch<React.SetStateAction<boolean>>
@@ -51,6 +53,7 @@ const Game: React.FC<props> = ({
   stats,
   setStats,
   isHardMode,
+  isAutoFillMode,
   isLatestGame,
   isGameWon,
   setIsGameWon,
@@ -72,6 +75,25 @@ const Game: React.FC<props> = ({
 
   const verseButtonRef = useRef<HTMLButtonElement>(null)
 
+  const updateStats = async (stats: GameStats, count: number) => {
+    setStats(await addStatsForCompletedGame(stats, count, user, solution))
+  }
+
+  const revealNextGuess = (guess: string) => {
+    if (isAutoFillMode) {
+      // eslint-disable-next-line array-callback-return
+      BOOKS.some((book) => {
+        if (
+          solution.startsWith(book) &&
+          guess.startsWith(book) &&
+          guess !== solution
+        ) {
+          setCurrentGuess(book)
+        }
+      })
+    }
+  }
+
   const onChar = (value: string) => {
     if (!isGameWon || !isGameLost) {
       if (
@@ -82,10 +104,6 @@ const Game: React.FC<props> = ({
         setCurrentGuess(`${currentGuess}${value}`)
       }
     }
-  }
-
-  const updateStats = async (stats: GameStats, count: number) => {
-    setStats(await addStatsForCompletedGame(stats, count, user, solution))
   }
 
   const onDelete = () => {
@@ -139,7 +157,8 @@ const Game: React.FC<props> = ({
     // chars have been revealed
     setTimeout(() => {
       setIsRevealing(false)
-    }, REVEAL_TIME_MS * solution.length)
+      revealNextGuess(currentGuess)
+    }, REVEAL_TIME_MS * solution.length + 1000)
 
     const winningWord = isWinningWord(currentGuess)
 
