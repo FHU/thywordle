@@ -3,7 +3,12 @@ import './App.css'
 import { useEffect, useState } from 'react'
 import Div100vh from 'react-div-100vh'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom'
 
 import { AlertContainer } from './components/alerts/AlertContainer'
 import Error from './components/gameState/Error'
@@ -277,6 +282,8 @@ function App() {
               path="/new-accounts-feature"
               element={<NewAccountFeature />}
             />
+            {/* Any other urls redirect to / */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
 
           <InfoModal

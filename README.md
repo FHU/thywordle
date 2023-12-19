@@ -1,6 +1,6 @@
 # ThyWordle
 
-This is a clone project of the popular word guessing game we all know and love, with Bible references for answers instead of 5-letter words. Made using React, Typescript, and Tailwind, forked off a very impressive and comprehensive [**Repository**](https://github.com/cwackerfuss/react-wordle).
+This is a clone project of the popular word guessing game we all know and love, with Bible references for answers instead of 5-letter words. Made using React, Typescript, and Tailwind, forked off a very impressive and comprehensive repository.
 
 [**Play the Game!**](https://thywordle.com/)
 

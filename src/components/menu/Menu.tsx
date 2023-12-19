@@ -96,6 +96,20 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
         >
           Send Feedback
         </Link>
+
+        <Link
+          to="mailto:thywordle@gmail.com"
+          target="_blank"
+          className={
+            menuItemClasses +
+            ' absolute bottom-0 right-0 py-16 px-8 md:py-8 md:text-lg'
+          }
+          onClick={() => {
+            setShowMenu(false)
+          }}
+        >
+          Send Feedback
+        </Link>
       </div>
     </React.Fragment>
   )
