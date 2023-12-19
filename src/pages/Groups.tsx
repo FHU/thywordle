@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../lib/firebaseConfig'
 import Loading from './../components/gameState/Loading'
@@ -21,6 +21,7 @@ import {
 
 function Groups() {
   const [user] = useAuthState(auth)
+  const navigate = useNavigate()
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
   const [loading, setLoading] = useState<boolean>(false)
@@ -70,6 +71,12 @@ function Groups() {
     }
 
     return false
+  }
+
+  const handleCreateGroupButtonClick = () => {
+    if (userGroups.length < 5) {
+      navigate('/groups/create')
+    }
   }
 
   const handleJoinAlert = (isFailure: boolean, message: string) => {
@@ -131,9 +138,12 @@ function Groups() {
       ) : (
         <>
           <div className="col-span-10 col-start-2 mb-0 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-5 lg:col-start-2 lg:col-end-7 lg:mb-8">
-            <h2 className="my-8 text-center text-xl font-bold text-black dark:text-white md:text-2xl">
+            <h2 className="mt-8 text-center text-xl font-bold text-black dark:text-white md:text-2xl">
               My Groups
             </h2>
+            <p className="my-4 text-center text-black dark:text-white">
+              You can only be in 5 groups at one time.
+            </p>
             <div className="my-4 flex flex-col text-center">
               {Boolean(userGroups.length) ? (
                 <UserGroups groups={userGroups} />
@@ -151,9 +161,14 @@ function Groups() {
               Create or Join a New Group
             </h2>
             <div className="my-12 flex flex-col text-center">
-              <Link
-                to="/groups/create"
-                className={`${buttonEnabledClasses} group relative mx-auto mb-12 flex w-64 justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+              <button
+                disabled={userGroups.length >= 5}
+                onClick={handleCreateGroupButtonClick}
+                className={`${
+                  userGroups.length < 5
+                    ? buttonEnabledClasses
+                    : buttonDisabledClasses
+                } group relative mx-auto mb-12 flex w-64 justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
               >
                 <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <svg
@@ -170,7 +185,7 @@ function Groups() {
                   </svg>
                 </span>
                 Create New Group
-              </Link>
+              </button>
 
               <div>
                 <h2 className="text-l my-4 text-center font-bold text-black dark:text-white md:text-xl">
@@ -229,6 +244,7 @@ function Groups() {
 
       <ConfirmJoinGroupModal
         groupName={searchedGroupName}
+        numUserGroups={userGroups.length}
         isGroupPrivate={isGroupPrivate}
         uid={user?.uid ?? ''}
         alreadyJoined={hasAlreadyJoined(searchedGroupName)}

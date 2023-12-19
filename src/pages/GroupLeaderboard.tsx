@@ -34,6 +34,7 @@ function GroupLeaderboard() {
   const [copyButtonText, setCopyButtonText] = useState('Copy')
   const [isCopyButtonEnabled, setIsCopyButtonEnabled] = useState(true)
   const [group, setGroup] = useState<Group>()
+  const [numUserGroups, setNumUserGroups] = useState<number>(0)
 
   const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
   const [isStatSummaryModalOpen, setIsStatSummaryModalOpen] =
@@ -63,6 +64,7 @@ function GroupLeaderboard() {
           setUnauthorized(true)
         }
 
+        setNumUserGroups(cleanedLoadedGroupNames.length)
         const loadedGroup = await getGroupLeaderboardByGroupNameFromFirestore(
           params.groupName,
           user.uid
@@ -98,7 +100,7 @@ function GroupLeaderboard() {
 
     if (!tryRequest) {
       showErrorAlert(
-        'Unable to process user request at this time. Please try again later.'
+        'Unable to process user request at this time. Please try again later. Reminder, users can only be in 5 groups at one time.'
       )
       return
     }
@@ -335,6 +337,7 @@ function GroupLeaderboard() {
 
       <ConfirmJoinGroupModal
         groupName={group?.groupName!}
+        numUserGroups={numUserGroups}
         isGroupPrivate={group?.isPrivate!}
         uid={user?.uid ?? ''}
         alreadyJoined={false}

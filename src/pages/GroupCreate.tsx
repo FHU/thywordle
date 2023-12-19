@@ -25,7 +25,7 @@ function GroupCreate() {
         ? await getGroupsByUidFromFirestore(user.uid)
         : []
 
-      if (loadedUserGroups.length > 5) {
+      if (loadedUserGroups.length >= 5) {
         setIsAllowedToCreateGroup(false)
       }
 

@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { buttonEnabledClasses } from '../../constants/classes'
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+} from '../../constants/classes'
 import { BaseModal } from '../modals/BaseModal'
 import { addUserToGroup, getCleanedGroupName } from './../../lib/firebaseGroups'
 
 type Props = {
   groupName: string
+  numUserGroups: number
   isGroupPrivate: boolean
   uid: string
   alreadyJoined: boolean
@@ -17,6 +21,7 @@ type Props = {
 
 export const ConfirmJoinGroupModal = ({
   groupName,
+  numUserGroups,
   isGroupPrivate,
   uid,
   alreadyJoined,
@@ -28,12 +33,16 @@ export const ConfirmJoinGroupModal = ({
   const [groupJoined, setGroupJoined] = useState<boolean>(false)
 
   const handleJoinGroup = async () => {
+    if (numUserGroups >= 5) {
+      return
+    }
+
     const tryJoinGroup = await addUserToGroup(groupName, uid, isGroupPrivate)
     if (!tryJoinGroup) {
       handleClose()
       showAlert(
         true,
-        'Unable to join this group at this time. Please try again later.'
+        'Unable to join this group at this time. Please try again later. Reminder, users can only be in 5 groups at one time.'
       )
       return
     }
@@ -73,14 +82,26 @@ export const ConfirmJoinGroupModal = ({
           <>
             {!groupJoined ? (
               <div className="my-2 flex flex-col justify-center">
-                <p className="text-black dark:text-white">
-                  {`Are you sure you would like to join this ${
-                    isGroupPrivate ? 'Private' : 'Public'
-                  } group?`}
-                </p>
+                {numUserGroups <= 4 ? (
+                  <p className="text-black dark:text-white">
+                    {`Are you sure you would like to join this ${
+                      isGroupPrivate ? 'Private' : 'Public'
+                    } group?`}
+                  </p>
+                ) : (
+                  <p className="text-red-600 dark:text-red-400">
+                    You can only be in 5 groups at one time.
+                  </p>
+                )}
+
                 <button
-                  className={`${buttonEnabledClasses} group relative mt-5 flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+                  className={`${
+                    numUserGroups <= 4
+                      ? buttonEnabledClasses
+                      : buttonDisabledClasses
+                  } group relative mt-5 flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
                   onClick={() => handleJoinGroup()}
+                  disabled={numUserGroups >= 5}
                 >
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                     <svg

@@ -155,6 +155,11 @@ export const addUserToGroup = async (
   isPrivate: boolean
 ): Promise<boolean> => {
   try {
+    const userGroups = await getGroupsByUidFromFirestore(uid)
+    if (userGroups.length >= 5) {
+      return false
+    }
+
     const group = await getGroupByGroupName(groupName)
     if (group.exists()) {
       const docRef = doc(db, 'groups', group.id)
@@ -212,6 +217,11 @@ export const acceptJoinPrivateGroup = async (
   uid: string
 ): Promise<boolean> => {
   try {
+    const userGroups = await getGroupsByUidFromFirestore(uid)
+    if (userGroups.length >= 5) {
+      return false
+    }
+
     const group = await getGroupByGroupName(groupName)
     if (group.exists()) {
       const docRef = doc(db, 'groups', group.id)
