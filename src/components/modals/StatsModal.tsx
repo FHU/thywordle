@@ -153,7 +153,7 @@ export const StatsModal = ({
           </div>
         </div>
       )}
-      {ENABLE_MIGRATE_STATS && !user && (
+      {ENABLE_MIGRATE_STATS && (
         <div>
           <hr className="-mb-4 mt-4 border-gray-500" />
           <MigrationIntro
@@ -185,7 +185,7 @@ export const StatsModal = ({
       <hr className="-mb-4 mt-4 border-gray-500" />
       <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
         <div className="mt-3 text-xs">
-          <p>View your rank</p>
+          {user ? 'View your rank' : 'See current point leaders'}
         </div>
         <Link
           to="/leaderboard"
