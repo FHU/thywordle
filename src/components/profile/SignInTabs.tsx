@@ -14,6 +14,7 @@ interface props {
   setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
   handleLogOut: any
   handleEditProfile: any
+  handleDeleteAccount: any
 }
 
 const SignInTabs = ({
@@ -23,6 +24,7 @@ const SignInTabs = ({
   setPropToEdit,
   handleLogOut,
   handleEditProfile,
+  handleDeleteAccount,
 }: props) => {
   const tabs = ['Sign In', 'Create New Account']
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
@@ -35,13 +37,6 @@ const SignInTabs = ({
     setIsForgotPasswordModalOpen(true)
   }
 
-  const inputClasses =
-    'w-full border-0 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:text-white sm:leading-6'
-  const buttonDisabledClasses =
-    'bg-indigo-300 focus-visible:outline-indigo-300 cursor-not-allowed'
-  const buttonEnabledClasses =
-    'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
-
   if (user) {
     return (
       <ProfileInformation
@@ -50,6 +45,7 @@ const SignInTabs = ({
         stats={stats}
         handleLogOut={handleLogOut}
         handleEditProfile={handleEditProfile}
+        handleDeleteAccount={handleDeleteAccount}
         setPropToEdit={setPropToEdit}
       />
     )
@@ -78,18 +74,9 @@ const SignInTabs = ({
       </div>
       <div className="py-4">
         {activeTabIndex === 0 ? (
-          <SignInForm
-            inputClasses={inputClasses}
-            buttonDisabledClasses={buttonDisabledClasses}
-            buttonEnabledClasses={buttonEnabledClasses}
-            handleForgotPassword={handleForgotPassword}
-          />
+          <SignInForm handleForgotPassword={handleForgotPassword} />
         ) : (
-          <CreateAccountForm
-            inputClasses={inputClasses}
-            buttonDisabledClasses={buttonDisabledClasses}
-            buttonEnabledClasses={buttonEnabledClasses}
-          />
+          <CreateAccountForm />
         )}
       </div>
 

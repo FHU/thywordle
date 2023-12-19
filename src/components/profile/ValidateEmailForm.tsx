@@ -1,4 +1,9 @@
-import { checkIfEmailExistsInFirestore } from '../../lib/firebase'
+import { checkIfEmailExistsInFirestore } from '../../lib/firebaseAuth'
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  inputClasses,
+} from './../../constants/classes'
 import { ValidEmailEnum } from './../../constants/types'
 import { useAlert } from './../../context/AlertContext'
 
@@ -7,9 +12,6 @@ interface props {
   setEmail: React.Dispatch<React.SetStateAction<string>>
   setIsEmailValid: React.Dispatch<React.SetStateAction<boolean>>
   newAccount: boolean
-  inputClasses: string
-  buttonDisabledClasses: string
-  buttonEnabledClasses: string
 }
 
 const ValidateEmailForm = ({
@@ -17,13 +19,10 @@ const ValidateEmailForm = ({
   setEmail,
   setIsEmailValid,
   newAccount,
-  inputClasses,
-  buttonDisabledClasses,
-  buttonEnabledClasses,
 }: props) => {
   const { showError: showErrorAlert } = useAlert()
   const isValidEmail = () => {
-    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+    const emailRegex = /^[a-zA-Z]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
     return emailRegex.test(email)
   }
 
@@ -33,6 +32,10 @@ const ValidateEmailForm = ({
   }
 
   const handleButtonClick = async () => {
+    if (!isValidEmail()) {
+      return
+    }
+
     const isEmailInFirestore = await checkIfEmailExistsInFirestore(email)
 
     if (isEmailInFirestore === ValidEmailEnum.FoundGoogle) {

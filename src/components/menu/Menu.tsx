@@ -75,6 +75,15 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
           Leaderboard
         </Link>
         <Link
+          to="/groups"
+          className={`mt-8 ${menuItemClasses}`}
+          onClick={() => {
+            setShowMenu(false)
+          }}
+        >
+          Groups
+        </Link>
+        <Link
           to="mailto:thywordle@gmail.com"
           target="_blank"
           className={

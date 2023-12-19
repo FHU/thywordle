@@ -3,21 +3,16 @@ import { useState } from 'react'
 import {
   createAccountWithUsernameAndPassword,
   signInWithGoogle,
-} from '../../lib/firebase'
+} from '../../lib/firebaseAuth'
+import {
+  buttonDisabledClasses,
+  buttonEnabledClasses,
+  inputClasses,
+} from './../../constants/classes'
 import { useAlert } from './../../context/AlertContext'
 import ValidateEmailForm from './ValidateEmailForm'
 
-interface props {
-  inputClasses: string
-  buttonDisabledClasses: string
-  buttonEnabledClasses: string
-}
-
-const CreateAccountForm = ({
-  inputClasses,
-  buttonDisabledClasses,
-  buttonEnabledClasses,
-}: props) => {
+const CreateAccountForm = () => {
   const { showError: showErrorAlert } = useAlert()
   const [email, setEmail] = useState<string>('')
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false)
@@ -27,12 +22,10 @@ const CreateAccountForm = ({
 
   const isValidPassword = () => {
     if (password.length < 8 || confirmPassword.length < 8) {
-      showErrorAlert('Passwords must be at least 8 characters long.')
       return false
     }
 
     if (password !== confirmPassword) {
-      showErrorAlert('Passwords must match.')
       return false
     }
 
@@ -48,6 +41,10 @@ const CreateAccountForm = ({
   }
 
   const handleCreateAccountButtonClick = async () => {
+    if (!isValid()) {
+      return
+    }
+
     const signIn = await createAccountWithUsernameAndPassword(
       username,
       email,
@@ -73,9 +70,6 @@ const CreateAccountForm = ({
               setEmail={setEmail}
               setIsEmailValid={setIsEmailValid}
               newAccount={true}
-              inputClasses={inputClasses}
-              buttonDisabledClasses={buttonDisabledClasses}
-              buttonEnabledClasses={buttonEnabledClasses}
             />
           )}
 

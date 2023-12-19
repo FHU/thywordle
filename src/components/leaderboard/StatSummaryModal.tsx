@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 
 import { LeaderboardUser } from '@/constants/types'
 
+import { auth } from '../../lib/firebaseConfig'
 import {
   BEST_STREAK_TEXT,
   CURRENT_STREAK_TEXT,
   SUCCESS_RATE_TEXT,
 } from './../../constants/strings'
-import { auth } from './../../lib/firebase'
 import { BaseModal } from './../modals/BaseModal'
 import { StatItem } from './../stats/StatBar'
 

@@ -2,12 +2,15 @@ import { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import SignInTabs from '../components/profile/SignInTabs'
+import { getUserDataByUid } from '../lib/firebaseAuth'
+import Loading from './../components/gameState/Loading'
+import { ConfirmDeleteAccountModal } from './../components/profile/ConfirmDeleteAccountModal'
 import { ConfirmEditProfileModal } from './../components/profile/ConfirmEditProfileModal'
 import { EditProfileModal } from './../components/profile/EditProfileModal'
 import { LogOutModal } from './../components/profile/LogOutModal'
 import { GameStats, PropToEditEnum } from './../constants/types'
+import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
-import { getUserDataByUid } from './../lib/firebase'
 
 interface Props {
   user: User | null | undefined
@@ -15,6 +18,8 @@ interface Props {
 }
 
 function Profile({ user, stats }: Props) {
+  const { showError: showErrorAlert } = useAlert()
+  const [loading, setLoading] = useState<boolean>(false)
   const [userInfo, setUserInfo] = useState<any>()
   const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
     useState<boolean>(false)
@@ -24,6 +29,8 @@ function Profile({ user, stats }: Props) {
     PropToEditEnum.Username
   )
   const [newPropValue, setNewPropValue] = useState<string>('')
+  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
+    useState<boolean>(false)
   const [isConfirmEditProfileModalOpen, setIsConfirmEditProfileModalOpen] =
     useState<boolean>(false)
 
@@ -35,14 +42,30 @@ function Profile({ user, stats }: Props) {
     setIsEditProfileModalOpen(true)
   }
 
+  const handleDeleteAccount = () => {
+    setIsConfirmDeleteModalOpen(true)
+  }
+
+  const deleteAccountFailed = () => {
+    showErrorAlert(
+      'Unable to delete account at this time. Please try again later.'
+    )
+  }
+
   useEffect(() => {
     ;(async () => {
       if (user) {
+        setLoading(true)
         const u = await getUserDataByUid(user.uid)
         setUserInfo(u)
+        setLoading(false)
       }
     })()
   }, [user])
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div className="grid w-full grid-cols-12 gap-4">
@@ -65,6 +88,7 @@ function Profile({ user, stats }: Props) {
           setPropToEdit={setPropToEdit}
           handleLogOut={handleLogOut}
           handleEditProfile={handleEditProfile}
+          handleDeleteAccount={handleDeleteAccount}
         />
       </div>
 
@@ -84,6 +108,13 @@ function Profile({ user, stats }: Props) {
         editedValue={newPropValue}
         isOpen={isConfirmEditProfileModalOpen}
         handleClose={() => setIsConfirmEditProfileModalOpen(false)}
+      />
+
+      <ConfirmDeleteAccountModal
+        user={user}
+        isOpen={isConfirmDeleteModalOpen}
+        handleClose={() => setIsConfirmDeleteModalOpen(false)}
+        showError={deleteAccountFailed}
       />
 
       <LogOutModal

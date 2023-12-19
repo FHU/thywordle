@@ -1,10 +1,14 @@
+import { SettingsToggle } from '../modals/SettingsToggle'
 import { PropToEditEnum } from './../../constants/types'
+import { useAlert } from './../../context/AlertContext'
+import { updateFirestorePublicDisplaySetting } from './../../lib/firebaseAuth'
 
 interface props {
   userInfo: any
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
   setPropToEdit: React.Dispatch<React.SetStateAction<PropToEditEnum>>
   handleEditProfile: any
+  handleDeleteAccount: any
 }
 
 const EditProfileForm = ({
@@ -12,10 +16,29 @@ const EditProfileForm = ({
   setIsEdit,
   setPropToEdit,
   handleEditProfile,
+  handleDeleteAccount,
 }: props) => {
+  const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
+    useAlert()
   const editProp = (prop: PropToEditEnum) => {
     setPropToEdit(prop)
     handleEditProfile()
+  }
+
+  const handleDisplayPublicInput = async () => {
+    const tryUpdate = await updateFirestorePublicDisplaySetting(
+      userInfo.uid,
+      !userInfo.displayPublic
+    )
+
+    if (tryUpdate) {
+      userInfo.displayPublic = !userInfo.displayPublic
+      showSuccessAlert('Public display setting updated!')
+    } else {
+      showErrorAlert(
+        'Unable to update public display setting. Please try again later.'
+      )
+    }
   }
 
   const inputClasses =
@@ -34,7 +57,7 @@ const EditProfileForm = ({
               name="username"
               type="text"
               autoComplete="name"
-              value={userInfo.name}
+              value={userInfo.name ?? ''}
               required
               className={inputClasses}
               placeholder="Name"
@@ -89,12 +112,33 @@ const EditProfileForm = ({
           )}
         </div>
 
-        <div className="mt-8 w-64">
+        <div className="my-8 w-full text-black dark:text-white">
+          <p>
+            Allow my name and stats to be publicly displayed on global
+            leaderboard?
+          </p>
+          <div className="my-4 flex items-center justify-center">
+            <SettingsToggle
+              settingName="Display Name"
+              flag={userInfo.displayPublic}
+              handleFlag={handleDisplayPublicInput}
+            />
+          </div>
+        </div>
+
+        <div className="w-64">
           <button
             className="w-full items-center justify-between rounded-lg bg-indigo-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
             onClick={() => setIsEdit(false)}
           >
             Return to Profile
+          </button>
+
+          <button
+            className="mt-8 w-full items-center justify-between rounded-lg bg-gray-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-600/90"
+            onClick={handleDeleteAccount}
+          >
+            Delete Account
           </button>
         </div>
       </div>
