@@ -79,11 +79,11 @@ const Game: React.FC<props> = ({
     setStats(await addStatsForCompletedGame(stats, count, user, solution))
   }
 
-  const revealNextGuess = () => {
+  const revealNextGuess = (guess: string) => {
     if (isAutoFillMode) {
       // eslint-disable-next-line array-callback-return
       BOOKS.some((book) => {
-        if (solution.startsWith(book)) {
+        if (solution.startsWith(book) && guess.startsWith(book)) {
           setCurrentGuess(book)
         }
       })
@@ -153,7 +153,7 @@ const Game: React.FC<props> = ({
     // chars have been revealed
     setTimeout(() => {
       setIsRevealing(false)
-      revealNextGuess()
+      revealNextGuess(currentGuess)
     }, REVEAL_TIME_MS * solution.length + 1000)
 
     const winningWord = isWinningWord(currentGuess)
