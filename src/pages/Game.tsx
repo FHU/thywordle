@@ -3,7 +3,7 @@ import './../App.css'
 import { ClockIcon } from '@heroicons/react/outline'
 import { format } from 'date-fns'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { GameStats } from '@/constants/types'
@@ -21,6 +21,7 @@ import {
   CORRECT_WORD_MESSAGE,
   INVALID_REFERENCE_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
+  WIN_MESSAGES,
 } from './../constants/strings'
 import { updateGameStateToFirestore } from './../lib/firebaseStats'
 import { addStatsForCompletedGame } from './../lib/stats'
@@ -47,7 +48,9 @@ interface props {
   guesses: string[]
   setGuesses: React.Dispatch<React.SetStateAction<string[]>>
   showErrorAlert: any
+  showSuccessAlert: any
   setIsVerseModalOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsStatsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Game: React.FC<props> = ({
@@ -63,7 +66,9 @@ const Game: React.FC<props> = ({
   guesses,
   setGuesses,
   showErrorAlert,
+  showSuccessAlert,
   setIsVerseModalOpen,
+  setIsStatsModalOpen,
 }) => {
   const gameDate = getGameDate()
   const [user] = useAuthState(auth)
@@ -74,8 +79,26 @@ const Game: React.FC<props> = ({
     setCurrentRowClass('')
   }
 
-  const verseButtonRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (isGameWon) {
+      const winMessage =
+        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
+      const delayMs = REVEAL_TIME_MS * solution.length
 
+      showSuccessAlert(winMessage, {
+        delayMs,
+        onClose: () => setIsStatsModalOpen(true),
+      })
+    }
+
+    if (isGameLost) {
+      setTimeout(() => {
+        setIsStatsModalOpen(true)
+      }, (solution.length + 1) * REVEAL_TIME_MS)
+    }
+  }, [isGameWon, isGameLost, showSuccessAlert, setIsStatsModalOpen])
+
+  const verseButtonRef = useRef<HTMLButtonElement>(null)
   const updateStats = async (stats: GameStats, count: number) => {
     setStats(await addStatsForCompletedGame(stats, count, user))
   }

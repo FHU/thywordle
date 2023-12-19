@@ -20,7 +20,6 @@ import {
   DISCOURAGE_INAPP_BROWSERS,
   LONG_ALERT_TIME_MS,
   MAX_CHALLENGES,
-  REVEAL_TIME_MS,
   WELCOME_INFO_MODAL_MS,
 } from './constants/settings'
 import {
@@ -30,7 +29,6 @@ import {
   HARD_MODE_ALERT_MESSAGE,
   NEW_ACCOUNT_FEATURE_TEXT,
   SHARE_FAILURE_TEXT,
-  WIN_MESSAGES,
 } from './constants/strings'
 import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
@@ -165,15 +163,12 @@ function App() {
     // if no game state on load,
     // show the user the how-to info modal
     if (!loadGameStateFromLocalStorage(true)) {
+      saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
       setTimeout(() => {
         setIsInfoModalOpen(true)
       }, WELCOME_INFO_MODAL_MS)
     }
   })
-
-  useEffect(() => {
-    saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
-  }, [guesses])
 
   useEffect(() => {
     DISCOURAGE_INAPP_BROWSERS &&
@@ -197,25 +192,6 @@ function App() {
       document.documentElement.classList.remove('high-contrast')
     }
   }, [isDarkMode, isHighContrastMode])
-
-  useEffect(() => {
-    if (isGameWon) {
-      const winMessage =
-        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
-      const delayMs = REVEAL_TIME_MS * solution.length
-
-      showSuccessAlert(winMessage, {
-        delayMs,
-        onClose: () => setIsStatsModalOpen(true),
-      })
-    }
-
-    if (isGameLost) {
-      setTimeout(() => {
-        setIsStatsModalOpen(true)
-      }, (solution.length + 1) * REVEAL_TIME_MS)
-    }
-  }, [isGameWon, isGameLost, showSuccessAlert, setIsStatsModalOpen])
 
   const handleDarkMode = (isDark: boolean) => {
     setIsDarkMode(isDark)
@@ -281,7 +257,9 @@ function App() {
                   guesses={guesses}
                   setGuesses={setGuesses}
                   showErrorAlert={showErrorAlert}
+                  showSuccessAlert={showSuccessAlert}
                   setIsVerseModalOpen={setIsVerseModalOpen}
+                  setIsStatsModalOpen={setIsStatsModalOpen}
                 />
               }
             />
