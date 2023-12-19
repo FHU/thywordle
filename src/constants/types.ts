@@ -39,4 +39,5 @@ export enum PropToEditEnum {
   Email,
   Password,
   Image,
+  PublicDisplaySetting,
 }

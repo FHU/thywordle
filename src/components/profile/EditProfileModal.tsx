@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { checkIfEmailExistsInFirestore } from '../../lib/firebaseAuth'
+import {
+  checkIfEmailExistsInFirestore,
+  updateFirestorePublicDisplaySetting,
+} from '../../lib/firebaseAuth'
+import { SettingsToggle } from '../modals/SettingsToggle'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,
@@ -28,9 +32,11 @@ export const EditProfileModal = ({
   setNewPropValue,
   setIsConfirmEditProfileModalOpen,
 }: Props) => {
-  const { showError: showErrorAlert } = useAlert()
+  const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
+    useAlert()
   const [username, setUsername] = useState<string>('')
   const [email, setEmail] = useState<string>('')
+  const [toggle, setToggle] = useState<boolean>(false)
   const [signedInWithGoogle, setSignedInWithGoogle] = useState<boolean>(false)
   const [updateAccountText, setUpdateAccountText] =
     useState<string>('Update Account')
@@ -39,6 +45,7 @@ export const EditProfileModal = ({
     if (userInfo) {
       setUsername(userInfo.name)
       setEmail(userInfo.email)
+      setToggle(userInfo.displayPublic)
       if (userInfo.authProvider === 'google') {
         setSignedInWithGoogle(true)
       }
@@ -60,6 +67,9 @@ export const EditProfileModal = ({
       case PropToEditEnum.Password:
         setUpdateAccountText('Send Password Reset Email')
         return
+      case PropToEditEnum.PublicDisplaySetting:
+        setUpdateAccountText('Update Public Display Setting')
+        return
       default:
         return
     }
@@ -75,6 +85,9 @@ export const EditProfileModal = ({
         return emailRegex.test(email)
 
       case PropToEditEnum.Password:
+        return true
+
+      case PropToEditEnum.PublicDisplaySetting:
         return true
 
       default:
@@ -109,9 +122,29 @@ export const EditProfileModal = ({
           setIsConfirmEditProfileModalOpen(true)
           return
 
+        case PropToEditEnum.PublicDisplaySetting:
+          handleDisplayPublicInput()
+          return
+
         default:
           return false
       }
+    }
+  }
+
+  const handleDisplayPublicInput = async () => {
+    const tryUpdate = await updateFirestorePublicDisplaySetting(
+      userInfo.uid,
+      toggle
+    )
+
+    if (tryUpdate) {
+      showSuccessAlert('Public display setting updated!')
+      handleClose()
+    } else {
+      showErrorAlert(
+        'Unable to update public display setting. Please try again later.'
+      )
     }
   }
 
@@ -172,6 +205,24 @@ export const EditProfileModal = ({
                     onChange={(e: any) => {
                       setEmail(e.target.value)
                     }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {propToEdit === PropToEditEnum.PublicDisplaySetting && (
+            <div>
+              <div className="mt-2">
+                <p>
+                  Allow my name and stats to be publicly displayed on global
+                  leaderboard?
+                </p>
+                <div className="my-4 flex items-center justify-center">
+                  <SettingsToggle
+                    settingName="Display Name"
+                    flag={toggle}
+                    handleFlag={() => setToggle(!toggle)}
                   />
                 </div>
               </div>
