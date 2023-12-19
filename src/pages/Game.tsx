@@ -83,7 +83,11 @@ const Game: React.FC<props> = ({
     if (isAutoFillMode) {
       // eslint-disable-next-line array-callback-return
       BOOKS.some((book) => {
-        if (solution.startsWith(book) && guess.startsWith(book)) {
+        if (
+          solution.startsWith(book) &&
+          guess.startsWith(book) &&
+          guess !== solution
+        ) {
           setCurrentGuess(book)
         }
       })
