@@ -1,29 +1,28 @@
-import { ChevronDownIcon } from '@heroicons/react/outline'
-import React, { useState } from 'react'
-
+// import { ChevronDownIcon } from '@heroicons/react/outline'
+// import React, { useState } from 'react'
 import { Cell } from '../components/grid/Cell'
 import favicon from './../img/favicon.png'
 
 function Help() {
-  const [isOldTestamentBooksOpen, setIsOldTestamentBooksOpen] =
-    useState<boolean>(false)
-  const [isNewTestamentBooksOpen, setIsNewTestamentBooksOpen] =
-    useState<boolean>(false)
+  // const [isOldTestamentBooksOpen, setIsOldTestamentBooksOpen] =
+  //   useState<boolean>(false)
+  // const [isNewTestamentBooksOpen, setIsNewTestamentBooksOpen] =
+  //   useState<boolean>(false)
 
-  const handleDropdowns = (testament: number) => {
-    if (testament === 1) {
-      setIsOldTestamentBooksOpen(!isOldTestamentBooksOpen)
-      if (!isOldTestamentBooksOpen && isNewTestamentBooksOpen) {
-        setIsNewTestamentBooksOpen(false)
-      }
-    }
-    if (testament === 2) {
-      setIsNewTestamentBooksOpen(!isNewTestamentBooksOpen)
-      if (!isNewTestamentBooksOpen && isOldTestamentBooksOpen) {
-        setIsOldTestamentBooksOpen(false)
-      }
-    }
-  }
+  // const handleDropdowns = (testament: number) => {
+  //   if (testament === 1) {
+  //     setIsOldTestamentBooksOpen(!isOldTestamentBooksOpen)
+  //     if (!isOldTestamentBooksOpen && isNewTestamentBooksOpen) {
+  //       setIsNewTestamentBooksOpen(false)
+  //     }
+  //   }
+  //   if (testament === 2) {
+  //     setIsNewTestamentBooksOpen(!isNewTestamentBooksOpen)
+  //     if (!isNewTestamentBooksOpen && isOldTestamentBooksOpen) {
+  //       setIsOldTestamentBooksOpen(false)
+  //     }
+  //   }
+  // }
 
   const oldTestamentBooks = [
     'GENESIS',
