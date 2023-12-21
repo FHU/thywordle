@@ -123,7 +123,7 @@ function Help() {
           ThyWordle uses a familiar color-coded hint sequence for previous
           guesses, with an additional few colors for clarity.{' '}
         </p>
-        <table className="mx-auto mb-8 w-4/5 table-auto border-spacing-0 text-left dark:text-white">
+        <table className="mx-auto mb-8 w-4/5 max-w-xl table-auto border-spacing-0 text-left dark:text-white">
           <thead className="font-bold">
             <td className="border border-slate-600 p-4">Color</td>
             <td className="border border-slate-600 p-4">Meaning</td>
