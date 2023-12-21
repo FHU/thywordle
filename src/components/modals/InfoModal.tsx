@@ -95,7 +95,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="6" isCompleted={true} solutionLength={8} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 2 is an incorrect solution type; try a letter or colon.
+        The number 2 is an incorrect character type; Try a letter or colon.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="1" isCompleted={true} solutionLength={8} />
@@ -115,7 +115,7 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell value="6" isCompleted={true} solutionLength={8} />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 1 is too low; try a larger number.
+        The number 1 is too low; Try a larger number.
       </p>
       <div className="mb-1 mt-4 flex justify-center">
         <Cell value="J" isCompleted={true} solutionLength={6} />
@@ -126,16 +126,16 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <Cell
           isRevealing={true}
           isCompleted={true}
-          value="2"
+          value="9"
           status="high"
           position={5}
           solutionLength={6}
         />
       </div>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        The number 2 is too high; try a smaller number.
+        The number 9 is too high; Try a smaller number.
       </p>
-      <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
+      <div className="mt-5 columns-2 items-stretch justify-center text-center dark:text-white sm:mt-6">
         <div className="mt-4">
           <p>Need More Help?</p>
         </div>
