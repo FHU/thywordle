@@ -1,7 +1,4 @@
-import {
-  ChevronDownIcon,
-  QuestionMarkCircleIcon,
-} from '@heroicons/react/outline'
+import { ChevronDownIcon } from '@heroicons/react/outline'
 import React, { useState } from 'react'
 
 import { Cell } from '../components/grid/Cell'
@@ -293,28 +290,39 @@ function Help() {
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
           Guesses in ThyWordle must be valid Bible verses. A valid Bible verse
           includes a{' '}
-          <span className="text-indigo-600 dark:text-indigo-400">book</span>,
-          (if applicable) a{' '}
+          <span className="text-indigo-600 dark:text-indigo-400">book</span>, a{' '}
           <span className="text-indigo-600 dark:text-indigo-400">
             chapter number
           </span>{' '}
           and{' '}
           <span className="text-indigo-600 dark:text-indigo-400">
             colon (:)
-          </span>
+          </span>{' '}
+          (if applicable)
           {', '} and lastly, a{' '}
           <span className="text-indigo-600 dark:text-indigo-400">
             verse number
           </span>
-          {'.'} Chapter numbers and colons are not necessary when the book only
-          has one chapter.
+          {'.'}
+        </p>
+        <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
+          Chapter numbers and colons are not necessary when the book only has
+          one chapter, for example,{' '}
+          <span className="text-indigo-600 dark:text-indigo-400">
+            {' '}
+            3 John 4
+          </span>{' '}
+          (not{' '}
+          <span className="text-indigo-600 dark:text-indigo-400">
+            <s> 3 John 1:4 </s>
+          </span>
+          ).
         </p>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
           {' '}
-          Use the dropdowns below if you need a reminder for any books of the
-          Bible or their spelling.
+          Use the dropdowns below to see a listing of book names.
         </p>
-        <div className="mx-auto flex justify-between px-4 md:w-1/2">
+        <div className="mx-auto flex justify-between px-4 md:w-2/3">
           <h2
             className={`${
               isOldTestamentBooksOpen
