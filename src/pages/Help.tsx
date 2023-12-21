@@ -283,13 +283,13 @@ function Help() {
           icon in the navbar.
         </p> */}
       </div>
-      <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
-        <h1 className="my-8 text-2xl font-bold dark:text-white md:text-3xl">
+      <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-left dark:bg-slate-800">
+        <h1 className="my-8 text-center text-2xl font-bold dark:text-white md:text-3xl">
           Valid Guess Syntax
         </h1>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
-          Guesses in ThyWordle must be valid Bible verses. A valid Bible verse
-          includes a{' '}
+          Guesses in ThyWordle must be valid Bible verses without spaces. A
+          valid Bible verse includes a{' '}
           <span className="text-indigo-600 dark:text-indigo-400">book</span>, a{' '}
           <span className="text-indigo-600 dark:text-indigo-400">
             chapter number
@@ -303,25 +303,20 @@ function Help() {
           <span className="text-indigo-600 dark:text-indigo-400">
             verse number
           </span>
-          {'.'}
+          .
         </p>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
-          Chapter numbers and colons are not necessary when the book only has
-          one chapter, for example,{' '}
-          <span className="text-indigo-600 dark:text-indigo-400">
-            {' '}
-            3 John 4
-          </span>{' '}
-          (not{' '}
-          <span className="text-indigo-600 dark:text-indigo-400">
-            <s> 3 John 1:4 </s>
-          </span>
-          ).
+          Examples: "GENESIS24:12" , "2CORINTHIANS6:1" , "OBADIAH5"
         </p>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
+          Chapter numbers and colons are not necessary (or allowed) when the
+          book only has one chapter, for example, "3JOHN4" (not "
+          <s> 3 JOHN 1:4 </s>" ).
+        </p>
+        {/* <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
           {' '}
           Use the dropdowns below to see a listing of book names.
-        </p>
+        </p> */}
         <div className="mx-auto flex justify-between px-4 md:w-2/3">
           <h2
             className={`${
@@ -358,7 +353,7 @@ function Help() {
             />{' '}
           </h2>
         </div>
-        <div className="mb-8">
+        <div className="mb-8 text-center">
           {isOldTestamentBooksOpen && <ul>{oldTestamentBookList}</ul>}
           {isNewTestamentBooksOpen && <ul>{newTestamentBookList}</ul>}
         </div>
