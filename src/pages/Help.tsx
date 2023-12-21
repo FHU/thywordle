@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from '@heroicons/react/outline'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Cell } from '../components/grid/Cell'
 import favicon from './../img/favicon.png'
@@ -119,17 +119,17 @@ function Help() {
         <h1 className="mb-8 text-2xl font-bold dark:text-white md:text-3xl">
           Additional Help
         </h1>
-        <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
+        <p className="mx-auto my-8 w-4/5 text-base dark:text-white md:text-xl">
           ThyWordle uses a familiar color-coded hint sequence for previous
           guesses, with an additional few colors for clarity.{' '}
         </p>
-        <table className="mx-auto  my-4 table-auto border-collapse border-spacing-0 text-left  dark:text-white">
+        <table className="mx-auto mb-8 w-4/5 table-auto border-spacing-0 text-left dark:text-white">
           <thead className="font-bold">
             <td className="border border-slate-600 p-4">Color</td>
             <td className="border border-slate-600 p-4">Meaning</td>
           </thead>
           <tr className="border border-slate-600">
-            <td className="border border-slate-600 p-4">
+            <td className="flex justify-center border-none border-slate-600 p-4">
               <Cell
                 isRevealing={true}
                 isCompleted={true}
@@ -138,17 +138,6 @@ function Help() {
                 position={0}
                 solutionLength={8}
               />
-              {/* <Cell value="O" isCompleted={true} solutionLength={8} />
-                <Cell value="H" isCompleted={true} solutionLength={8} />
-                <Cell value="N" isCompleted={true} solutionLength={8} />
-                <Cell value="3" isCompleted={true} solutionLength={8} />
-                <Cell value=":" isCompleted={true} solutionLength={8} />
-                <Cell value="1" isCompleted={true} solutionLength={8} />
-                <Cell value="6" isCompleted={true} solutionLength={8} /> */}
-
-              {/* <p className="text-sm text-gray-500 dark:text-gray-300">
-                The letter J is in the solution and in the correct spot.
-              </p> */}
             </td>
             <td className="border border-slate-600 p-4">
               <p>Correct Letter, Correct Spot</p>
@@ -158,7 +147,7 @@ function Help() {
             </td>
           </tr>
           <tr className="border border-slate-600 ">
-            <td className="border border-slate-600 p-4">
+            <td className="flex justify-center border-none border-slate-600 p-4">
               <Cell
                 isRevealing={true}
                 isCompleted={true}
@@ -177,7 +166,7 @@ function Help() {
           </tr>
 
           <tr className="border border-slate-600 ">
-            <td className="border border-slate-600 p-4">
+            <td className="flex justify-center border-none border-slate-600 p-4">
               <Cell
                 isRevealing={true}
                 isCompleted={true}
@@ -196,7 +185,7 @@ function Help() {
           </tr>
 
           <tr className="border border-slate-600 ">
-            <td className="border border-slate-600 p-4">
+            <td className="flex justify-center border-none border-slate-600 p-4">
               <Cell
                 isRevealing={true}
                 isCompleted={true}
@@ -216,7 +205,7 @@ function Help() {
           </tr>
 
           <tr className="border border-slate-600 p-4">
-            <td className="border border-slate-600 p-4">
+            <td className="flex justify-center border-none border-slate-600 p-4">
               <Cell
                 isRevealing={true}
                 isCompleted={true}
@@ -236,7 +225,7 @@ function Help() {
           </tr>
 
           <tr className="border border-slate-600 ">
-            <td className="border border-slate-600 p-4">
+            <td className="flex justify-center border-none border-slate-600 p-4">
               <Cell
                 isRevealing={true}
                 isCompleted={true}
@@ -255,7 +244,7 @@ function Help() {
           </tr>
 
           <tr className="border border-slate-600 ">
-            <td className="border border-slate-600 p-4">
+            <td className="flex justify-center border-none border-slate-600 p-4">
               <Cell
                 isRevealing={true}
                 isCompleted={true}
@@ -273,15 +262,6 @@ function Help() {
             </td>
           </tr>
         </table>
-        {/* <p className="mx-auto my-12 w-4/5 text-base dark:text-white ">
-          Open the{' '}
-          <span className="text-indigo-600 dark:text-indigo-400">
-            How to Play
-          </span>{' '}
-          menu by clicking on the{' '}
-          <QuestionMarkCircleIcon className="inline-block h-5 w-5 dark:stroke-white md:h-7 md:w-7" />{' '}
-          icon in the navbar.
-        </p> */}
       </div>
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-left dark:bg-slate-800">
         <h1 className="my-8 text-center text-2xl font-bold dark:text-white md:text-3xl">
@@ -306,18 +286,31 @@ function Help() {
           .
         </p>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
-          Examples: "GENESIS24:12" , "2CORINTHIANS6:1" , "OBADIAH5"
+          Examples: "
+          <span className="text-indigo-600 dark:text-indigo-400">
+            GENESIS24:12
+          </span>
+          " , "
+          <span className="text-indigo-600 dark:text-indigo-400">
+            2CORINTHIANS6:1
+          </span>
+          " , "
+          <span className="text-indigo-600 dark:text-indigo-400">OBADIAH5</span>
+          "
         </p>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
           Chapter numbers and colons are not necessary (or allowed) when the
-          book only has one chapter, for example, "3JOHN4" (not "
-          <s> 3 JOHN 1:4 </s>" ).
+          book only has one chapter, for example, "
+          <span className="text-indigo-600 dark:text-indigo-400">3JOHN4</span>"
+          (not "
+          <s className="text-indigo-600 dark:text-indigo-400"> 3 JOHN 1:4 </s>"
+          ).
         </p>
-        {/* <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
+        <p className="mx-auto my-12 w-4/5 text-center text-base dark:text-white md:text-xl">
           {' '}
-          Use the dropdowns below to see a listing of book names.
-        </p> */}
-        <div className="mx-auto flex justify-between px-4 md:w-2/3">
+          Use the dropdowns below to see a list of book names.
+        </p>
+        <div className="mx-auto flex flex-col px-4 text-center md:w-2/3">
           <h2
             className={`${
               isOldTestamentBooksOpen
@@ -335,6 +328,11 @@ function Help() {
               } inline-block h-5 w-5 stroke-black dark:stroke-white md:h-7 md:w-7`}
             />{' '}
           </h2>
+          <div className="text-center">
+            {isOldTestamentBooksOpen && (
+              <ul className="mb-8">{oldTestamentBookList}</ul>
+            )}
+          </div>
           <h2
             className={`${
               isNewTestamentBooksOpen
@@ -352,10 +350,11 @@ function Help() {
               } inline-block h-5 w-5 stroke-black dark:stroke-white md:h-7 md:w-7`}
             />{' '}
           </h2>
-        </div>
-        <div className="mb-8 text-center">
-          {isOldTestamentBooksOpen && <ul>{oldTestamentBookList}</ul>}
-          {isNewTestamentBooksOpen && <ul>{newTestamentBookList}</ul>}
+          <div className="text-center">
+            {isNewTestamentBooksOpen && (
+              <ul className="mb-8">{newTestamentBookList}</ul>
+            )}
+          </div>
         </div>
       </div>
     </div>

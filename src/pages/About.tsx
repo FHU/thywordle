@@ -19,7 +19,7 @@ function About() {
           About
         </h1>
         <ThyWordleLogo className="mx-auto -mt-12 h-auto w-64 fill-black dark:fill-white sm:w-80 md:-mt-16 md:w-96" />
-        <p className="mx-auto -mt-10 w-4/5 text-left text-base dark:text-white md:text-xl">
+        <p className="mx-auto -mt-10 w-4/5 text-center text-base dark:text-white md:text-xl">
           ThyWordle is a clone of the popular word game{' '}
           <a
             href="https://www.nytimes.com/games/wordle/index.html"
@@ -30,7 +30,7 @@ function About() {
           </a>{' '}
           but adapted to use solutions that are Bible references.
         </p>
-        <p className="mx-auto mt-6 w-4/5 text-left text-base dark:text-white md:text-xl ">
+        <p className="mx-auto mt-6 w-4/5 text-center text-base dark:text-white md:text-xl ">
           The game was designed and developed by Computer Science students{' '}
           <b>Kaden King</b> and <b>Dallas Yarnell</b> at
           <a href="https://fhu.edu" className="text-sky-400">
@@ -71,7 +71,7 @@ function About() {
             rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            Freed-Hardeman University
+            Freed-Hardeman <br /> University
           </a>
           <a
             href="https://fhu.edu/cs"
@@ -79,7 +79,7 @@ function About() {
             rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            FHU Computer Science
+            FHU Computer <br /> Science
           </a>
         </div>
       </div>
@@ -109,7 +109,7 @@ function About() {
             rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            ThyWordle Repo
+            ThyWordle <br /> Repo
           </a>
           <a
             href="https://github.com/cwackerfuss/react-wordle"
@@ -117,7 +117,7 @@ function About() {
             rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            Reactle Repo
+            Reactle <br /> Repo
           </a>
         </div>
       </div>

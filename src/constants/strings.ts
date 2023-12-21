@@ -34,14 +34,14 @@ export const CURRENT_STREAK_TEXT = 'Current Streak'
 export const BEST_STREAK_TEXT = 'Best Streak'
 export const AVG_NUM_GUESSES_TEXT = 'Average Number of Guesses'
 export const POINTS_TEXT = 'Total Points'
-export const DISCOURAGE_INAPP_BROWSER_TEXT =
+export const DISCOURAGE_IN_APP_BROWSER_TEXT =
   "You are using an embedded browser and may experience problems sharing or saving your results. We encourage you rather to use your device's default browser."
 export const NEW_ACCOUNT_FEATURE_TEXT =
-  'NEW! Create a ThyWordle accountt to save your stats online, compare your score other players, and compete in groups! Click HERE to learn more!'
+  'NEW! Create a ThyWordle account to save your stats online, compare your score other players, and compete in groups! Click HERE to learn more!'
 
 export const DATEPICKER_TITLE = 'Choose a past date'
 export const DATEPICKER_CHOOSE_TEXT = 'Choose'
 export const DATEPICKER_TODAY_TEXT = 'today'
-export const ARCHIVE_GAMEDATE_TEXT = 'Game date'
+export const ARCHIVE_GAME_DATE_TEXT = 'Game date'
 
 export const VERSE_TEXT_BUTTON = 'Read'

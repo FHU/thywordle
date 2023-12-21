@@ -16,7 +16,7 @@ import {
   ENABLE_MIGRATE_STATS,
 } from '../../constants/settings'
 import {
-  ARCHIVE_GAMEDATE_TEXT,
+  ARCHIVE_GAME_DATE_TEXT,
   GUESS_DISTRIBUTION_TEXT,
   NEW_WORD_TEXT,
   SHARE_TEXT,
@@ -121,7 +121,7 @@ export const StatsModal = ({
               <div className="mt-2 inline-flex">
                 <ClockIcon className="mr-1 mt-1 mt-2 h-5 w-5 stroke-black dark:stroke-white" />
                 <div className="ml-1 mt-1 text-center text-sm sm:text-base">
-                  <strong>{ARCHIVE_GAMEDATE_TEXT}:</strong>
+                  <strong>{ARCHIVE_GAME_DATE_TEXT}:</strong>
                   <br />
                   {format(solutionGameDate, 'd MMMM yyyy', {
                     locale: DATE_LOCALE,

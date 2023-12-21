@@ -29,7 +29,7 @@ import {
 } from './constants/settings'
 import {
   CORRECT_WORD_MESSAGE,
-  DISCOURAGE_INAPP_BROWSER_TEXT,
+  DISCOURAGE_IN_APP_BROWSER_TEXT,
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
   NEW_ACCOUNT_FEATURE_TEXT,
@@ -178,7 +178,7 @@ function App() {
   useEffect(() => {
     DISCOURAGE_INAPP_BROWSERS &&
       isInAppBrowser() &&
-      showErrorAlert(DISCOURAGE_INAPP_BROWSER_TEXT, {
+      showErrorAlert(DISCOURAGE_IN_APP_BROWSER_TEXT, {
         persist: false,
         durationMs: 7000,
       })
