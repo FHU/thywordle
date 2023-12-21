@@ -317,7 +317,7 @@ function Help() {
           {' '}
           Use the dropdowns below to see a listing of book names.
         </p> */}
-        <div className="mx-auto flex justify-between px-4 md:w-2/3">
+        {/* <div className="mx-auto flex justify-between px-4 md:w-2/3">
           <h2
             className={`${
               isOldTestamentBooksOpen
@@ -335,12 +335,13 @@ function Help() {
               } inline-block h-5 w-5 stroke-black dark:stroke-white md:h-7 md:w-7`}
             />{' '}
           </h2>
+
           <h2
             className={`${
               isNewTestamentBooksOpen
                 ? 'text-indigo-600 dark:text-indigo-400'
                 : 'text-black dark:text-white'
-            } mb-8 cursor-pointer text-lg font-bold transition-all delay-100 duration-300 hover:scale-105 md:text-2xl`}
+            } mb-8 cursor-pointer text-lg font-bold`}
             onClick={() => handleDropdowns(2)}
           >
             New Testament Books{' '}
@@ -352,10 +353,23 @@ function Help() {
               } inline-block h-5 w-5 stroke-black dark:stroke-white md:h-7 md:w-7`}
             />{' '}
           </h2>
-        </div>
-        <div className="mb-8 text-center">
-          {isOldTestamentBooksOpen && <ul>{oldTestamentBookList}</ul>}
-          {isNewTestamentBooksOpen && <ul>{newTestamentBookList}</ul>}
+        </div> */}
+        <div className="mx-auto mb-12  flex w-4/5 justify-around gap-12">
+          <div className="">
+            <h2 className="text-lg font-bold text-black dark:text-white md:text-2xl">
+              Old Testament Books
+            </h2>
+            <ul> {oldTestamentBookList}</ul>
+          </div>
+          <div className="">
+            <h2 className="text-lg font-bold text-black dark:text-white md:text-2xl">
+              News Testament Books
+            </h2>
+            <ul> {newTestamentBookList}</ul>
+          </div>
+
+          {/* {isOldTestamentBooksOpen && <ul>{oldTestamentBookList}</ul>}
+          {isNewTestamentBooksOpen && <ul>{newTestamentBookList}</ul>} */}
         </div>
       </div>
     </div>
