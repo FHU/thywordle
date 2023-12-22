@@ -151,7 +151,11 @@ export const getPublicDisplaySetting = async (
   userId: string
 ): Promise<boolean> => {
   const userData = await getUserDataByUid(userId)
-  return userData.displayPublic
+  if (userData) {
+    return userData.displayPublic
+  }
+
+  return false
 }
 
 export const updateFirestoreUsername = async (
