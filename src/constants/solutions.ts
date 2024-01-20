@@ -118,7 +118,7 @@ export const SOLUTIONS: {
       'Let the word of Christ dwell in you richly in all wisdom; teaching and admonishing one another in psalms and hymns and spiritual songs, singing with grace in your hearts to the Lord.',
   },
   {
-    reference: 'REVELATIONS 3:20',
+    reference: 'REVELATION 3:20',
     referenceURL: 'https://www.bible.com/bible/1/REV.3.20.KJV',
     verseText:
       'Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me.',
