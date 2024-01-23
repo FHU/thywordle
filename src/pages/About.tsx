@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-target-blank */
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 import BellTowerLogo from './../components/logo/BellTowerLogo'
@@ -21,40 +19,67 @@ function About() {
           About
         </h1>
         <ThyWordleLogo className="mx-auto -mt-12 h-auto w-64 fill-black dark:fill-white sm:w-80 md:-mt-16 md:w-96" />
-        <p className="mx-auto -mt-10 w-4/5 text-base dark:text-white md:text-xl">
-          ThyWordle is a clone of the popular word game but tweaked to use
-          solutions that are Bible references. The game was designed and
-          developed by Computer Science students at Freed-Hardeman Unviersity as
-          part of their senior capstone course.
+        <p className="mx-auto -mt-10 w-4/5 text-center text-base dark:text-white md:text-xl">
+          ThyWordle is a clone of the popular word game{' '}
+          <a
+            href="https://www.nytimes.com/games/wordle/index.html"
+            className="text-sky-400"
+          >
+            {' '}
+            Wordle
+          </a>{' '}
+          but adapted to use solutions that are Bible references.
         </p>
-        <div className="my-12 ">
+        <p className="mx-auto mt-6 w-4/5 text-center text-base dark:text-white md:text-xl ">
+          The game was designed and developed by Computer Science students{' '}
+          <b>Kaden King</b> and <b>Dallas Yarnell</b> at
+          <a href="https://fhu.edu" className="text-sky-400">
+            {' '}
+            Freed-Hardeman University
+          </a>
+          , Henderson, TN as part of their senior capstone course.
+        </p>
+        <div className="m-auto my-8 flex w-64 flex-col">
           <Link
             to="/"
-            className="text-ll inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
             Play the Game
+          </Link>
+          <Link
+            to="/help"
+            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+          >
+            How to Play
           </Link>
         </div>
       </div>
       <div className="col-span-10 col-start-2 mb-0 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-5 lg:col-start-2 lg:col-end-7 lg:mb-8">
         <BellTowerLogo className="mx-auto my-8 h-auto w-24 fill-black dark:fill-white md:w-32" />
         <h2 className="text-center text-2xl font-bold text-black dark:text-white">
-          Learn More <br className="block md:hidden" /> about FHU
+          About Freed-Hardeman University
         </h2>
-        <div className="my-12 flex flex-col text-center">
+        <p className="p-8 text-center text-black dark:text-white">
+          The mission of Freed-Hardeman University is to help students develop
+          their God-given talents for His glory by empowering them with an
+          education that integrates Christian faith, scholarship, and service.
+        </p>
+        <div className="my-4 flex flex-col text-center">
           <a
             href="https://fhu.edu"
             target="_blank"
+            rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            FHU
+            Freed-Hardeman <br /> University
           </a>
           <a
             href="https://fhu.edu/cs"
             target="_blank"
-            className="text-l my-2 mx-auto w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            rel="noreferrer noopener"
+            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            FHU Computer Science
+            FHU Computer <br /> Science
           </a>
         </div>
       </div>
@@ -62,30 +87,37 @@ function About() {
         <img
           src={gitLogo}
           alt="GitHub"
-          className="mx-auto mt-20 mb-10 block h-auto w-24 dark:hidden md:w-32 lg:mb-16"
+          className="mx-auto mb-10 mt-20 block h-auto w-24 dark:hidden md:w-32 lg:mb-16"
         />
         <img
           src={gitLogoWhite}
           alt="GitHub"
-          className="mx-auto mt-20 mb-10 hidden h-auto w-24 dark:block md:w-32 lg:mb-16"
+          className="mx-auto mb-10 mt-20 hidden h-auto w-24 dark:block md:w-32 lg:mb-16"
         />
         <h2 className="text-center text-2xl font-bold text-black dark:text-white">
-          Learn More <br className="block md:hidden" /> about the code
+          About the Code
         </h2>
-        <div className="my-12 flex flex-col text-center">
+        <p className="p-8  text-center text-black dark:text-white">
+          ThyWordle is an open-source project forked from the amazing
+          open-source project Reactle. Check out the ThyWordle code or the
+          original Reactle project below.
+        </p>
+        <div className="my-4 flex flex-col text-center">
           <a
             href="https://github.com/FHU/thywordle"
             target="_blank"
+            rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            ThyWordle Repo
+            ThyWordle <br /> Repo
           </a>
           <a
             href="https://github.com/cwackerfuss/react-wordle"
             target="_blank"
+            rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            Reactle Repo
+            Reactle <br /> Repo
           </a>
         </div>
       </div>

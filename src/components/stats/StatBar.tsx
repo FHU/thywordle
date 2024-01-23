@@ -2,15 +2,15 @@ import {
   BEST_STREAK_TEXT,
   CURRENT_STREAK_TEXT,
   SUCCESS_RATE_TEXT,
-  TOTAL_TRIES_TEXT,
+  TOTAL_GAMES_TEXT,
 } from '../../constants/strings'
-import { GameStats } from '../../lib/localStorage'
+import { GameStats } from '../../constants/types'
 
 type Props = {
   gameStats: GameStats
 }
 
-const StatItem = ({
+export const StatItem = ({
   label,
   value,
 }: {
@@ -19,7 +19,7 @@ const StatItem = ({
 }) => {
   return (
     <div className="m-1 w-1/4 items-center justify-center dark:text-white">
-      <div className="text-3xl font-bold">{value}</div>
+      <div className="text-2xl font-bold">{value}</div>
       <div className="text-xs">{label}</div>
     </div>
   )
@@ -28,7 +28,7 @@ const StatItem = ({
 export const StatBar = ({ gameStats }: Props) => {
   return (
     <div className="my-2 flex justify-center">
-      <StatItem label={TOTAL_TRIES_TEXT} value={gameStats.totalGames} />
+      <StatItem label={TOTAL_GAMES_TEXT} value={gameStats.totalGames} />
       <StatItem label={SUCCESS_RATE_TEXT} value={`${gameStats.successRate}%`} />
       <StatItem label={CURRENT_STREAK_TEXT} value={gameStats.currentStreak} />
       <StatItem label={BEST_STREAK_TEXT} value={gameStats.bestStreak} />

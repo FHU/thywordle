@@ -86,6 +86,7 @@ export const ImmigratePanel = () => {
         Paste your migration code:
       </label>
       <textarea
+        aria-label="code"
         onChange={(e) => handleImmigrationCodeChange(e)}
         id="immigration-code"
         rows={8}

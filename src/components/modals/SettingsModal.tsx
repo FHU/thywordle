@@ -1,4 +1,5 @@
 import {
+  AUTO_FILL_MODE_DESCRIPTION,
   HARD_MODE_DESCRIPTION,
   HIGH_CONTRAST_MODE_DESCRIPTION,
 } from '../../constants/strings'
@@ -10,6 +11,8 @@ type Props = {
   handleClose: () => void
   isHardMode: boolean
   handleHardMode: Function
+  isAutoFillMode: boolean
+  handleAutoFillMode: Function
   isDarkMode: boolean
   handleDarkMode: Function
   isHighContrastMode: boolean
@@ -21,6 +24,8 @@ export const SettingsModal = ({
   handleClose,
   isHardMode,
   handleHardMode,
+  isAutoFillMode,
+  handleAutoFillMode,
   isDarkMode,
   handleDarkMode,
   isHighContrastMode,
@@ -34,6 +39,12 @@ export const SettingsModal = ({
           flag={isHardMode}
           handleFlag={handleHardMode}
           description={HARD_MODE_DESCRIPTION}
+        />
+        <SettingsToggle
+          settingName="Auto Fill Mode"
+          flag={isAutoFillMode}
+          handleFlag={handleAutoFillMode}
+          description={AUTO_FILL_MODE_DESCRIPTION}
         />
         <SettingsToggle
           settingName="Dark Mode"

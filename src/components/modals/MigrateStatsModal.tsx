@@ -1,11 +1,14 @@
 import { useState } from 'react'
 
-import { GameStats, StoredGameState } from '../../lib/localStorage'
+import { GameStats } from '@/constants/types'
+
+import { StoredGameState } from '../../lib/localStorage'
 import { EmigratePanel } from '../stats/EmigratePanel'
 import { ImmigratePanel } from '../stats/ImmigratePanel'
 import { BaseModal } from './BaseModal'
 
 type Props = {
+  stats: GameStats
   isOpen: boolean
   handleClose: () => void
 }
@@ -15,7 +18,7 @@ export type MigrationStats = {
   gameState: StoredGameState | null
 }
 
-export const MigrateStatsModal = ({ isOpen, handleClose }: Props) => {
+export const MigrateStatsModal = ({ stats, isOpen, handleClose }: Props) => {
   const [isEmigrateVisible, setIsEmigrateVisible] = useState(true)
 
   return (
@@ -24,7 +27,7 @@ export const MigrateStatsModal = ({ isOpen, handleClose }: Props) => {
       isOpen={isOpen}
       handleClose={handleClose}
     >
-      <p className="mt-4 mb-4 text-sm text-gray-500 dark:text-gray-300">
+      <p className="mb-4 mt-4 text-sm text-gray-500 dark:text-gray-300">
         Copy the migration code on your old device and paste into the input on
         the new device.
       </p>
@@ -73,7 +76,7 @@ export const MigrateStatsModal = ({ isOpen, handleClose }: Props) => {
         </div>
       </div>
 
-      {isEmigrateVisible && <EmigratePanel />}
+      {isEmigrateVisible && <EmigratePanel stats={stats} />}
       {!isEmigrateVisible && <ImmigratePanel />}
     </BaseModal>
   )

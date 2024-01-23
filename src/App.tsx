@@ -2,6 +2,7 @@ import './App.css'
 
 import { useEffect, useState } from 'react'
 import Div100vh from 'react-div-100vh'
+import { useAuthState } from 'react-firebase-hooks/auth'
 import {
   Navigate,
   Route,
@@ -10,6 +11,8 @@ import {
 } from 'react-router-dom'
 
 import { AlertContainer } from './components/alerts/AlertContainer'
+import Error from './components/gameState/Error'
+import Loading from './components/gameState/Loading'
 import { Menu } from './components/menu/Menu'
 import { DatePickerModal } from './components/modals/DatePickerModal'
 import { InfoModal } from './components/modals/InfoModal'
@@ -26,16 +29,25 @@ import {
 } from './constants/settings'
 import {
   CORRECT_WORD_MESSAGE,
-  DISCOURAGE_INAPP_BROWSER_TEXT,
+  DISCOURAGE_IN_APP_BROWSER_TEXT,
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
+  NEW_ACCOUNT_FEATURE_TEXT,
   SHARE_FAILURE_TEXT,
 } from './constants/strings'
+import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
+import { auth } from './lib/firebaseConfig'
+import {
+  loadGameStateFromFirestore,
+  loadStatsFromFirestoreCollection,
+  updateGameStateToFirestore,
+} from './lib/firebaseStats'
 import {
   getStoredIsHighContrastMode,
   loadGameStateFromLocalStorage,
+  saveGameStateToLocalStorage,
   setStoredIsHighContrastMode,
 } from './lib/localStorage'
 import { loadStats } from './lib/stats'
@@ -49,8 +61,16 @@ import {
 } from './lib/words'
 import About from './pages/About'
 import Game from './pages/Game'
+import GroupCreate from './pages/GroupCreate'
+import GroupLeaderboard from './pages/GroupLeaderboard'
+import Groups from './pages/Groups'
+import Help from './pages/Help'
+import Leaderboard from './pages/Leaderboard'
+import NewAccountFeature from './pages/NewAccountFeature'
+import Profile from './pages/Profile'
 
 function App() {
+  const [user, loading, error] = useAuthState(auth)
   const isLatestGame = getIsLatestGame()
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme: dark)'
@@ -74,39 +94,81 @@ function App() {
       ? true
       : false
   )
-  const [isHighContrastMode, setIsHighContrastMode] = useState(
+  const [isHighContrastMode, setIsHighContrastMode] = useState<boolean>(
     getStoredIsHighContrastMode()
   )
-  const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage(isLatestGame)
-    if (loaded?.solution !== solution) {
-      return []
-    }
-    const gameWasWon = loaded.guesses.includes(solution)
-    if (gameWasWon) {
-      setIsGameWon(true)
-    }
-    if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
-      setIsGameLost(true)
-      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
-        persist: true,
-      })
-    }
-    return loaded.guesses
-  })
-
-  const [stats, setStats] = useState(() => loadStats())
-
   const [isHardMode, setIsHardMode] = useState(
     localStorage.getItem('gameMode')
       ? localStorage.getItem('gameMode') === 'hard'
       : false
   )
+  const [isAutoFillMode, setIsAutoFillMode] = useState(
+    localStorage.getItem('autoFillMode')
+      ? localStorage.getItem('autoFillMode') === 'true'
+      : false
+  )
+  const [stats, setStats] = useState<GameStats>(() => loadStats())
+  const setGameState = (guesses: string[]): string[] => {
+    const gameWasWon = guesses.includes(solution)
+    if (gameWasWon) {
+      setIsGameWon(true)
+    }
+    if (guesses.length === MAX_CHALLENGES && !gameWasWon) {
+      setIsGameLost(true)
+      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
+        persist: true,
+      })
+    }
+    return guesses
+  }
+
+  const [guesses, setGuesses] = useState<string[]>(() => {
+    const loaded = loadGameStateFromLocalStorage(isLatestGame)
+    if (loaded?.solution !== solution) {
+      return []
+    }
+
+    const gameState = setGameState(loaded.guesses)
+    return gameState
+  })
+
+  const loadGameFromFirestore = async (uid: string) => {
+    const loadedStats = await loadStatsFromFirestoreCollection(uid)
+    if (loadedStats) setStats(loadedStats)
+
+    const loadedStateFromFirestore = await loadGameStateFromFirestore(uid)
+    if (loadedStateFromFirestore) {
+      if (
+        loadedStateFromFirestore.guesses.length !== 0 &&
+        loadedStateFromFirestore.solution === solution
+      ) {
+        if (guesses.length > loadedStateFromFirestore.guesses.length) {
+          await updateGameStateToFirestore(uid, solution, guesses)
+        } else {
+          setGuesses(loadedStateFromFirestore.guesses)
+          setGameState(loadedStateFromFirestore.guesses)
+        }
+      } else {
+        setGuesses([])
+        setGameState([])
+      }
+    }
+  }
+
+  useEffect(() => {
+    showSuccessAlert(NEW_ACCOUNT_FEATURE_TEXT, {
+      delayMs: 1500,
+      durationMs: 5000,
+    })
+    if (user) loadGameFromFirestore(user.uid)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   useEffect(() => {
     // if no game state on load,
     // show the user the how-to info modal
     if (!loadGameStateFromLocalStorage(true)) {
+      saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
       setTimeout(() => {
         setIsInfoModalOpen(true)
       }, WELCOME_INFO_MODAL_MS)
@@ -116,7 +178,7 @@ function App() {
   useEffect(() => {
     DISCOURAGE_INAPP_BROWSERS &&
       isInAppBrowser() &&
-      showErrorAlert(DISCOURAGE_INAPP_BROWSER_TEXT, {
+      showErrorAlert(DISCOURAGE_IN_APP_BROWSER_TEXT, {
         persist: false,
         durationMs: 7000,
       })
@@ -150,9 +212,23 @@ function App() {
     }
   }
 
+  const handleAutoFillMode = (isAutoFill: boolean) => {
+    setIsAutoFillMode(isAutoFill)
+    localStorage.setItem('autoFillMode', isAutoFill ? 'true' : 'false')
+  }
+
   const handleHighContrastMode = (isHighContrast: boolean) => {
     setIsHighContrastMode(isHighContrast)
     setStoredIsHighContrastMode(isHighContrast)
+  }
+
+  if (loading || error) {
+    return (
+      <>
+        {loading && <Loading />}
+        {error && <Error />}
+      </>
+    )
   }
 
   return (
@@ -176,8 +252,8 @@ function App() {
                 <Game
                   stats={stats}
                   setStats={setStats}
-                  setIsStatsModalOpen={setIsStatsModalOpen}
                   isHardMode={isHardMode}
+                  isAutoFillMode={isAutoFillMode}
                   isLatestGame={isLatestGame}
                   isGameWon={isGameWon}
                   setIsGameWon={setIsGameWon}
@@ -185,14 +261,27 @@ function App() {
                   setIsGameLost={setIsGameLost}
                   guesses={guesses}
                   setGuesses={setGuesses}
-                  showSuccessAlert={showSuccessAlert}
                   showErrorAlert={showErrorAlert}
+                  showSuccessAlert={showSuccessAlert}
                   setIsVerseModalOpen={setIsVerseModalOpen}
+                  setIsStatsModalOpen={setIsStatsModalOpen}
                 />
               }
             />
             <Route path="/about" element={<About />} />
-
+            <Route path="/help" element={<Help />} />
+            <Route
+              path="/profile"
+              element={<Profile user={user} stats={stats} />}
+            />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/groups" element={<Groups />} />
+            <Route path="/groups/create" element={<GroupCreate />} />
+            <Route path="/groups/:groupName" element={<GroupLeaderboard />} />
+            <Route
+              path="/new-accounts-feature"
+              element={<NewAccountFeature />}
+            />
             {/* Any other urls redirect to / */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
@@ -236,6 +325,7 @@ function App() {
             handleClose={() => setIsDatePickerModalOpen(false)}
           />
           <MigrateStatsModal
+            stats={stats}
             isOpen={isMigrateStatsModalOpen}
             handleClose={() => setIsMigrateStatsModalOpen(false)}
           />
@@ -244,6 +334,8 @@ function App() {
             handleClose={() => setIsSettingsModalOpen(false)}
             isHardMode={isHardMode}
             handleHardMode={handleHardMode}
+            isAutoFillMode={isAutoFillMode}
+            handleAutoFillMode={handleAutoFillMode}
             isDarkMode={isDarkMode}
             handleDarkMode={handleDarkMode}
             isHighContrastMode={isHighContrastMode}

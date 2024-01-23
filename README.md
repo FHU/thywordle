@@ -31,6 +31,6 @@ To quickly create additional solutions, use [this helpful python script](https:/
 
 Contributors include:
 
-- [Kaden King](https://github.com/kadenbking)
-- [Dallas Yarnell](https://github.com/djyarnell0)
+- [Kaden King](https://github.com/kadenbking) (2023 Graduate)
+- [Dallas Yarnell](https://github.com/djyarnell0) (2023 Graduate)
 - [Kenan Casey](https://github.com/kenancasey)

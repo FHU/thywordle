@@ -1,6 +1,6 @@
 {
   "name": "ThyWordle",
-  "version": "0.5.0",
+  "version": "1.5.0",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
@@ -26,7 +26,9 @@
     "classnames": "^2.3.1",
     "date-fns": "^2.29.1",
     "egoroof-blowfish": "^2.2.2",
+    "firebase": "^9.19.1",
     "grapheme-splitter": "1.0.4",
+    "lottie-react": "^2.4.0",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-countdown": "^2.3.2",
@@ -34,6 +36,7 @@
     "react-detect-click-outside": "^1.1.7",
     "react-div-100vh": "^0.7.0",
     "react-dom": "^17.0.2",
+    "react-firebase-hooks": "^5.1.1",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.5.4",
@@ -59,10 +62,12 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@types/react-datepicker": "^4.4.2",
     "autoprefixer": "^10.4.4",
     "husky": "^7.0.4",
+    "jest-canvas-mock": "^2.5.2",
     "lint-staged": "^12.3.2",
     "postcss": "^8.4.5",
     "prettier": "^2.8.4",
@@ -74,6 +79,9 @@
   },
   "jest": {
     "moduleNameMapper": {
+      "setupFiles": [
+        "jest-canvas-mock"
+      ],
       "@/(.*)": "<rootDir>/src/$1"
     }
   }
