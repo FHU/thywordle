@@ -89,7 +89,8 @@ export const getAverageNumberGuesses = (gameStats: GameStats) => {
     totalGuesses += winDistribution[i] * (i + 1)
   }
 
-  return Number((totalGuesses / totalGames).toFixed(2))
+  const avgNumGuesses = Number((totalGuesses / totalGames).toFixed(2))
+  return !Number.isNaN(avgNumGuesses) ? avgNumGuesses : 0
 }
 
 export const getScore = (gameStats: GameStats): number => {
