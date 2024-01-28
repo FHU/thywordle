@@ -166,12 +166,6 @@ export const SOLUTIONS: {
       'And when they saw it, they all murmured, saying, That he was gone to be guest with a man that is a sinner.',
   },
   {
-    reference: 'LUKE 19:7',
-    referenceURL: 'https://www.bible.com/bible/1/luk.19.7.KJV',
-    verseText:
-      'And when they saw it, they all murmured, saying, That he was gone to be guest with a man that is a sinner.',
-  },
-  {
     reference: 'ISAIAH 40:31',
     referenceURL: 'https://www.bible.com/bible/1/isa.40.31.KJV',
     verseText:
