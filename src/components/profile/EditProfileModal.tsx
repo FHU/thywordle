@@ -81,7 +81,7 @@ export const EditProfileModal = ({
         return Boolean(username.length)
 
       case PropToEditEnum.Email:
-        const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
         return emailRegex.test(email)
 
       case PropToEditEnum.Password:
