@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
+import { PointsHelpModal } from '../components/leaderboard/PointsHelpModal'
 import favicon from './../img/favicon.png'
 
-function NewAccountFeature() {
+function AccountFeature() {
   const [isPointsModalOpen, setIsPointsModalOpen] = useState<boolean>(false)
   const navigate = useNavigate()
   const buttonEnabledClasses =
@@ -19,7 +19,7 @@ function NewAccountFeature() {
           className="mx-auto my-12 w-48"
         />
         <h1 className="mb-8 text-2xl font-bold dark:text-white md:text-3xl">
-          NEW! ThyWordle Accounts
+          ThyWordle Accounts
         </h1>
       </div>
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
@@ -102,4 +102,4 @@ function NewAccountFeature() {
   )
 }
 
-export default NewAccountFeature
+export default AccountFeature

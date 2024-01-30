@@ -52,6 +52,12 @@ function About() {
           >
             How to Play
           </Link>
+          <Link
+            to="/accounts-feature"
+            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+          >
+            Learn About Accounts
+          </Link>
         </div>
       </div>
       <div className="col-span-10 col-start-2 mb-0 rounded-xl bg-gray-100 dark:bg-slate-800 lg:col-span-5 lg:col-start-2 lg:col-end-7 lg:mb-8">
