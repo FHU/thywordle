@@ -32,7 +32,6 @@ import {
   DISCOURAGE_IN_APP_BROWSER_TEXT,
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
-  NEW_ACCOUNT_FEATURE_TEXT,
   SHARE_FAILURE_TEXT,
 } from './constants/strings'
 import { GameStats } from './constants/types'
@@ -60,13 +59,13 @@ import {
   verseText,
 } from './lib/words'
 import About from './pages/About'
+import AccountFeature from './pages/AccountFeature'
 import Game from './pages/Game'
 import GroupCreate from './pages/GroupCreate'
 import GroupLeaderboard from './pages/GroupLeaderboard'
 import Groups from './pages/Groups'
 import Help from './pages/Help'
 import Leaderboard from './pages/Leaderboard'
-import NewAccountFeature from './pages/NewAccountFeature'
 import Profile from './pages/Profile'
 
 function App() {
@@ -156,15 +155,6 @@ function App() {
   }
 
   useEffect(() => {
-    showSuccessAlert(NEW_ACCOUNT_FEATURE_TEXT, {
-      delayMs: 1500,
-      durationMs: 5000,
-    })
-    if (user) loadGameFromFirestore(user.uid)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
-
-  useEffect(() => {
     // if no game state on load,
     // show the user the how-to info modal
     if (!loadGameStateFromLocalStorage(true)) {
@@ -174,6 +164,11 @@ function App() {
       }, WELCOME_INFO_MODAL_MS)
     }
   })
+
+  useEffect(() => {
+    if (user) loadGameFromFirestore(user.uid)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   useEffect(() => {
     DISCOURAGE_INAPP_BROWSERS &&
@@ -278,10 +273,7 @@ function App() {
             <Route path="/groups" element={<Groups />} />
             <Route path="/groups/create" element={<GroupCreate />} />
             <Route path="/groups/:groupName" element={<GroupLeaderboard />} />
-            <Route
-              path="/new-accounts-feature"
-              element={<NewAccountFeature />}
-            />
+            <Route path="/accounts-feature" element={<AccountFeature />} />
             {/* Any other urls redirect to / */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
