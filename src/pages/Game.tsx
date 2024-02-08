@@ -194,7 +194,8 @@ const Game: React.FC<props> = ({
       setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
 
-      if (user) {
+      // only save game state for today's game
+      if (user && isLatestGame) {
         await updateGameStateToFirestore(user.uid, solution, [
           ...guesses,
           currentGuess,

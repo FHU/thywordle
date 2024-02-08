@@ -22,7 +22,7 @@ import { StatsModal } from './components/modals/StatsModal'
 import { VerseModal } from './components/modals/VerseModal'
 import { Navbar } from './components/navbar/Navbar'
 import {
-  DISCOURAGE_INAPP_BROWSERS,
+  DISCOURAGE_IN_APP_BROWSERS,
   LONG_ALERT_TIME_MS,
   MAX_CHALLENGES,
   WELCOME_INFO_MODAL_MS,
@@ -48,6 +48,7 @@ import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
   setStoredIsHighContrastMode,
+  shouldOverrideLocalStorageState,
 } from './lib/localStorage'
 import { loadStats } from './lib/stats'
 import {
@@ -136,21 +137,22 @@ function App() {
     if (loadedStats) setStats(loadedStats)
 
     const loadedStateFromFirestore = await loadGameStateFromFirestore(uid)
-    if (loadedStateFromFirestore) {
-      if (
-        loadedStateFromFirestore.guesses.length !== 0 &&
-        loadedStateFromFirestore.solution === solution
-      ) {
-        if (guesses.length > loadedStateFromFirestore.guesses.length) {
-          await updateGameStateToFirestore(uid, solution, guesses)
-        } else {
-          setGuesses(loadedStateFromFirestore.guesses)
-          setGameState(loadedStateFromFirestore.guesses)
-        }
+    if (!loadedStateFromFirestore) {
+      return
+    }
+
+    if (shouldOverrideLocalStorageState(loadedStateFromFirestore, solution)) {
+      if (guesses.length > loadedStateFromFirestore.guesses.length) {
+        // Don't allow extra guesses while signed out => add local guesses to firebase
+        await updateGameStateToFirestore(uid, solution, guesses)
       } else {
-        setGuesses([])
-        setGameState([])
+        // override local stats with firebase stats
+        setGuesses(loadedStateFromFirestore.guesses)
+        setGameState(loadedStateFromFirestore.guesses)
       }
+    } else {
+      setGuesses([])
+      setGameState([])
     }
   }
 
@@ -158,7 +160,11 @@ function App() {
     // if no game state on load,
     // show the user the how-to info modal
     if (!loadGameStateFromLocalStorage(true)) {
-      saveGameStateToLocalStorage(getIsLatestGame(), { guesses, solution })
+      saveGameStateToLocalStorage(getIsLatestGame(), {
+        guesses,
+        solution,
+        date: new Date(),
+      })
       setTimeout(() => {
         setIsInfoModalOpen(true)
       }, WELCOME_INFO_MODAL_MS)
@@ -171,7 +177,7 @@ function App() {
   }, [user])
 
   useEffect(() => {
-    DISCOURAGE_INAPP_BROWSERS &&
+    DISCOURAGE_IN_APP_BROWSERS &&
       isInAppBrowser() &&
       showErrorAlert(DISCOURAGE_IN_APP_BROWSER_TEXT, {
         persist: false,
