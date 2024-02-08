@@ -1,5 +1,7 @@
 import { GameStats } from '@/constants/types'
 
+import { hasPlayedToday } from './dateutils'
+
 const gameStateKey = 'gameState'
 const archiveGameStateKey = 'archiveGameState'
 const highContrastKey = 'highContrast'
@@ -7,6 +9,7 @@ const highContrastKey = 'highContrast'
 export type StoredGameState = {
   guesses: string[]
   solution: string
+  date: Date
 }
 
 export const saveGameStateToLocalStorage = (
@@ -21,6 +24,17 @@ export const loadGameStateFromLocalStorage = (isLatestGame: boolean) => {
   const key = isLatestGame ? gameStateKey : archiveGameStateKey
   const state = localStorage.getItem(key)
   return state ? (JSON.parse(state) as StoredGameState) : null
+}
+
+export const shouldOverrideLocalStorageState = (
+  firebaseGameState: StoredGameState,
+  solution: string
+): boolean => {
+  return (
+    firebaseGameState.guesses.length !== 0 &&
+    firebaseGameState.solution === solution &&
+    hasPlayedToday(firebaseGameState.date)
+  )
 }
 
 const gameStatKey = 'gameStats'

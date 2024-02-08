@@ -46,6 +46,7 @@ export const loadGameStateFromFirestore = async (
   return {
     guesses: userDoc.data().gameState.guesses,
     solution: userDoc.data().gameState.lastSolution,
+    date: userDoc.data().gameState.lastUpdated.toDate(),
   }
 }
 
