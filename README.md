@@ -3,6 +3,7 @@
 This is a clone project of the popular word guessing game we all know and love, with Bible references for answers instead of 5-letter words. Made using React, Typescript, and Tailwind, forked off a very impressive and comprehensive repository.
 
 [**Play the Game!**](https://thywordle.com/)
+[**Create an Account and Track your Points!**](https://thywordle.com/accounts-feature)
 
 ## Build and run
 
