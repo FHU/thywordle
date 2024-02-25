@@ -80,7 +80,7 @@ function GroupLeaderboard() {
   }, [user, params.groupName])
 
   const copyLinkToClipboard = () => {
-    copyTextToClipboard(`thywordle.com/groups/${params.groupName}`)
+    copyTextToClipboard(`scripturle.com/groups/${params.groupName}`)
     setCopyButtonText('Copied!')
     setIsCopyButtonEnabled(false)
   }
@@ -117,7 +117,7 @@ function GroupLeaderboard() {
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <img
           src={favicon}
-          alt="ThyWordle Favicon"
+          alt="Scripturle Favicon"
           className="mx-auto my-12 w-48"
         />
         <h1 className="text-l text-3xl font-bold dark:text-white">
@@ -136,19 +136,6 @@ function GroupLeaderboard() {
             <p className="text-black dark:text-white">
               Share group link with friends!
             </p>
-            {/* <button
-              className="mt-2 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  `thywordle.com/groups/${params.groupName}`
-                )
-              }
-            >
-              {isCopyButtonEnabled && (
-                <DuplicateIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />
-              )}
-              Copy Link
-            </button> */}
             <button
               disabled={!isCopyButtonEnabled}
               onClick={copyLinkToClipboard}

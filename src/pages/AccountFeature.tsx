@@ -15,19 +15,19 @@ function AccountFeature() {
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <img
           src={favicon}
-          alt="ThyWordle Favicon"
+          alt="Scripturle Favicon"
           className="mx-auto my-12 w-48"
         />
         <h1 className="mb-8 text-2xl font-bold dark:text-white md:text-3xl">
-          ThyWordle Accounts
+          Scripturle Accounts
         </h1>
       </div>
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <h2 className="my-8 text-xl font-bold dark:text-white md:text-3xl">
-          Create Your Own <br /> ThyWordle Account
+          Create Your Own <br /> Scripturle Account
         </h2>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
-          Keep your stats with you wherever you go. With a new ThyWordle
+          Keep your stats with you wherever you go. With a new Scripturle
           account, save your stats online and view them on any device.
         </p>
         <div className="mx-auto w-64">

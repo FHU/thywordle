@@ -37,7 +37,9 @@ export const POINTS_TEXT = 'Total Points'
 export const DISCOURAGE_IN_APP_BROWSER_TEXT =
   "You are using an embedded browser and may experience problems sharing or saving your results. We encourage you rather to use your device's default browser."
 export const NEW_ACCOUNT_FEATURE_TEXT =
-  'NEW! Create a ThyWordle account to save your stats online, compare your score other players, and compete in groups! Click HERE to learn more!'
+  'NEW! Create a Scripturle account to save your stats online, compare your score other players, and compete in groups! Click HERE to learn more!'
+
+export const NEW_NAME_TEXT = ''
 
 export const DATEPICKER_TITLE = 'Choose a past date'
 export const DATEPICKER_CHOOSE_TEXT = 'Choose'

@@ -7,7 +7,7 @@ import {
 import { Link } from 'react-router-dom'
 
 import { ENABLE_ARCHIVED_GAMES } from '../../constants/settings'
-import ThyWordleLogo from '../logo/ThyWordleLogo'
+import ScripturleLogo from '../logo/ScripturleLogo'
 import { MenuButton } from './MenuButton'
 
 type Props = {
@@ -41,8 +41,8 @@ export const Navbar = ({
           className="flex grow justify-start md:w-1/2 md:justify-center"
           reloadDocument
         >
-          <ThyWordleLogo
-            className={`${transitionHoverClasses} -ml-6 mt-2 mt-3 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
+          <ScripturleLogo
+            className={`${transitionHoverClasses} -ml-6 mt-2 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
           />
         </Link>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">
