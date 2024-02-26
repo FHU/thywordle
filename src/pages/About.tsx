@@ -24,8 +24,7 @@ function About() {
           Biblical references.
         </p>
         <p className="mx-auto mt-4 w-4/5 text-center text-base dark:text-white md:text-xl">
-          Scripturle is not affiliated with "&copy;Wordle" by NYTimes in any
-          way.
+          Scripturle is not affiliated with "Wordle" by NYTimes in any way.
         </p>
         <p className="mx-auto mt-4 w-4/5 text-center text-base dark:text-white md:text-xl ">
           The game was designed and developed by Computer Science students{' '}
