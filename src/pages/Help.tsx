@@ -120,8 +120,7 @@ function Help() {
           Additional Help
         </h1>
         <p className="mx-auto my-8 w-4/5 text-base dark:text-white md:text-xl">
-          Scripturle uses a familiar color-coded hint sequence for previous
-          guesses, with an additional few colors for clarity.{' '}
+          Scripturle uses a color-coded hint sequence to aid subsequent guesses.
         </p>
         <table className="mx-auto mb-8 w-4/5 max-w-xl table-auto border-spacing-0 text-left dark:text-white">
           <thead className="font-bold">

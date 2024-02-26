@@ -39,8 +39,6 @@ export const DISCOURAGE_IN_APP_BROWSER_TEXT =
 export const NEW_ACCOUNT_FEATURE_TEXT =
   'NEW! Create a Scripturle account to save your stats online, compare your score other players, and compete in groups! Click HERE to learn more!'
 
-export const NEW_NAME_TEXT = ''
-
 export const DATEPICKER_TITLE = 'Choose a past date'
 export const DATEPICKER_CHOOSE_TEXT = 'Choose'
 export const DATEPICKER_TODAY_TEXT = 'today'

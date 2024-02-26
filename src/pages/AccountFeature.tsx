@@ -81,7 +81,7 @@ function AccountFeature() {
           Form New Friend Groups
         </h2>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
-          Want to narrow your competitive sights? Form a group of ThyWordler's
+          Want to narrow your competitive sights? Form a group of Scripturler's
           and see who knows their Bible the best!
         </p>
         <div className="mx-auto mb-16 w-64">

@@ -18,17 +18,10 @@ function About() {
         <h1 className="text-l font-bold dark:text-white sm:text-xl md:text-3xl">
           About
         </h1>
-        <ScripturleLogo className="mx-auto -mt-12 h-auto w-64 fill-black dark:fill-white sm:w-80 md:-mt-16 md:w-96" />
+        <ScripturleLogo className="mx-auto mb-16 h-auto w-64 fill-black dark:fill-white sm:w-80 md:w-96" />
         <p className="mx-auto -mt-10 w-4/5 text-center text-base dark:text-white md:text-xl">
-          Scripturle is a clone of the popular word game{' '}
-          <a
-            href="https://www.nytimes.com/games/wordle/index.html"
-            className="text-sky-400"
-          >
-            {' '}
-            Wordle
-          </a>{' '}
-          but adapted to use solutions that are Bible references.
+          Scripturle is a daily puzzle game that tests users knowledge of
+          Biblical references.
         </p>
         <p className="mx-auto mt-6 w-4/5 text-center text-base dark:text-white md:text-xl ">
           The game was designed and developed by Computer Science students{' '}
