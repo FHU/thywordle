@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
+import ScripturleLogo from '../components/logo/ScripturleLogo'
 import BellTowerLogo from './../components/logo/BellTowerLogo'
-import ThyWordleLogo from './../components/logo/ThyWordleLogo'
 import favicon from './../img/favicon.png'
 import gitLogoWhite from './../img/github-mark-white.png'
 import gitLogo from './../img/github-mark.png'
@@ -12,23 +12,16 @@ function About() {
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <img
           src={favicon}
-          alt="ThyWordle Favicon"
+          alt="Scripturle Favicon"
           className="mx-auto my-12 w-48"
         />
         <h1 className="text-l font-bold dark:text-white sm:text-xl md:text-3xl">
           About
         </h1>
-        <ThyWordleLogo className="mx-auto -mt-12 h-auto w-64 fill-black dark:fill-white sm:w-80 md:-mt-16 md:w-96" />
+        <ScripturleLogo className="mx-auto mb-16 h-auto w-64 fill-black dark:fill-white sm:w-80 md:w-96" />
         <p className="mx-auto -mt-10 w-4/5 text-center text-base dark:text-white md:text-xl">
-          ThyWordle is a clone of the popular word game{' '}
-          <a
-            href="https://www.nytimes.com/games/wordle/index.html"
-            className="text-sky-400"
-          >
-            {' '}
-            Wordle
-          </a>{' '}
-          but adapted to use solutions that are Bible references.
+          Scripturle is a daily puzzle game that tests users knowledge of
+          Biblical references.
         </p>
         <p className="mx-auto mt-6 w-4/5 text-center text-base dark:text-white md:text-xl ">
           The game was designed and developed by Computer Science students{' '}
@@ -104,8 +97,8 @@ function About() {
           About the Code
         </h2>
         <p className="p-8  text-center text-black dark:text-white">
-          ThyWordle is an open-source project forked from the amazing
-          open-source project Reactle. Check out the ThyWordle code or the
+          Scripturle is an open-source project forked from the amazing
+          open-source project Reactle. Check out the Scripturle code or the
           original Reactle project below.
         </p>
         <div className="my-4 flex flex-col text-center">
@@ -115,7 +108,7 @@ function About() {
             rel="noreferrer noopener"
             className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
           >
-            ThyWordle <br /> Repo
+            Scripturle <br /> Repo
           </a>
           <a
             href="https://github.com/cwackerfuss/react-wordle"

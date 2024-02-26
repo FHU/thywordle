@@ -105,7 +105,7 @@ export const Menu = ({ showMenu, setShowMenu }: props) => {
         </div>
 
         <Link
-          to="mailto:thywordle@gmail.com"
+          to="mailto:scripturle@gmail.com"
           target="_blank"
           className={
             menuItemClasses +

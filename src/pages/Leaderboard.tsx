@@ -58,7 +58,7 @@ function Leaderboard() {
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <img
           src={favicon}
-          alt="ThyWordle Favicon"
+          alt="Scripturle Favicon"
           className="mx-auto my-12 w-48"
         />
         <h1 className="mb-4 text-2xl font-bold dark:text-white md:text-3xl">

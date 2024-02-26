@@ -113,15 +113,14 @@ function Help() {
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <img
           src={favicon}
-          alt="ThyWordle Favicon"
+          alt="Scripturle Favicon"
           className="mx-auto my-12 w-48"
         />
         <h1 className="mb-8 text-2xl font-bold dark:text-white md:text-3xl">
           Additional Help
         </h1>
         <p className="mx-auto my-8 w-4/5 text-base dark:text-white md:text-xl">
-          ThyWordle uses a familiar color-coded hint sequence for previous
-          guesses, with an additional few colors for clarity.{' '}
+          Scripturle uses a color-coded hint sequence to aid subsequent guesses.
         </p>
         <table className="mx-auto mb-8 w-4/5 max-w-xl table-auto border-spacing-0 text-left dark:text-white">
           <thead className="font-bold">
@@ -268,7 +267,7 @@ function Help() {
           Valid Guess Syntax
         </h1>
         <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
-          Guesses in ThyWordle must be valid Bible verses without spaces. A
+          Guesses in Scripturle must be valid Bible verses without spaces. A
           valid Bible verse includes a{' '}
           <span className="text-indigo-600 dark:text-indigo-400">book</span>, a{' '}
           <span className="text-indigo-600 dark:text-indigo-400">
