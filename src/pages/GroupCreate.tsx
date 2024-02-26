@@ -42,7 +42,7 @@ function GroupCreate() {
       <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         <img
           src={favicon}
-          alt="ThyWordle Favicon"
+          alt="Scripturle Favicon"
           className="mx-auto my-12 w-48"
         />
         <h1 className="text-l font-bold dark:text-white sm:text-xl md:text-3xl">
