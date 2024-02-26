@@ -42,7 +42,7 @@ export const Navbar = ({
           reloadDocument
         >
           <ScripturleLogo
-            className={`${transitionHoverClasses} -ml-6 mt-2 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
+            className={`${transitionHoverClasses} -ml-6 mt-2.5 h-auto w-40 fill-black hover:scale-110 dark:fill-white md:mx-0 md:w-72`}
           />
         </Link>
         <div className="right-icons space-around mt-2 w-1/2 justify-end md:w-1/4">
