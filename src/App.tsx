@@ -20,6 +20,7 @@ import { MigrateStatsModal } from './components/modals/MigrateStatsModal'
 import { SettingsModal } from './components/modals/SettingsModal'
 import { StatsModal } from './components/modals/StatsModal'
 import { VerseModal } from './components/modals/VerseModal'
+import { Footer } from './components/navbar/Footer'
 import { Navbar } from './components/navbar/Navbar'
 import {
   DISCOURAGE_IN_APP_BROWSERS,
@@ -345,6 +346,8 @@ function App() {
             verseText={verseText}
           />
           <AlertContainer />
+
+          {!user && <Footer />}
         </div>
       </Div100vh>
     </Router>

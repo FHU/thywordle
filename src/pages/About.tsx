@@ -23,7 +23,11 @@ function About() {
           Scripturle is a daily puzzle game that tests users knowledge of
           Biblical references.
         </p>
-        <p className="mx-auto mt-6 w-4/5 text-center text-base dark:text-white md:text-xl ">
+        <p className="mx-auto mt-4 w-4/5 text-center text-base dark:text-white md:text-xl">
+          Scripturle is not affiliated with "&copy;Wordle" by NYTimes in any
+          way.
+        </p>
+        <p className="mx-auto mt-4 w-4/5 text-center text-base dark:text-white md:text-xl ">
           The game was designed and developed by Computer Science students{' '}
           <b>Kaden King</b> and <b>Dallas Yarnell</b> at
           <a href="https://fhu.edu" className="text-sky-400">
@@ -101,6 +105,7 @@ function About() {
           open-source project Reactle. Check out the Scripturle code or the
           original Reactle project below.
         </p>
+        <br />
         <div className="my-4 flex flex-col text-center">
           <a
             href="https://github.com/FHU/thywordle"

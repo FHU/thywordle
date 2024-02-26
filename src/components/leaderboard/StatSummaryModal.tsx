@@ -66,7 +66,7 @@ export const StatSummaryModal = ({
         </div>
 
         <div className="mx-auto mb-2 mt-6 flex items-center justify-center">
-          <p className="mr-2 text-sm text-black dark:text-white sm:text-lg">
+          <p className="mr-4 text-sm text-black dark:text-white sm:text-lg">
             {messageText}
           </p>
           <Link
