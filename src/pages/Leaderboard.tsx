@@ -72,7 +72,7 @@ function Leaderboard() {
       {!user && (
         <div className="col-span-10 col-start-2 mt-2 rounded-xl bg-gray-100 text-center dark:bg-slate-800">
           <div className="mx-auto my-2 flex items-center justify-center">
-            <p className="mr-2 text-sm text-black dark:text-white sm:text-lg">
+            <p className="mr-4 text-sm text-black dark:text-white sm:text-lg">
               Want to see how you compare?
             </p>
             <Link
