@@ -636,7 +636,7 @@ export const SOLUTIONS: {
   {
     reference: '1 JOHN 5:21',
     referenceURL: 'https://www.bible.com/bible/1/1JO.5.21.KJV',
-    verseText: 'Book',
+    verseText: 'Little children, keep yourselves from idols. Amen.',
   },
   {
     reference: 'REVELATION 14:2',
