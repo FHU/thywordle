@@ -11,3 +11,11 @@ export const BLOWFISH_KEY = 'xcQUAHsik#Thq&LG*8es2DsZ$3bw^e'
 export const BLOWFISH_IV = '#45XmF^w'
 export const ENABLE_ARCHIVED_GAMES = true
 export const DATE_LOCALE = enUS
+
+export const STAT_BONUS_POINTS = {
+  WIN_BONUS: 128,
+  LOSE_BONUS: 4,
+  SUCCESS_RATE_BONUS: 32,
+  AVG_GUESS_BONUS: 1024,
+  STREAK_BONUS: 8,
+}

@@ -8,9 +8,11 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 
+import { STAT_BONUS_POINTS } from './../constants/settings'
 import { GameStats, LeaderboardUser } from './../constants/types'
-import { getUserDocByUid } from './firebaseAuth'
+import { getScoreByUid, getUserDocByUid } from './firebaseAuth'
 import { db } from './firebaseConfig'
+import { updateGroupScores } from './firebaseGroups'
 import { StoredGameState } from './localStorage'
 
 export const loadStatsFromFirestoreCollection = async (
@@ -62,13 +64,25 @@ export const saveStatsToFirestore = async (
       return
     }
 
+    const oldScore = await getScoreByUid(userId)
+    const gamesWon = stats.totalGames - stats.gamesFailed
+    const score = Math.round(
+      gamesWon * STAT_BONUS_POINTS.WIN_BONUS +
+        stats.gamesFailed * STAT_BONUS_POINTS.LOSE_BONUS +
+        stats.successRate * STAT_BONUS_POINTS.SUCCESS_RATE_BONUS +
+        (6 - stats.avgNumGuesses) * STAT_BONUS_POINTS.AVG_GUESS_BONUS +
+        stats.currentStreak * STAT_BONUS_POINTS.STREAK_BONUS +
+        stats.bestStreak * STAT_BONUS_POINTS.STREAK_BONUS
+    )
+
+    await updateGroupScores(userId, score - oldScore)
     await updateDoc(docRef, {
       gameStats: {
         avgNumGuesses: stats.avgNumGuesses,
         bestStreak: stats.bestStreak,
         currentStreak: stats.currentStreak,
         gamesFailed: stats.gamesFailed,
-        score: stats.score,
+        score: score,
         successRate: stats.successRate,
         totalGames: stats.totalGames,
         winDistribution: stats.winDistribution,

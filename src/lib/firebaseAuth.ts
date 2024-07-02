@@ -147,6 +147,15 @@ export const getUserDataByUid = async (userId: string): Promise<any> => {
   return user.data()
 }
 
+export const getScoreByUid = async (userId: string): Promise<number> => {
+  const userData = await getUserDataByUid(userId)
+  if (userData) {
+    return userData.gameStats.score
+  }
+
+  return 0
+}
+
 export const getPublicDisplaySetting = async (
   userId: string
 ): Promise<boolean> => {
