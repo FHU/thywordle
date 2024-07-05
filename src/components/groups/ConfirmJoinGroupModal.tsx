@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import {
+  buttonClasses,
   buttonDisabledClasses,
   buttonEnabledClasses,
 } from '../../constants/classes'
@@ -143,7 +144,7 @@ export const ConfirmJoinGroupModal = ({
                     </p>
                     <Link
                       to={`/groups/${groupName}`}
-                      className="my-4 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+                      className={`my-4 ${buttonClasses}`}
                     >
                       View
                     </Link>
