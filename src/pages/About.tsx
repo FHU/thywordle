@@ -91,12 +91,11 @@ function About() {
         <h2 className="text-center text-2xl font-bold text-black dark:text-white">
           About the Code
         </h2>
-        <p className="p-8  text-center text-black dark:text-white">
+        <p className="p-8 text-center text-black dark:text-white">
           Scripturle is an open-source project forked from the amazing
           open-source project Reactle. Check out the Scripturle code or the
           original Reactle project below.
         </p>
-        <br />
         <div className="my-4 flex flex-col text-center">
           <a
             href="https://github.com/FHU/thywordle"

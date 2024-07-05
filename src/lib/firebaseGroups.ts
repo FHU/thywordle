@@ -110,7 +110,7 @@ export const getGroupInfoByGroupName = async (
       groupName: result.data().groupName,
       queryName: result.data().queryName,
       isPrivate: result.data().isPrivate,
-      groupPoints: result.data().points,
+      groupPoints: result.data().groupPoints,
       adminEmail: result.data().adminEmail,
     }
   } catch (error) {
