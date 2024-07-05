@@ -45,9 +45,9 @@ function UpdateHistory() {
         <s>[Redacted Name]</s> becomes Scripturle!
       </h2>
       <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
-        Due to some legal advice, [Redacted Name] changed its name and branding
-        within a few short weeks of a massive update that brought online
-        accounts, groups, and leaderboard functionality to the game.
+        Due to some legal advice, <s>[Redacted Name]</s> changed its name and
+        branding within a few short weeks of a massive update that brought
+        online accounts, groups, and leaderboard functionality to the game.
       </p>
       <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
         Scripturle has continued to grow more and more popular since. We hope
