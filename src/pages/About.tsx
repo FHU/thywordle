@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 
 import ScripturleLogo from '../components/logo/ScripturleLogo'
 import BellTowerLogo from './../components/logo/BellTowerLogo'
+import { buttonClasses } from './../constants/classes'
 import favicon from './../img/favicon.png'
 import gitLogoWhite from './../img/github-mark-white.png'
 import gitLogo from './../img/github-mark.png'
@@ -36,23 +37,14 @@ function About() {
           , Henderson, TN as part of their senior capstone course.
         </p>
         <div className="m-auto my-8 flex w-64 flex-col">
-          <Link
-            to="/"
-            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
-          >
+          <Link to="/" className={buttonClasses}>
             Play the Game
           </Link>
-          <Link
-            to="/help"
-            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
-          >
+          <Link to="/help" className={`my-8 ${buttonClasses}`}>
             How to Play
           </Link>
-          <Link
-            to="/accounts-feature"
-            className="my-4 inline-block rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
-          >
-            Learn About Accounts
+          <Link to="/update-history" className={buttonClasses}>
+            Update History
           </Link>
         </div>
       </div>
@@ -71,7 +63,7 @@ function About() {
             href="https://fhu.edu"
             target="_blank"
             rel="noreferrer noopener"
-            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            className={`mx-auto my-2 w-64 ${buttonClasses}`}
           >
             Freed-Hardeman <br /> University
           </a>
@@ -79,7 +71,7 @@ function About() {
             href="https://fhu.edu/cs"
             target="_blank"
             rel="noreferrer noopener"
-            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            className={`mx-auto my-2 w-64 ${buttonClasses}`}
           >
             FHU Computer <br /> Science
           </a>
@@ -110,7 +102,7 @@ function About() {
             href="https://github.com/FHU/thywordle"
             target="_blank"
             rel="noreferrer noopener"
-            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            className={`mx-auto my-2 w-64 ${buttonClasses}`}
           >
             Scripturle <br /> Repo
           </a>
@@ -118,7 +110,7 @@ function About() {
             href="https://github.com/cwackerfuss/react-wordle"
             target="_blank"
             rel="noreferrer noopener"
-            className="text-l mx-auto my-2 w-64 rounded-lg bg-black p-4 text-center font-bold uppercase text-white transition-all hover:scale-105 dark:bg-white dark:text-slate-900"
+            className={`mx-auto my-2 w-64 ${buttonClasses}`}
           >
             Reactle <br /> Repo
           </a>

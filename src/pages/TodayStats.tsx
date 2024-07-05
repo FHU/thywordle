@@ -9,6 +9,7 @@ import Loading from './../components/gameState/Loading'
 import { StatDatePickerModal } from './../components/modals/StatDatePickerModal'
 import { Histogram } from './../components/stats/Histogram'
 import { StatItem } from './../components/stats/StatBar'
+import { buttonClasses } from './../constants/classes'
 import { DATE_LOCALE } from './../constants/settings'
 import {
   AVG_NUM_GUESSES_TEXT,
@@ -70,10 +71,7 @@ const TodayStats: React.FC<props> = ({ isGamePlayed }) => {
             <p className="mr-4 text-sm text-black dark:text-white sm:text-lg">
               Want to see how you compare?
             </p>
-            <Link
-              to="/profile"
-              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-            >
+            <Link to="/profile" className={buttonClasses}>
               Sign In
             </Link>
           </div>
@@ -82,17 +80,14 @@ const TodayStats: React.FC<props> = ({ isGamePlayed }) => {
 
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
         {!isGamePlayed ? (
-          <Link
-            to="/"
-            className="my-8 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-          >
+          <Link to="/" className={`my-8 ${buttonClasses}`}>
             Play Game
           </Link>
         ) : (
           <div className="mt-8">
             <div
               onClick={() => setIsDatePickerModalOpen(true)}
-              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+              className={buttonClasses}
             >
               <ClockIcon className="h-6 w-6 stroke-white" />
               <p className="text-base text-white">
@@ -140,14 +135,11 @@ const TodayStats: React.FC<props> = ({ isGamePlayed }) => {
                 </div>
               </>
             )}
+            <Link to="/leaderboard" className={`my-8 ${buttonClasses}`}>
+              Back
+            </Link>
           </div>
         )}
-        <Link
-          to="/leaderboard"
-          className="my-8 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-        >
-          Back
-        </Link>
       </div>
 
       <StatDatePickerModal

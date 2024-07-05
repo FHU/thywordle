@@ -50,3 +50,9 @@ export enum PropToEditEnum {
   Image,
   PublicDisplaySetting,
 }
+
+export type UpdateMetadata = {
+  content: JSX.Element
+  title: string
+  date: string
+}
