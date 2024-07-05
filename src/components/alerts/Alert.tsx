@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { NEW_ACCOUNT_FEATURE_TEXT } from './../../constants/strings'
+import { UPDATE_TEXT } from './../../constants/strings'
 
 type props = {
   isOpen: boolean
@@ -23,13 +23,13 @@ export const Alert = ({
   const navigate = useNavigate()
 
   const isClickable = (): boolean => {
-    return message === NEW_ACCOUNT_FEATURE_TEXT
+    return message === UPDATE_TEXT
   }
 
   const handleClick = () => {
     if (isClickable()) {
       setIsOpen(false)
-      navigate('/new-accounts-feature')
+      navigate('/update-history')
     }
   }
 
