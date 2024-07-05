@@ -115,7 +115,7 @@ export const saveGameStatsToFirestore = async (
     initialWinDistribution[numGuesses] += 1
     await setDoc(doc(db, 'stats', dateString), {
       totalGames: 1,
-      avgNumGuesses: numGuesses,
+      avgNumGuesses: numGuesses + 1,
       winDistribution: initialWinDistribution,
     })
   } else {
