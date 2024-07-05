@@ -25,7 +25,7 @@ type Props = {
   handleClose: () => void
 }
 
-export const DatePickerModal = ({
+export const StatDatePickerModal = ({
   isOpen,
   initialDate,
   handleSelectDate,

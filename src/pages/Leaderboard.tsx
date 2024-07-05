@@ -12,7 +12,7 @@ import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import favicon from './../img/favicon.png'
 import { getPublicDisplaySetting } from './../lib/firebaseAuth'
-import { getLeaderBoardFromFirestore } from './../lib/firebaseStats'
+import { getLeaderboardFromFirestore } from './../lib/firebaseStats'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)
@@ -25,8 +25,8 @@ function Leaderboard() {
     ;(async () => {
       setLoading(true)
       const loadedLeaderBoard = user
-        ? await getLeaderBoardFromFirestore(user.uid)
-        : await getLeaderBoardFromFirestore()
+        ? await getLeaderboardFromFirestore(user.uid)
+        : await getLeaderboardFromFirestore()
 
       if (user) {
         const getSetting = await getPublicDisplaySetting(user.uid)
@@ -64,9 +64,15 @@ function Leaderboard() {
         <h1 className="mb-4 text-2xl font-bold dark:text-white md:text-3xl">
           Leaderboard
         </h1>
-        <p className="mb-8 dark:text-white">
+        <p className="dark:text-white">
           Select a User for more detailed game stats.
         </p>
+        <Link
+          to="/leaderboard/today"
+          className="my-8 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+        >
+          View Today's Stats
+        </Link>
       </div>
 
       {!user && (

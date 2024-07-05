@@ -69,6 +69,7 @@ import Groups from './pages/Groups'
 import Help from './pages/Help'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
+import TodayStats from './pages/TodayStats'
 
 function App() {
   const [user, loading, error] = useAuthState(auth)
@@ -277,6 +278,10 @@ function App() {
               element={<Profile user={user} stats={stats} />}
             />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route
+              path="/leaderboard/today"
+              element={<TodayStats isGamePlayed={isGameWon || isGameLost} />}
+            />
             <Route path="/groups" element={<Groups />} />
             <Route path="/groups/create" element={<GroupCreate />} />
             <Route path="/groups/:groupName" element={<GroupLeaderboard />} />

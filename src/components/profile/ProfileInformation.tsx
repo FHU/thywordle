@@ -110,7 +110,7 @@ const ProfileInformation = ({
         <div className="mx-auto w-4/5 md:w-1/2 2xl:w-1/3">
           <Histogram
             isLatestGame={false}
-            gameStats={gameStats}
+            winDistribution={gameStats.winDistribution}
             isGameWon={true}
             numberOfGuessesMade={2}
           />

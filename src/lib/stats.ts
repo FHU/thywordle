@@ -1,11 +1,11 @@
 import { User } from 'firebase/auth'
 
-import { GameStats } from '@/constants/types'
-
 import { MAX_CHALLENGES } from '../constants/settings'
+import { GameStats } from './../constants/types'
 import {
   loadStatsFromFirestoreCollection,
-  saveStatsToFirestore,
+  saveGameStatsToFirestore,
+  saveUserStatsToFirestore,
 } from './firebaseStats'
 import {
   loadStatsFromLocalStorage,
@@ -56,12 +56,13 @@ export const addStatsForCompletedGame = async (
   }
 
   stats.successRate = getSuccessRate(stats)
-  stats.avgNumGuesses = getAverageNumberGuesses(stats)
+  stats.avgNumGuesses = getAverageNumberGuesses(stats.winDistribution)
 
   saveStatsToLocalStorage(stats)
 
   if (user) {
-    await saveStatsToFirestore(user.uid, stats)
+    await saveUserStatsToFirestore(user.uid, stats)
+    await saveGameStatsToFirestore(count, new Date())
   }
 
   return stats
@@ -79,8 +80,7 @@ export const getSuccessRate = (gameStats: GameStats) => {
   )
 }
 
-export const getAverageNumberGuesses = (gameStats: GameStats) => {
-  const { winDistribution } = gameStats
+export const getAverageNumberGuesses = (winDistribution: number[]) => {
   let totalGuesses = 0
   let totalGames = 0
   for (let i = 0; i < winDistribution.length; i++) {
