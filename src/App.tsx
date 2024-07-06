@@ -34,7 +34,6 @@ import {
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
   SHARE_FAILURE_TEXT,
-  UPDATE_TEXT,
 } from './constants/strings'
 import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
@@ -62,6 +61,7 @@ import {
   verseText,
 } from './lib/words'
 import About from './pages/About'
+import AccountFeature from './pages/AccountFeature'
 import Game from './pages/Game'
 import GroupCreate from './pages/GroupCreate'
 import GroupLeaderboard from './pages/GroupLeaderboard'
@@ -69,8 +69,6 @@ import Groups from './pages/Groups'
 import Help from './pages/Help'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
-import TodayStats from './pages/TodayStats'
-import UpdateHistory from './pages/UpdateHistory'
 
 function App() {
   const [user, loading, error] = useAuthState(auth)
@@ -175,10 +173,6 @@ function App() {
   })
 
   useEffect(() => {
-    showSuccessAlert(UPDATE_TEXT, {
-      delayMs: 1500,
-      durationMs: 5000,
-    })
     if (user) loadGameFromFirestore(user.uid)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
@@ -283,14 +277,10 @@ function App() {
               element={<Profile user={user} stats={stats} />}
             />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route
-              path="/leaderboard/today"
-              element={<TodayStats isGamePlayed={isGameWon || isGameLost} />}
-            />
             <Route path="/groups" element={<Groups />} />
             <Route path="/groups/create" element={<GroupCreate />} />
             <Route path="/groups/:groupName" element={<GroupLeaderboard />} />
-            <Route path="/update-history" element={<UpdateHistory />} />
+            <Route path="/accounts-feature" element={<AccountFeature />} />
             {/* Any other urls redirect to / */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

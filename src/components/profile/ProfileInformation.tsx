@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { Histogram } from '../stats/Histogram'
-import { buttonClasses } from './../../constants/classes'
 import {
   AVG_NUM_GUESSES_TEXT,
   BEST_STREAK_TEXT,
@@ -111,7 +110,7 @@ const ProfileInformation = ({
         <div className="mx-auto w-4/5 md:w-1/2 2xl:w-1/3">
           <Histogram
             isLatestGame={false}
-            winDistribution={gameStats.winDistribution}
+            gameStats={gameStats}
             isGameWon={true}
             numberOfGuessesMade={2}
           />
@@ -122,7 +121,10 @@ const ProfileInformation = ({
           <h4 className="mr-4 text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
             View Your Ranking
           </h4>
-          <Link to="/leaderboard" className={buttonClasses}>
+          <Link
+            to="/leaderboard"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+          >
             Leaderboard
           </Link>
         </div>
