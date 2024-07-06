@@ -46,7 +46,6 @@ export const removeGroupFromUserDoc = async (
   if (userDoc.exists()) {
     const docRef = doc(db, 'users', userId)
     if (isRequest) {
-      console.log(2)
       await updateDoc(docRef, {
         requestedGroups: arrayRemove(groupName),
       })
@@ -243,7 +242,6 @@ export const denyJoinPrivateGroup = async (
   groupName: string,
   uid: string
 ): Promise<boolean> => {
-  console.log(1)
   try {
     const group = await getGroupByGroupName(groupName)
     if (group.exists()) {
