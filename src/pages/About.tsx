@@ -92,9 +92,9 @@ function About() {
           About the Code
         </h2>
         <p className="p-8 text-center text-black dark:text-white">
-          Scripturle is an open-source project forked from the amazing
-          open-source project Reactle. Check out the Scripturle code or the
-          original Reactle project below.
+          Scripturle is an open-source project that was forked from an amazing
+          open-source template that no longer exists. Check out the Scripturle
+          code on Github below.
         </p>
         <div className="my-4 flex flex-col text-center">
           <a
@@ -104,14 +104,6 @@ function About() {
             className={`mx-auto my-2 w-64 ${buttonClasses}`}
           >
             Scripturle <br /> Repo
-          </a>
-          <a
-            href="https://github.com/cwackerfuss/react-wordle"
-            target="_blank"
-            rel="noreferrer noopener"
-            className={`mx-auto my-2 w-64 ${buttonClasses}`}
-          >
-            Reactle <br /> Repo
           </a>
         </div>
       </div>

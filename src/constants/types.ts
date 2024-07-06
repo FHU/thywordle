@@ -9,14 +9,6 @@ export type GameStats = {
   avgNumGuesses: number
 }
 
-export type GameStatsByDate = {
-  solution: string
-  winDistribution: number[]
-  successRate: number
-  totalGames: number
-  avgNumGuesses: number
-}
-
 export type LeaderboardUser = {
   uid: string
   rank: number
@@ -32,7 +24,6 @@ export type Group = {
   groupName: string
   adminEmail: string
   isPrivate: boolean
-  groupPoints: number
   users: LeaderboardUser[]
   requestedUsers: any[]
 }

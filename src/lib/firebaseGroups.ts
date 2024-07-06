@@ -7,7 +7,6 @@ import {
   doc,
   getDoc,
   getDocs,
-  increment,
   limit,
   query,
   updateDoc,
@@ -15,7 +14,7 @@ import {
 } from 'firebase/firestore'
 
 import { Group, LeaderboardUser } from './../constants/types'
-import { getScoreByUid, getUserDocByUid } from './firebaseAuth'
+import { getUserDocByUid } from './firebaseAuth'
 import { db } from './firebaseConfig'
 
 export const addGroupToUserDoc = async (
@@ -110,7 +109,6 @@ export const getGroupInfoByGroupName = async (
       groupName: result.data().groupName,
       queryName: result.data().queryName,
       isPrivate: result.data().isPrivate,
-      groupPoints: result.data().groupPoints,
       adminEmail: result.data().adminEmail,
     }
   } catch (error) {
@@ -132,14 +130,11 @@ export const createNewGroup = async (
   try {
     const group = await getGroupByGroupName(groupName)
     if (!group) {
-      const score = await getScoreByUid(uid)
-
       await addDoc(collection(db, 'groups'), {
         groupName: groupName,
         queryName: getCleanedGroupName(groupName),
         adminEmail: adminEmail,
         isPrivate: isPrivate,
-        groupPoints: score,
         users: [doc(db, `users/${uid}`)],
         requestedUsers: [],
       })
@@ -173,11 +168,9 @@ export const addUserToGroup = async (
           requestedUsers: arrayUnion(doc(db, `users/${uid}`)),
         })
       } else {
-        const userScore = await getScoreByUid(uid)
         await addGroupToUserDoc(uid, groupName, false)
         await updateDoc(docRef, {
           users: arrayUnion(doc(db, `users/${uid}`)),
-          groupPoints: increment(userScore),
         })
       }
 
@@ -204,11 +197,9 @@ export const removeUserFromGroup = async (
       }
 
       if (!isAdmin) {
-        const userScore = await getScoreByUid(uid)
         await removeGroupFromUserDoc(uid, groupName, false)
         await updateDoc(docRef, {
           users: arrayRemove(doc(db, `users/${uid}`)),
-          groupPoints: increment(-userScore),
         })
       }
 
@@ -233,13 +224,12 @@ export const acceptJoinPrivateGroup = async (
     const group = await getGroupByGroupName(groupName)
     if (group.exists()) {
       const docRef = doc(db, 'groups', group.id)
-      const userScore = await getScoreByUid(uid)
       await removeGroupFromUserDoc(uid, groupName, true)
       await addGroupToUserDoc(uid, groupName, false)
+
       await updateDoc(docRef, {
         users: arrayUnion(doc(db, `users/${uid}`)),
         requestedUsers: arrayRemove(doc(db, `users/${uid}`)),
-        groupPoints: increment(userScore),
       })
     }
     return true
@@ -252,7 +242,6 @@ export const denyJoinPrivateGroup = async (
   groupName: string,
   uid: string
 ): Promise<boolean> => {
-  console.log(1)
   try {
     const group = await getGroupByGroupName(groupName)
     if (group.exists()) {
@@ -266,22 +255,6 @@ export const denyJoinPrivateGroup = async (
   } catch {
     return false
   }
-}
-
-export const updateGroupScores = async (
-  uid: string,
-  score: number
-): Promise<void> => {
-  const groups = await getGroupsByUidFromFirestore(uid)
-  groups.forEach(async (groupName) => {
-    const group = await getGroupByGroupName(groupName)
-    if (group.exists()) {
-      const docRef = doc(db, 'groups', group.id)
-      await updateDoc(docRef, {
-        groupPoints: increment(score),
-      })
-    }
-  })
 }
 
 export const getGroupLeaderboardByGroupNameFromFirestore = async (
@@ -351,7 +324,6 @@ export const getGroupLeaderboardByGroupNameFromFirestore = async (
       groupName: result.data().groupName,
       adminEmail: result.data().adminEmail,
       isPrivate: result.data().isPrivate,
-      groupPoints: result.data().groupPoints,
       users: groupLeaderboard,
       requestedUsers: requestedUsersList,
     }

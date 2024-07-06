@@ -120,7 +120,7 @@ function GroupLeaderboard() {
           alt="Scripturle Favicon"
           className="mx-auto my-12 w-48"
         />
-        <h1 className="text-3xl font-bold dark:text-white">
+        <h1 className="text-l text-3xl font-bold dark:text-white">
           <span>{group ? group.groupName : 'Group does not exist'}</span>
           {group && (
             <>
@@ -128,11 +128,6 @@ function GroupLeaderboard() {
             </>
           )}
         </h1>
-        {/* {group && (
-          <p className="mx-auto mt-4 text-2xl dark:text-white">
-            Total Points: <b>{group.groupPoints}</b>
-          </p>
-        )} */}
         <p className="mx-auto mb-8 mt-4 text-base dark:text-white md:text-xl">
           {group ? (group.isPrivate ? 'Private Group' : 'Public Group') : ''}
         </p>
