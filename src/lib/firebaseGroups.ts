@@ -229,11 +229,8 @@ export const acceptJoinPrivateGroup = async (
       await addGroupToUserDoc(uid, groupName, false)
 
       await updateDoc(docRef, {
-        requestedUsers: arrayRemove(doc(db, `users/${uid}`)),
-      })
-
-      await updateDoc(docRef, {
         users: arrayUnion(doc(db, `users/${uid}`)),
+        requestedUsers: arrayRemove(doc(db, `users/${uid}`)),
       })
     }
     return true

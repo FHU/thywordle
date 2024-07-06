@@ -61,7 +61,6 @@ import {
   verseText,
 } from './lib/words'
 import About from './pages/About'
-import AccountFeature from './pages/AccountFeature'
 import Game from './pages/Game'
 import GroupCreate from './pages/GroupCreate'
 import GroupLeaderboard from './pages/GroupLeaderboard'
@@ -69,6 +68,7 @@ import Groups from './pages/Groups'
 import Help from './pages/Help'
 import Leaderboard from './pages/Leaderboard'
 import Profile from './pages/Profile'
+import UpdateHistory from './pages/UpdateHistory'
 
 function App() {
   const [user, loading, error] = useAuthState(auth)
@@ -280,7 +280,7 @@ function App() {
             <Route path="/groups" element={<Groups />} />
             <Route path="/groups/create" element={<GroupCreate />} />
             <Route path="/groups/:groupName" element={<GroupLeaderboard />} />
-            <Route path="/accounts-feature" element={<AccountFeature />} />
+            <Route path="/update-history" element={<UpdateHistory />} />
             {/* Any other urls redirect to / */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

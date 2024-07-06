@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
-import { LeaderboardUser } from '@/constants/types'
-
 import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
 import { auth } from '../lib/firebaseConfig'
 import Loading from './../components/gameState/Loading'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
+import { buttonClasses } from './../constants/classes'
+import { LeaderboardUser } from './../constants/types'
 import favicon from './../img/favicon.png'
 import { getPublicDisplaySetting } from './../lib/firebaseAuth'
 import { getLeaderBoardFromFirestore } from './../lib/firebaseStats'
@@ -75,10 +75,7 @@ function Leaderboard() {
             <p className="mr-4 text-sm text-black dark:text-white sm:text-lg">
               Want to see how you compare?
             </p>
-            <Link
-              to="/profile"
-              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-            >
+            <Link to="/profile" className={buttonClasses}>
               Sign In
             </Link>
           </div>
@@ -92,10 +89,7 @@ function Leaderboard() {
               Want to see how you compare? <br /> Update your profile to allow
               your name to be publicly displayed on this leaderboard.
             </p>
-            <Link
-              to="/profile"
-              className="my-4 inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
-            >
+            <Link to="/profile" className={`my-4 ${buttonClasses}`}>
               Edit Profile
             </Link>
           </div>

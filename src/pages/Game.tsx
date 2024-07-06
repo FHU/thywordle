@@ -6,8 +6,6 @@ import { default as GraphemeSplitter } from 'grapheme-splitter'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { GameStats } from '@/constants/types'
-
 import { auth } from '../lib/firebaseConfig'
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
@@ -23,6 +21,7 @@ import {
   NOT_ENOUGH_LETTERS_MESSAGE,
   WIN_MESSAGES,
 } from './../constants/strings'
+import { GameStats } from './../constants/types'
 import { updateGameStateToFirestore } from './../lib/firebaseStats'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {

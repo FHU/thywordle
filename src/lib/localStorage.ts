@@ -1,5 +1,4 @@
-import { GameStats } from '@/constants/types'
-
+import { GameStats } from './../constants/types'
 import { hasPlayedToday } from './dateutils'
 
 const gameStateKey = 'gameState'
