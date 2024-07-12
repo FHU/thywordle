@@ -34,16 +34,17 @@ import {
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
   SHARE_FAILURE_TEXT,
+  UPDATE_TEXT,
 } from './constants/strings'
 import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
 import { isInAppBrowser } from './lib/browser'
-import { auth } from './lib/firebaseConfig'
+import { auth } from './lib/firebase/firebaseConfig'
 import {
   loadGameStateFromFirestore,
   loadStatsFromFirestoreCollection,
   updateGameStateToFirestore,
-} from './lib/firebaseStats'
+} from './lib/firebase/firebaseStats'
 import {
   getStoredIsHighContrastMode,
   loadGameStateFromLocalStorage,
@@ -61,6 +62,7 @@ import {
   verseText,
 } from './lib/words'
 import About from './pages/About'
+import DailyStats from './pages/DailyStats'
 import Game from './pages/Game'
 import GroupCreate from './pages/GroupCreate'
 import GroupLeaderboard from './pages/GroupLeaderboard'
@@ -173,6 +175,10 @@ function App() {
   })
 
   useEffect(() => {
+    showSuccessAlert(UPDATE_TEXT, {
+      delayMs: 1500,
+      durationMs: 5000,
+    })
     if (user) loadGameFromFirestore(user.uid)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
@@ -277,6 +283,10 @@ function App() {
               element={<Profile user={user} stats={stats} />}
             />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route
+              path="/leaderboard/today"
+              element={<DailyStats isGamePlayed={isGameWon || isGameLost} />}
+            />
             <Route path="/groups" element={<Groups />} />
             <Route path="/groups/create" element={<GroupCreate />} />
             <Route path="/groups/:groupName" element={<GroupLeaderboard />} />

@@ -1,9 +1,9 @@
 import { User } from 'firebase/auth'
 import React, { useState } from 'react'
 
+import { ForgotPasswordModal } from '../modals/accountModals/ForgotPasswordModal'
 import { GameStats, PropToEditEnum } from './../../constants/types'
 import CreateAccountForm from './CreateAccountForm'
-import { ForgotPasswordModal } from './ForgotPasswordModal'
 import ProfileInformation from './ProfileInformation'
 import SignInForm from './SignInForm'
 

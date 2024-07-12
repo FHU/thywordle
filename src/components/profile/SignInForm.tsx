@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth'
 
-import { signInWithGoogle } from '../../lib/firebaseAuth'
-import { auth } from '../../lib/firebaseConfig'
+import { signInWithGoogle } from '../../lib/firebase/firebaseAuth'
+import { auth } from '../../lib/firebase/firebaseConfig'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,

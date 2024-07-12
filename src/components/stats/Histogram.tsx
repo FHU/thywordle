@@ -1,8 +1,7 @@
-import { GameStats } from '../../constants/types'
 import { Progress } from './Progress'
 
 type Props = {
-  gameStats: GameStats
+  winDistribution: number[]
   isLatestGame: boolean
   isGameWon: boolean
   numberOfGuessesMade: number
@@ -18,12 +17,11 @@ const isCurrentDayStatRow = (
 }
 
 export const Histogram = ({
-  gameStats,
+  winDistribution,
   isLatestGame,
   isGameWon,
   numberOfGuessesMade,
 }: Props) => {
-  const winDistribution = gameStats.winDistribution
   const maxValue = Math.max(...winDistribution, 1)
 
   return (

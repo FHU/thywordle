@@ -2,14 +2,14 @@ import { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { PropToEditEnum } from '../../../constants/types'
+import { useAlert } from '../../../context/AlertContext'
 import {
   resetForgottenPassword,
   updateFirestoreEmail,
   updateFirestoreUsername,
-} from '../../lib/firebaseAuth'
-import { PropToEditEnum } from './../../constants/types'
-import { useAlert } from './../../context/AlertContext'
-import { BaseModal } from './../modals/BaseModal'
+} from '../../../lib/firebase/firebaseAuth'
+import { BaseModal } from '../BaseModal'
 
 type Props = {
   user: User | null | undefined

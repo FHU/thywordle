@@ -4,15 +4,15 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
 import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
-import { auth } from '../lib/firebaseConfig'
+import { PointsHelpModal } from '../components/modals/accountModals/PointsHelpModal'
+import { StatSummaryModal } from '../components/modals/accountModals/StatSummaryModal'
+import { auth } from '../lib/firebase/firebaseConfig'
 import Loading from './../components/gameState/Loading'
-import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
-import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import { buttonClasses } from './../constants/classes'
 import { LeaderboardUser } from './../constants/types'
 import favicon from './../img/favicon.png'
-import { getPublicDisplaySetting } from './../lib/firebaseAuth'
-import { getLeaderBoardFromFirestore } from './../lib/firebaseStats'
+import { getPublicDisplaySetting } from './../lib/firebase/firebaseAuth'
+import { getLeaderboardFromFirestore } from './../lib/firebase/firebaseStats'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)
@@ -25,8 +25,8 @@ function Leaderboard() {
     ;(async () => {
       setLoading(true)
       const loadedLeaderBoard = user
-        ? await getLeaderBoardFromFirestore(user.uid)
-        : await getLeaderBoardFromFirestore()
+        ? await getLeaderboardFromFirestore(user.uid)
+        : await getLeaderboardFromFirestore()
 
       if (user) {
         const getSetting = await getPublicDisplaySetting(user.uid)
@@ -64,9 +64,12 @@ function Leaderboard() {
         <h1 className="mb-4 text-2xl font-bold dark:text-white md:text-3xl">
           Leaderboard
         </h1>
-        <p className="mb-8 dark:text-white">
+        <p className="dark:text-white">
           Select a User for more detailed game stats.
         </p>
+        <Link to="/leaderboard/today" className={`my-8 ${buttonClasses}`}>
+          View Today's Stats
+        </Link>
       </div>
 
       {!user && (

@@ -1,5 +1,5 @@
-import { logout } from '../../lib/firebaseAuth'
-import { BaseModal } from './../modals/BaseModal'
+import { logout } from '../../../lib/firebase/firebaseAuth'
+import { BaseModal } from '../BaseModal'
 
 type Props = {
   isOpen: boolean

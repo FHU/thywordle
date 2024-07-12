@@ -8,11 +8,11 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 
-import { STAT_BONUS_POINTS } from './../constants/settings'
-import { GameStats, LeaderboardUser } from './../constants/types'
+import { STAT_BONUS_POINTS } from './../../constants/settings'
+import { GameStats, LeaderboardUser } from './../../constants/types'
+import { StoredGameState } from './../localStorage'
 import { getUserDocByUid } from './firebaseAuth'
 import { db } from './firebaseConfig'
-import { StoredGameState } from './localStorage'
 
 export const loadStatsFromFirestoreCollection = async (
   userId: string
@@ -51,7 +51,7 @@ export const loadGameStateFromFirestore = async (
   }
 }
 
-export const saveStatsToFirestore = async (
+export const saveUserStatsToFirestore = async (
   userId: string,
   stats: GameStats
 ): Promise<void> => {
@@ -107,7 +107,7 @@ export const updateGameStateToFirestore = async (
   }
 }
 
-export const getLeaderBoardFromFirestore = async (
+export const getLeaderboardFromFirestore = async (
   userId?: string
 ): Promise<LeaderboardUser[]> => {
   let leaderBoard: LeaderboardUser[] = []

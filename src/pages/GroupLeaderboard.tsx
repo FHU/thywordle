@@ -3,25 +3,25 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
+import { ConfirmJoinGroupModal } from '../components/modals/accountModals/ConfirmJoinGroupModal'
+import { ConfirmLeaveGroupModal } from '../components/modals/accountModals/ConfirmLeaveGroupModal'
+import { PointsHelpModal } from '../components/modals/accountModals/PointsHelpModal'
+import { StatSummaryModal } from '../components/modals/accountModals/StatSummaryModal'
 import {
   acceptJoinPrivateGroup,
   denyJoinPrivateGroup,
   getCleanedGroupName,
   getGroupLeaderboardByGroupNameFromFirestore,
   getGroupsByUidFromFirestore,
-} from '../lib/firebaseGroups'
+} from '../lib/firebase/firebaseGroups'
 import Loading from './../components/gameState/Loading'
-import { ConfirmJoinGroupModal } from './../components/groups/ConfirmJoinGroupModal'
-import { ConfirmLeaveGroupModal } from './../components/groups/ConfirmLeaveGroupModal'
 import { LeaderboardRows } from './../components/leaderboard/LeaderboardRows'
-import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
-import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import { buttonEnabledClasses } from './../constants/classes'
 import { Group } from './../constants/types'
 import { useAlert } from './../context/AlertContext'
 import favicon from './../img/favicon.png'
 import { copyTextToClipboard } from './../lib/clipboard'
-import { auth } from './../lib/firebaseConfig'
+import { auth } from './../lib/firebase/firebaseConfig'
 
 function GroupLeaderboard() {
   const params = useParams()

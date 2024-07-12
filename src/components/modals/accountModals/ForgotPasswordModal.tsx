@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { resetForgottenPassword } from '../../lib/firebaseAuth'
-import { buttonEnabledClasses } from './../../constants/classes'
-import { BaseModal } from './../modals/BaseModal'
+import { buttonEnabledClasses } from '../../../constants/classes'
+import { resetForgottenPassword } from '../../../lib/firebase/firebaseAuth'
+import { BaseModal } from '../BaseModal'
 
 type Props = {
   email: string
