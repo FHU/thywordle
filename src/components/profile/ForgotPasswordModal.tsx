@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { resetForgottenPassword } from '../../lib/firebaseAuth'
+import { resetForgottenPassword } from '../../lib/firebase/firebaseAuth'
 import { buttonEnabledClasses } from './../../constants/classes'
 import { BaseModal } from './../modals/BaseModal'
 

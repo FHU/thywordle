@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   checkIfEmailExistsInFirestore,
   updateFirestorePublicDisplaySetting,
-} from '../../lib/firebaseAuth'
+} from '../../lib/firebase/firebaseAuth'
 import { SettingsToggle } from '../modals/SettingsToggle'
 import {
   buttonDisabledClasses,

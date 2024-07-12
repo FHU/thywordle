@@ -1,4 +1,4 @@
-import { logout } from '../../lib/firebaseAuth'
+import { logout } from '../../lib/firebase/firebaseAuth'
 import { BaseModal } from './../modals/BaseModal'
 
 type Props = {

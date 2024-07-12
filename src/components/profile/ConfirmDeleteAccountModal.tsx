@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
-import { deleteAccount } from '../../lib/firebaseAuth'
+import { deleteAccount } from '../../lib/firebase/firebaseAuth'
 import { BaseModal } from './../modals/BaseModal'
 
 type Props = {

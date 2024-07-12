@@ -1,4 +1,4 @@
-import { getGroupByGroupName } from '../../lib/firebaseGroups'
+import { getGroupByGroupName } from '../../lib/firebase/firebaseGroups'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,

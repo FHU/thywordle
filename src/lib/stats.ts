@@ -5,7 +5,7 @@ import { GameStats } from './../constants/types'
 import {
   loadStatsFromFirestoreCollection,
   saveStatsToFirestore,
-} from './firebaseStats'
+} from './firebase/firebaseStats'
 import {
   loadStatsFromLocalStorage,
   saveStatsToLocalStorage,

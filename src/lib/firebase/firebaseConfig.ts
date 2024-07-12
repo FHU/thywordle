@@ -25,7 +25,7 @@ const firebaseDailyStatsConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-const dailyStatApp = initializeApp(firebaseDailyStatsConfig)
+const dailyStatApp = initializeApp(firebaseDailyStatsConfig, 'scripturle-today')
 getAnalytics(app)
 
 export const auth = getAuth(app)

@@ -4,15 +4,15 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
 import { LeaderboardRows } from '../components/leaderboard/LeaderboardRows'
-import { auth } from '../lib/firebaseConfig'
+import { auth } from '../lib/firebase/firebaseConfig'
 import Loading from './../components/gameState/Loading'
 import { PointsHelpModal } from './../components/leaderboard/PointsHelpModal'
 import { StatSummaryModal } from './../components/leaderboard/StatSummaryModal'
 import { buttonClasses } from './../constants/classes'
 import { LeaderboardUser } from './../constants/types'
 import favicon from './../img/favicon.png'
-import { getPublicDisplaySetting } from './../lib/firebaseAuth'
-import { getLeaderBoardFromFirestore } from './../lib/firebaseStats'
+import { getPublicDisplaySetting } from './../lib/firebase/firebaseAuth'
+import { getLeaderBoardFromFirestore } from './../lib/firebase/firebaseStats'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)

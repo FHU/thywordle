@@ -24,7 +24,7 @@ import {
   VERSE_TEXT_BUTTON,
 } from '../../constants/strings'
 import { GameStats } from '../../constants/types'
-import { auth } from '../../lib/firebaseConfig'
+import { auth } from '../../lib/firebase/firebaseConfig'
 import { shareStatus } from '../../lib/share'
 import { referenceUrl, solutionGameDate, tomorrow } from '../../lib/words'
 import { Histogram } from '../stats/Histogram'

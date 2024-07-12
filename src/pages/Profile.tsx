@@ -2,7 +2,7 @@ import { User } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 
 import SignInTabs from '../components/profile/SignInTabs'
-import { getUserDataByUid } from '../lib/firebaseAuth'
+import { getUserDataByUid } from '../lib/firebase/firebaseAuth'
 import Loading from './../components/gameState/Loading'
 import { ConfirmDeleteAccountModal } from './../components/profile/ConfirmDeleteAccountModal'
 import { ConfirmEditProfileModal } from './../components/profile/ConfirmEditProfileModal'

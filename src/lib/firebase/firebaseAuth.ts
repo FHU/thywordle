@@ -21,14 +21,14 @@ import {
   where,
 } from 'firebase/firestore'
 
-import { ValidEmailEnum } from './../constants/types'
+import { ValidEmailEnum } from './../../constants/types'
+import { defaultStats } from './../stats'
 import { auth, db } from './firebaseConfig'
 import {
   getGroupInfoByGroupName,
   getGroupsByUidFromFirestore,
   removeUserFromGroup,
 } from './firebaseGroups'
-import { defaultStats } from './stats'
 
 export const googleProvider = new GoogleAuthProvider()
 googleProvider.setCustomParameters({ prompt: 'select_account' })

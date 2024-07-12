@@ -1,7 +1,7 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
-import { auth } from '../../lib/firebaseConfig'
+import { auth } from '../../lib/firebase/firebaseConfig'
 import { buttonClasses } from './../../constants/classes'
 import {
   BEST_STREAK_TEXT,

@@ -6,7 +6,7 @@ import { default as GraphemeSplitter } from 'grapheme-splitter'
 import { useEffect, useRef, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import { auth } from '../lib/firebaseConfig'
+import { auth } from '../lib/firebase/firebaseConfig'
 import { Grid } from './../components/grid/Grid'
 import { Keyboard } from './../components/keyboard/Keyboard'
 import { BOOKS } from './../constants/booklist'
@@ -22,7 +22,7 @@ import {
   WIN_MESSAGES,
 } from './../constants/strings'
 import { GameStats } from './../constants/types'
-import { updateGameStateToFirestore } from './../lib/firebaseStats'
+import { updateGameStateToFirestore } from './../lib/firebase/firebaseStats'
 import { addStatsForCompletedGame } from './../lib/stats'
 import {
   findFirstUnusedReveal,

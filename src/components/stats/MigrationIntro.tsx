@@ -6,7 +6,7 @@ import {
   MIGRATE_BUTTON_TEXT,
   MIGRATE_DESCRIPTION_TEXT,
 } from '../../constants/strings'
-import { auth } from './../../lib/firebaseConfig'
+import { auth } from './../../lib/firebase/firebaseConfig'
 
 type props = {
   handleMigrateStatsButton: () => void

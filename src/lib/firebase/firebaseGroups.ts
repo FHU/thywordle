@@ -13,7 +13,7 @@ import {
   where,
 } from 'firebase/firestore'
 
-import { Group, LeaderboardUser } from './../constants/types'
+import { Group, LeaderboardUser } from './../../constants/types'
 import { getUserDocByUid } from './firebaseAuth'
 import { db } from './firebaseConfig'
 

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 
-import { auth } from '../../lib/firebaseConfig'
+import { auth } from '../../lib/firebase/firebaseConfig'
 import {
   buttonDisabledClasses,
   buttonEnabledClasses,
@@ -13,7 +13,7 @@ import {
   createNewGroup,
   getCleanedGroupName,
   getGroupsByUidFromFirestore,
-} from './../../lib/firebaseGroups'
+} from './../../lib/firebase/firebaseGroups'
 import ValidateGroupNameForm from './ValidateGroupNameForm'
 
 interface props {

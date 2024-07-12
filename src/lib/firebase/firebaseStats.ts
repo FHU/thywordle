@@ -8,11 +8,11 @@ import {
   updateDoc,
 } from 'firebase/firestore'
 
-import { STAT_BONUS_POINTS } from './../constants/settings'
-import { GameStats, LeaderboardUser } from './../constants/types'
+import { STAT_BONUS_POINTS } from './../../constants/settings'
+import { GameStats, LeaderboardUser } from './../../constants/types'
+import { StoredGameState } from './../localStorage'
 import { getUserDocByUid } from './firebaseAuth'
 import { db } from './firebaseConfig'
-import { StoredGameState } from './localStorage'
 
 export const loadStatsFromFirestoreCollection = async (
   userId: string

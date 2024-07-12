@@ -7,7 +7,10 @@ import {
   buttonEnabledClasses,
 } from '../../constants/classes'
 import { BaseModal } from '../modals/BaseModal'
-import { addUserToGroup, getCleanedGroupName } from './../../lib/firebaseGroups'
+import {
+  addUserToGroup,
+  getCleanedGroupName,
+} from './../../lib/firebase/firebaseGroups'
 
 type Props = {
   groupName: string

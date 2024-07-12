@@ -6,7 +6,7 @@ import {
   resetForgottenPassword,
   updateFirestoreEmail,
   updateFirestoreUsername,
-} from '../../lib/firebaseAuth'
+} from '../../lib/firebase/firebaseAuth'
 import { PropToEditEnum } from './../../constants/types'
 import { useAlert } from './../../context/AlertContext'
 import { BaseModal } from './../modals/BaseModal'

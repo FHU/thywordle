@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link, useNavigate } from 'react-router-dom'
 
-import { auth } from '../lib/firebaseConfig'
+import { auth } from '../lib/firebase/firebaseConfig'
 import Loading from './../components/gameState/Loading'
 import { ConfirmJoinGroupModal } from './../components/groups/ConfirmJoinGroupModal'
 import { UserGroups } from './../components/groups/UserGroups'
@@ -17,7 +17,7 @@ import {
   getCleanedGroupName,
   getGroupInfoByGroupName,
   getGroupsByUidFromFirestore,
-} from './../lib/firebaseGroups'
+} from './../lib/firebase/firebaseGroups'
 
 function Groups() {
   const [user] = useAuthState(auth)
