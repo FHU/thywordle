@@ -1,16 +1,16 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Link } from 'react-router-dom'
 
-import { auth } from '../../lib/firebase/firebaseConfig'
-import { buttonClasses } from './../../constants/classes'
+import { buttonClasses } from '../../../constants/classes'
 import {
   BEST_STREAK_TEXT,
   CURRENT_STREAK_TEXT,
   SUCCESS_RATE_TEXT,
-} from './../../constants/strings'
-import { LeaderboardUser } from './../../constants/types'
-import { BaseModal } from './../modals/BaseModal'
-import { StatItem } from './../stats/StatBar'
+} from '../../../constants/strings'
+import { LeaderboardUser } from '../../../constants/types'
+import { auth } from '../../../lib/firebase/firebaseConfig'
+import { StatItem } from '../../stats/StatBar'
+import { BaseModal } from '../BaseModal'
 
 type Props = {
   isOpen: boolean

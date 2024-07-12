@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 
 import {
-  checkIfEmailExistsInFirestore,
-  updateFirestorePublicDisplaySetting,
-} from '../../lib/firebase/firebaseAuth'
-import { SettingsToggle } from '../modals/SettingsToggle'
-import {
   buttonDisabledClasses,
   buttonEnabledClasses,
-} from './../../constants/classes'
-import { PropToEditEnum, ValidEmailEnum } from './../../constants/types'
-import { useAlert } from './../../context/AlertContext'
-import { BaseModal } from './../modals/BaseModal'
+} from '../../../constants/classes'
+import { PropToEditEnum, ValidEmailEnum } from '../../../constants/types'
+import { useAlert } from '../../../context/AlertContext'
+import {
+  checkIfEmailExistsInFirestore,
+  updateFirestorePublicDisplaySetting,
+} from '../../../lib/firebase/firebaseAuth'
+import { BaseModal } from '../BaseModal'
+import { SettingsToggle } from '../SettingsToggle'
 
 type Props = {
   userInfo: any

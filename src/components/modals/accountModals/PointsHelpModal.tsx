@@ -1,4 +1,4 @@
-import { BaseModal } from './../modals/BaseModal'
+import { BaseModal } from '../BaseModal'
 
 type Props = {
   isOpen: boolean

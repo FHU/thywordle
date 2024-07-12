@@ -5,12 +5,12 @@ import {
   buttonClasses,
   buttonDisabledClasses,
   buttonEnabledClasses,
-} from '../../constants/classes'
-import { BaseModal } from '../modals/BaseModal'
+} from '../../../constants/classes'
 import {
   addUserToGroup,
   getCleanedGroupName,
-} from './../../lib/firebase/firebaseGroups'
+} from '../../../lib/firebase/firebaseGroups'
+import { BaseModal } from '../BaseModal'
 
 type Props = {
   groupName: string
