@@ -40,7 +40,7 @@ export const DatePickerModal = ({
   })
 
   const headingDateFormat = 'MMMM yyyy'
-  const buttonDateFormat = 'd MMM yyyy'
+  const buttonDateFormat = 'MMM d, yyyy'
   const formatOptions = { locale: DATE_LOCALE }
 
   registerLocale('locale', DATE_LOCALE)

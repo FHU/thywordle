@@ -12,7 +12,7 @@ import { buttonClasses } from './../constants/classes'
 import { LeaderboardUser } from './../constants/types'
 import favicon from './../img/favicon.png'
 import { getPublicDisplaySetting } from './../lib/firebase/firebaseAuth'
-import { getLeaderBoardFromFirestore } from './../lib/firebase/firebaseStats'
+import { getLeaderboardFromFirestore } from './../lib/firebase/firebaseStats'
 
 function Leaderboard() {
   const [user] = useAuthState(auth)
@@ -25,8 +25,8 @@ function Leaderboard() {
     ;(async () => {
       setLoading(true)
       const loadedLeaderBoard = user
-        ? await getLeaderBoardFromFirestore(user.uid)
-        : await getLeaderBoardFromFirestore()
+        ? await getLeaderboardFromFirestore(user.uid)
+        : await getLeaderboardFromFirestore()
 
       if (user) {
         const getSetting = await getPublicDisplaySetting(user.uid)
@@ -64,9 +64,12 @@ function Leaderboard() {
         <h1 className="mb-4 text-2xl font-bold dark:text-white md:text-3xl">
           Leaderboard
         </h1>
-        <p className="mb-8 dark:text-white">
+        <p className="dark:text-white">
           Select a User for more detailed game stats.
         </p>
+        <Link to="/leaderboard/today" className={`my-8 ${buttonClasses}`}>
+          View Today's Stats
+        </Link>
       </div>
 
       {!user && (

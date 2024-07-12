@@ -227,7 +227,7 @@ const Game: React.FC<props> = ({
         <div className="flex items-center justify-center">
           <ClockIcon className="h-6 w-6 stroke-gray-600 dark:stroke-gray-300" />
           <p className="text-base text-gray-600 dark:text-gray-300">
-            {format(gameDate, 'd MMMM yyyy', { locale: DATE_LOCALE })}
+            {format(gameDate, 'MMMM d, yyyy', { locale: DATE_LOCALE })}
           </p>
         </div>
       )}

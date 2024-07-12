@@ -51,7 +51,7 @@ export const loadGameStateFromFirestore = async (
   }
 }
 
-export const saveStatsToFirestore = async (
+export const saveUserStatsToFirestore = async (
   userId: string,
   stats: GameStats
 ): Promise<void> => {
@@ -107,7 +107,7 @@ export const updateGameStateToFirestore = async (
   }
 }
 
-export const getLeaderBoardFromFirestore = async (
+export const getLeaderboardFromFirestore = async (
   userId?: string
 ): Promise<LeaderboardUser[]> => {
   let leaderBoard: LeaderboardUser[] = []

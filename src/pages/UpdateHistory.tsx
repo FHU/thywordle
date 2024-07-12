@@ -19,6 +19,26 @@ function UpdateHistory() {
   const buttonEnabledClasses =
     'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
+  const todayStatsUpdate = (
+    <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+      <h2 className="my-8 text-xl font-bold dark:text-white md:text-3xl">
+        Today's Stats
+      </h2>
+      <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
+        View stats for today's solution once you've also played! Compare the
+        number of guesses you needed to everyone else who has played today.
+      </p>
+      <div className="mx-auto mb-8 w-64">
+        <button
+          className={`${buttonEnabledClasses} group relative flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`}
+          onClick={() => navigate('/leaderboard/today')}
+        >
+          Today's Stats
+        </button>
+      </div>
+    </div>
+  )
+
   const rebrandUpdate = (
     <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
       <h2 className="my-8 text-xl font-bold dark:text-white md:text-3xl">
@@ -149,6 +169,22 @@ function UpdateHistory() {
         </p>
       </div>
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+        <button
+          onClick={() => {
+            setUpdate({
+              content: todayStatsUpdate,
+              title: "Today's Stats Update",
+              date: 'July, 2024',
+            })
+            setIsModalOpen(true)
+          }}
+          className={`my-8 ${buttonClasses}`}
+        >
+          July, 2024 - Today's Stats
+        </button>
+
+        <hr className="mx-auto w-1/4" />
+
         <button
           onClick={() => {
             setUpdate({

@@ -1,5 +1,6 @@
 import {
   BookOpenIcon,
+  ChartBarIcon,
   ClockIcon,
   GlobeIcon,
   ShareIcon,
@@ -100,7 +101,7 @@ export const StatsModal = ({
       </h4>
       <Histogram
         isLatestGame={isLatestGame}
-        gameStats={gameStats}
+        winDistribution={gameStats.winDistribution}
         isGameWon={isGameWon}
         numberOfGuessesMade={numberOfGuessesMade}
       />
@@ -178,6 +179,18 @@ export const StatsModal = ({
                 {VERSE_TEXT_BUTTON}
               </button>
             </a>
+          </div>
+          <hr className="-mb-4 mt-4 border-gray-500" />
+          <div className="mt-5 columns-2 items-center items-stretch justify-center text-center dark:text-white sm:mt-6">
+            <div className="mt-3 text-xs">View today's global stats</div>
+            <Link
+              to="/leaderboard/today"
+              className="mt-2 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-base"
+              onClick={() => handleClose()}
+            >
+              <ChartBarIcon className="mr-2 h-6 w-6 cursor-pointer dark:stroke-white" />{' '}
+              Today's Stats
+            </Link>
           </div>
         </>
       )}
