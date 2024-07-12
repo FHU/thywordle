@@ -128,6 +128,11 @@ function GroupLeaderboard() {
             </>
           )}
         </h1>
+        {group && (
+          <p className="mx-auto mt-4 text-2xl dark:text-white">
+            Total Points: <b>{group.groupPoints}</b>
+          </p>
+        )}
         <p className="mx-auto mb-8 mt-4 text-base dark:text-white md:text-xl">
           {group ? (group.isPrivate ? 'Private Group' : 'Public Group') : ''}
         </p>
