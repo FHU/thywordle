@@ -57,15 +57,19 @@ export const saveDailyStatsToFirestore = async (
       new Array(MAX_CHALLENGES),
       () => 0
     )
-    initialWinDistribution[numGuesses] += 1
+    if (numGuesses < MAX_CHALLENGES) {
+      initialWinDistribution[numGuesses] += 1
+    }
     await setDoc(doc(dailyStatDb, 'stats', dateString), {
       totalGames: 1,
-      avgNumGuesses: numGuesses + 1,
+      avgNumGuesses: numGuesses < MAX_CHALLENGES ? numGuesses + 1 : 0,
       winDistribution: initialWinDistribution,
     })
   } else {
     const loadedWinDistribution = statDoc.data().winDistribution
-    loadedWinDistribution[numGuesses] += 1
+    if (numGuesses < MAX_CHALLENGES) {
+      loadedWinDistribution[numGuesses] += 1
+    }
 
     const avgGuesses = getAverageNumberGuesses(loadedWinDistribution)
     const docRef = doc(dailyStatDb, 'stats', dateString)

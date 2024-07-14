@@ -61,7 +61,7 @@ const DailyStats: React.FC<props> = ({ isGamePlayed }) => {
           className="mx-auto my-12 w-48"
         />
         <h1 className="text-l my-8 font-bold dark:text-white sm:text-xl md:text-3xl">
-          Today's Stats & Leaderboard
+          Today's Stats
         </h1>
       </div>
 
