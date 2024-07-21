@@ -1,6 +1,7 @@
 import { doc, getDoc, increment, setDoc, updateDoc } from 'firebase/firestore'
 
 import { getAverageNumberGuesses } from '../stats'
+import { displayReference } from '../words'
 import { MAX_CHALLENGES } from './../../constants/settings'
 import { GameStatsByDate } from './../../constants/types'
 import { dailyStatDb } from './firebaseConfig'
@@ -62,6 +63,7 @@ export const saveDailyStatsToFirestore = async (
     }
     await setDoc(doc(dailyStatDb, 'stats', dateString), {
       totalGames: 1,
+      solution: displayReference,
       avgNumGuesses: numGuesses < MAX_CHALLENGES ? numGuesses + 1 : 0,
       winDistribution: initialWinDistribution,
     })
