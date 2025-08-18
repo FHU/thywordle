@@ -27,7 +27,7 @@ To quickly create additional solutions, use [this helpful python script](https:/
 
 ## Attributions
 
-[Scripturle (Formerly ThyWorlde)](https://scripturle.com/about) is a clone of the popular word game but tweaked to use solutions that are Bible references. The game was designed and developed by Computer Science students at Freed-Hardeman Unviersity as part of their senior capstone course.
+[Scripturle (Formerly ThyWordle)](https://scripturle.com/about) is a clone of the popular word game but tweaked to use solutions that are Bible references. The game was designed and developed by Computer Science students at Freed-Hardeman University as part of their senior capstone course.
 
 Contributors include:
 
