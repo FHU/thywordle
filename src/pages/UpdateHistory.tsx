@@ -19,6 +19,25 @@ function UpdateHistory() {
   const buttonEnabledClasses =
     'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600'
 
+  const october25ScoringUpdate = (
+    <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+      <h2 className="my-8 text-xl font-bold dark:text-white md:text-3xl">
+        October 2025 Scoring Update
+      </h2>
+      <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
+        The scoring system was adjusted to further reward a lower average number
+        of guesses and place less of a priority on total number of wins.
+      </p>
+      <p className="mx-auto my-12 w-4/5 text-base dark:text-white md:text-xl">
+        Over the last year, the scoring system reached a point where total
+        number of games played was the largest driving factor to higher point
+        totals. This update should help boost the leaderboard rankings for users
+        who have not participated daily since the initial launch that routinely
+        answer the daily Bible verse in a low number of guesses.
+      </p>
+    </div>
+  )
+
   const todayStatsUpdate = (
     <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
       <h2 className="my-8 text-xl font-bold dark:text-white md:text-3xl">
@@ -169,6 +188,22 @@ function UpdateHistory() {
         </p>
       </div>
       <div className="col-span-10 col-start-2 mb-16 mt-2 overflow-hidden rounded-xl bg-gray-100 text-center dark:bg-slate-800">
+        <button
+          onClick={() => {
+            setUpdate({
+              content: october25ScoringUpdate,
+              title: 'Scoring System Update',
+              date: 'October, 2025',
+            })
+            setIsModalOpen(true)
+          }}
+          className={`my-8 ${buttonClasses}`}
+        >
+          October, 2025 - Scoring System Update
+        </button>
+
+        <hr className="mx-auto w-1/4" />
+
         <button
           onClick={() => {
             setUpdate({

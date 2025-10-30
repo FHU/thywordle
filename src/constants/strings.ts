@@ -37,7 +37,7 @@ export const POINTS_TEXT = 'Total Points'
 export const DISCOURAGE_IN_APP_BROWSER_TEXT =
   "You are using an embedded browser and may experience problems sharing or saving your results. We encourage you rather to use your device's default browser."
 export const UPDATE_TEXT =
-  "NEW! View global stats for today's solution. Click HERE to learn more!"
+  'NEW! The scoring system has been adjusted. Click HERE to learn more!'
 
 export const DATEPICKER_TITLE = 'Choose a past date'
 export const DATEPICKER_CHOOSE_TEXT = 'Choose'
