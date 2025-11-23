@@ -34,7 +34,6 @@ import {
   GAME_COPIED_MESSAGE,
   HARD_MODE_ALERT_MESSAGE,
   SHARE_FAILURE_TEXT,
-  UPDATE_TEXT,
 } from './constants/strings'
 import { GameStats } from './constants/types'
 import { useAlert } from './context/AlertContext'
@@ -175,11 +174,6 @@ function App() {
   })
 
   useEffect(() => {
-    showSuccessAlert(UPDATE_TEXT, {
-      delayMs: 1500,
-      durationMs: 5000,
-    })
-
     if (user) loadGameFromFirestore(user.uid)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
