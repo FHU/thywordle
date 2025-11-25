@@ -2,10 +2,13 @@ import {
   Timestamp,
   collection,
   doc,
+  documentId,
   getDocs,
+  limit,
   orderBy,
   query,
   runTransaction,
+  startAfter,
   updateDoc,
 } from 'firebase/firestore'
 
@@ -161,4 +164,133 @@ export const getLeaderboardFromFirestore = async (
   })
 
   return leaderBoard
+}
+
+/**
+ * Recalculate every user's `gameStats.score` from their stored `gameStats` fields
+ * and update Firestore when the stored score differs from the computed value.
+ * Returns a summary of how many documents were updated, skipped, or errored.
+ */
+export const recalculateAllScoresFromGameStats = async (
+  batchSize = 100
+): Promise<{
+  updated: number
+  skipped: number
+  errors: number
+}> => {
+  let updated = 0
+  let skipped = 0
+  let errors = 0
+
+  const computeScore = (s: GameStats) => {
+    const gamesWon = s.totalGames - s.gamesFailed
+    return Math.round(
+      gamesWon * STAT_BONUS_POINTS.WIN_BONUS +
+        s.gamesFailed * STAT_BONUS_POINTS.LOSE_BONUS +
+        s.successRate * STAT_BONUS_POINTS.SUCCESS_RATE_BONUS +
+        (6 - s.avgNumGuesses) * STAT_BONUS_POINTS.AVG_GUESS_BONUS +
+        s.currentStreak * STAT_BONUS_POINTS.STREAK_BONUS +
+        s.bestStreak * STAT_BONUS_POINTS.STREAK_BONUS
+    )
+  }
+
+  let lastDoc: any | undefined = undefined
+  let batchIndex = 0
+
+  while (true) {
+    const batchQuery = lastDoc
+      ? query(
+          collection(db, 'users'),
+          orderBy(documentId()),
+          startAfter(lastDoc),
+          limit(batchSize)
+        )
+      : query(collection(db, 'users'), orderBy(documentId()), limit(batchSize))
+
+    batchIndex += 1
+    const snap = await getDocs(batchQuery)
+    if (snap.empty) break
+
+    for (const userDocSnap of snap.docs) {
+      try {
+        const data = userDocSnap.data()
+        if (!data || !data.gameStats) {
+          skipped++
+          continue
+        }
+
+        const stats: GameStats = {
+          avgNumGuesses: data.gameStats.avgNumGuesses,
+          bestStreak: data.gameStats.bestStreak,
+          currentStreak: data.gameStats.currentStreak,
+          gamesFailed: data.gameStats.gamesFailed,
+          score: data.gameStats.score,
+          successRate: data.gameStats.successRate,
+          totalGames: data.gameStats.totalGames,
+          winDistribution: data.gameStats.winDistribution,
+        }
+
+        const expectedScore = computeScore(stats)
+
+        // If stored score already matches expected, skip updating
+        if (stats.score === expectedScore) {
+          skipped++
+          continue
+        }
+
+        const docRef = doc(db, 'users', userDocSnap.id)
+
+        const didUpdate = await runTransaction(db, async (transaction) => {
+          const fresh = await transaction.get(docRef)
+          if (!fresh.exists()) {
+            return false
+          }
+
+          const freshStats = fresh.data().gameStats
+          if (!freshStats) {
+            return false
+          }
+
+          const freshGameStats: GameStats = {
+            avgNumGuesses: freshStats.avgNumGuesses,
+            bestStreak: freshStats.bestStreak,
+            currentStreak: freshStats.currentStreak,
+            gamesFailed: freshStats.gamesFailed,
+            score: freshStats.score,
+            successRate: freshStats.successRate,
+            totalGames: freshStats.totalGames,
+            winDistribution: freshStats.winDistribution,
+          }
+
+          const freshComputed = computeScore(freshGameStats)
+
+          if (freshGameStats.score !== freshComputed) {
+            transaction.update(docRef, { 'gameStats.score': freshComputed })
+            return true
+          }
+
+          return false
+        })
+
+        if (didUpdate) {
+          updated++
+        } else {
+          skipped++
+        }
+      } catch (e) {
+        errors++
+        console.error(`Recalc: error processing ${userDocSnap.id}:`, e)
+      }
+    }
+    // Prepare for next batch
+    console.log(`Recalc: batch ${batchIndex} complete!`)
+    lastDoc = snap.docs[snap.docs.length - 1]
+    if (snap.size < batchSize) break
+  }
+
+  console.log(
+    `Recalc: complete — total updated=${updated} skipped=${skipped} errors=${errors}`
+  )
+
+  return { updated, skipped, errors }
 }

@@ -7,6 +7,7 @@ import { EditProfileModal } from '../components/modals/accountModals/EditProfile
 import { LogOutModal } from '../components/modals/accountModals/LogOutModal'
 import SignInTabs from '../components/profile/SignInTabs'
 import { getUserDataByUid } from '../lib/firebase/firebaseAuth'
+import { recalculateAllScoresFromGameStats } from '../lib/firebase/firebaseStats'
 import Loading from './../components/gameState/Loading'
 import { GameStats, PropToEditEnum } from './../constants/types'
 import { useAlert } from './../context/AlertContext'
@@ -18,15 +19,17 @@ interface Props {
 }
 
 function Profile({ user, stats }: Props) {
-  const { showError: showErrorAlert } = useAlert()
+  const { showError: showErrorAlert, showSuccess } = useAlert()
   const [loading, setLoading] = useState<boolean>(false)
   const [userInfo, setUserInfo] = useState<any>()
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
+  const [isRecalcRunning, setIsRecalcRunning] = useState<boolean>(false)
   const [isLogoutConfirmationModalOpen, setIsLogoutConfirmationModalOpen] =
     useState<boolean>(false)
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] =
     useState<boolean>(false)
   const [propToEdit, setPropToEdit] = useState<PropToEditEnum>(
-    PropToEditEnum.Username
+    PropToEditEnum.Username,
   )
   const [newPropValue, setNewPropValue] = useState<string>('')
   const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
@@ -48,7 +51,7 @@ function Profile({ user, stats }: Props) {
 
   const deleteAccountFailed = () => {
     showErrorAlert(
-      'Unable to delete account at this time. Please try again later.'
+      'Unable to delete account at this time. Please try again later.',
     )
   }
 
@@ -58,10 +61,11 @@ function Profile({ user, stats }: Props) {
         setLoading(true)
         const u = await getUserDataByUid(user.uid)
         setUserInfo(u)
+        setIsAdmin(Boolean(u?.isAdmin))
         setLoading(false)
       }
     })()
-  }, [user])
+  }, [user, isAdmin])
 
   if (loading) {
     return <Loading />
@@ -90,6 +94,32 @@ function Profile({ user, stats }: Props) {
           handleEditProfile={handleEditProfile}
           handleDeleteAccount={handleDeleteAccount}
         />
+
+        {user && isAdmin && (
+          <div className="my-6">
+            <button
+              onClick={async () => {
+                setIsRecalcRunning(true)
+                try {
+                  const res = await recalculateAllScoresFromGameStats(100)
+                  showSuccess(
+                    `Recalc complete: ${res.updated} updated, ${res.skipped} skipped, ${res.errors} errors`,
+                  )
+                } catch (err: any) {
+                  showErrorAlert(
+                    `Recalc failed: ${err?.message ?? String(err)}`,
+                  )
+                } finally {
+                  setIsRecalcRunning(false)
+                }
+              }}
+              disabled={isRecalcRunning}
+              className="mx-auto inline-block rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700 disabled:opacity-50"
+            >
+              {isRecalcRunning ? 'Running...' : 'Admin: Recalculate All Scores'}
+            </button>
+          </div>
+        )}
       </div>
 
       <EditProfileModal
