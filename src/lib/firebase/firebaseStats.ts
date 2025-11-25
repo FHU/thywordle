@@ -5,6 +5,7 @@ import {
   getDocs,
   orderBy,
   query,
+  runTransaction,
   updateDoc,
 } from 'firebase/firestore'
 
@@ -55,11 +56,27 @@ export const saveUserStatsToFirestore = async (
   userId: string,
   stats: GameStats
 ): Promise<void> => {
-  const userDoc = await getUserDocByUid(userId)
-  if (userDoc.exists()) {
-    const docRef = doc(db, 'users', userId)
+  const docRef = doc(db, 'users', userId)
 
-    if (userDoc.data().gameStats.totalGames >= stats.totalGames) {
+  // Use a transaction to make the write idempotent and prevent race conditions
+  // where two concurrent callers both read the same current totalGames and
+  // both attempt to write the same (or duplicate) stats which can result in
+  // duplicated score effects.
+  await runTransaction(db, async (transaction) => {
+    const userDoc = await transaction.get(docRef)
+    if (!userDoc.exists()) {
+      return
+    }
+
+    const currentTotalGames =
+      userDoc.data().gameStats && userDoc.data().gameStats.totalGames
+        ? userDoc.data().gameStats.totalGames
+        : 0
+
+    // If the stored totalGames is already greater than or equal to the new
+    // stats.totalGames, someone already recorded this (or a newer) completion,
+    // so skip writing to avoid double-applying score.
+    if (currentTotalGames >= stats.totalGames) {
       return
     }
 
@@ -74,7 +91,7 @@ export const saveUserStatsToFirestore = async (
         stats.bestStreak * STAT_BONUS_POINTS.STREAK_BONUS
     )
 
-    await updateDoc(docRef, {
+    transaction.update(docRef, {
       gameStats: {
         avgNumGuesses: stats.avgNumGuesses,
         bestStreak: stats.bestStreak,
@@ -86,7 +103,7 @@ export const saveUserStatsToFirestore = async (
         winDistribution: stats.winDistribution,
       },
     })
-  }
+  })
 }
 
 export const updateGameStateToFirestore = async (
