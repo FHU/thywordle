@@ -70,6 +70,7 @@ const Game: React.FC<props> = ({
   setIsStatsModalOpen,
 }) => {
   const gameDate = getGameDate()
+  const processingEnterRef = useRef(false)
   const [user] = useAuthState(auth)
   const [currentGuess, setCurrentGuess] = useState('')
   const [currentRowClass, setCurrentRowClass] = useState('')
@@ -98,8 +99,12 @@ const Game: React.FC<props> = ({
   }, [isGameWon, isGameLost, showSuccessAlert, setIsStatsModalOpen])
 
   const verseButtonRef = useRef<HTMLButtonElement>(null)
-  const updateStats = async (stats: GameStats, count: number) => {
-    setStats(await addStatsForCompletedGame(stats, count, user))
+  const updateStats = async (
+    stats: GameStats,
+    count: number,
+    completedSolution?: string
+  ) => {
+    setStats(await addStatsForCompletedGame(stats, count, user, completedSolution))
   }
 
   const revealNextGuess = (guess: string) => {
@@ -175,12 +180,20 @@ const Game: React.FC<props> = ({
       }
     }
 
+    // Prevent duplicate handling of the same Enter press (e.g. keyup + button click)
+    if (processingEnterRef.current) {
+      return
+    }
+ 
+    processingEnterRef.current = true
+
     setIsRevealing(true)
     // turn this back off after all
     // chars have been revealed
     setTimeout(() => {
       setIsRevealing(false)
       revealNextGuess(currentGuess)
+      processingEnterRef.current = false
     }, REVEAL_TIME_MS * solution.length + 1000)
 
     const winningWord = isWinningWord(currentGuess)
@@ -203,14 +216,14 @@ const Game: React.FC<props> = ({
 
       if (winningWord) {
         if (isLatestGame) {
-          updateStats(stats, guesses.length)
+          await updateStats(stats, guesses.length, solution)
         }
         return setIsGameWon(true)
       }
 
       if (guesses.length === MAX_CHALLENGES - 1) {
         if (isLatestGame) {
-          updateStats(stats, guesses.length + 1)
+          await updateStats(stats, guesses.length + 1, solution)
         }
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(solution), {

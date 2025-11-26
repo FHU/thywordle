@@ -57,7 +57,8 @@ export const loadGameStateFromFirestore = async (
 
 export const saveUserStatsToFirestore = async (
   userId: string,
-  stats: GameStats
+  stats: GameStats,
+  completedSolution?: string
 ): Promise<void> => {
   const docRef = doc(db, 'users', userId)
 
@@ -75,6 +76,17 @@ export const saveUserStatsToFirestore = async (
       userDoc.data().gameStats && userDoc.data().gameStats.totalGames
         ? userDoc.data().gameStats.totalGames
         : 0
+
+    const storedLastCompleted =
+      userDoc.data().gameStats && userDoc.data().gameStats.lastCompletedSolution
+        ? userDoc.data().gameStats.lastCompletedSolution
+        : undefined
+
+    // If the incoming update reports the same completedSolution as the
+    // stored marker, it is a duplicate — skip to avoid counting twice.
+    if (completedSolution && storedLastCompleted === completedSolution) {
+      return
+    }
 
     // If the stored totalGames is already greater than or equal to the new
     // stats.totalGames, someone already recorded this (or a newer) completion,
@@ -94,18 +106,23 @@ export const saveUserStatsToFirestore = async (
         stats.bestStreak * STAT_BONUS_POINTS.STREAK_BONUS
     )
 
-    transaction.update(docRef, {
-      gameStats: {
-        avgNumGuesses: stats.avgNumGuesses,
-        bestStreak: stats.bestStreak,
-        currentStreak: stats.currentStreak,
-        gamesFailed: stats.gamesFailed,
-        score: score,
-        successRate: stats.successRate,
-        totalGames: stats.totalGames,
-        winDistribution: stats.winDistribution,
-      },
-    })
+    const updatePayload: any = {
+      'gameStats.avgNumGuesses': stats.avgNumGuesses,
+      'gameStats.bestStreak': stats.bestStreak,
+      'gameStats.currentStreak': stats.currentStreak,
+      'gameStats.gamesFailed': stats.gamesFailed,
+      'gameStats.score': score,
+      'gameStats.successRate': stats.successRate,
+      'gameStats.totalGames': stats.totalGames,
+      'gameStats.winDistribution': stats.winDistribution,
+    }
+
+    if (completedSolution) {
+      updatePayload['gameStats.lastCompletedSolution'] = completedSolution
+      updatePayload['gameStats.lastCompletedAt'] = Timestamp.now()
+    }
+
+    transaction.update(docRef, updatePayload)
   })
 }
 

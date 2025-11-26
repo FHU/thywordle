@@ -50,6 +50,11 @@ export const Keyboard = ({
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
       if (e.code === 'Enter') {
+        const target = e.target as HTMLElement | null
+        if (target && target.tagName === 'BUTTON') {
+          return
+        }
+
         onEnter()
       } else if (e.code === 'Backspace') {
         onDelete()
