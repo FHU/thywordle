@@ -29,7 +29,8 @@ export const addStatsForCompletedGame = async (
   gameStats: GameStats,
   count: number,
   user: User | null | undefined,
-  completedSolution?: string
+  completedSolution?: string,
+  requestId?: string
 ) => {
   // Count is number of incorrect guesses before end.
   let stats = { ...gameStats }
@@ -62,7 +63,7 @@ export const addStatsForCompletedGame = async (
   saveStatsToLocalStorage(stats)
 
   if (user) {
-    await saveUserStatsToFirestore(user.uid, stats, completedSolution)
+    await saveUserStatsToFirestore(user.uid, stats, completedSolution, requestId)
     await saveDailyStatsToFirestore(count, new Date())
   }
 

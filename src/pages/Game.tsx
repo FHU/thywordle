@@ -102,9 +102,18 @@ const Game: React.FC<props> = ({
   const updateStats = async (
     stats: GameStats,
     count: number,
-    completedSolution?: string
+    completedSolution?: string,
+    requestId?: string
   ) => {
-    setStats(await addStatsForCompletedGame(stats, count, user, completedSolution))
+    setStats(
+      await addStatsForCompletedGame(
+        stats,
+        count,
+        user,
+        completedSolution,
+        requestId
+      )
+    )
   }
 
   const revealNextGuess = (guess: string) => {
@@ -215,15 +224,27 @@ const Game: React.FC<props> = ({
       }
 
       if (winningWord) {
+        const requestId =
+          typeof window !== 'undefined' && (window.crypto as any)?.randomUUID
+            ? (window.crypto as any).randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2)}`
+
         if (isLatestGame) {
-          await updateStats(stats, guesses.length, solution)
+          await updateStats(stats, guesses.length, solution, requestId)
         }
+        // also pass requestId to server via addStatsForCompletedGame plumbing
+        // (updateStats currently forwards undefined requestId; the plumbing exists)
         return setIsGameWon(true)
       }
 
       if (guesses.length === MAX_CHALLENGES - 1) {
+        const requestId =
+          typeof window !== 'undefined' && (window.crypto as any)?.randomUUID
+            ? (window.crypto as any).randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2)}`
+
         if (isLatestGame) {
-          await updateStats(stats, guesses.length + 1, solution)
+          await updateStats(stats, guesses.length + 1, solution, requestId)
         }
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(solution), {

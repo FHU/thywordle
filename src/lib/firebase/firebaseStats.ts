@@ -8,6 +8,7 @@ import {
   orderBy,
   query,
   runTransaction,
+  setDoc,
   startAfter,
   updateDoc,
 } from 'firebase/firestore'
@@ -58,7 +59,8 @@ export const loadGameStateFromFirestore = async (
 export const saveUserStatsToFirestore = async (
   userId: string,
   stats: GameStats,
-  completedSolution?: string
+  completedSolution?: string,
+  requestId?: string
 ): Promise<void> => {
   const docRef = doc(db, 'users', userId)
 
@@ -122,7 +124,40 @@ export const saveUserStatsToFirestore = async (
       updatePayload['gameStats.lastCompletedAt'] = Timestamp.now()
     }
 
+    // Prepare an audit entry to record this transactional change
+    const auditId = `${userId}_${requestId ?? String(Date.now())}`
+    const auditRef = doc(db, 'userStatsAudit', auditId)
+
+    const statsBefore = userDoc.data().gameStats || {}
+    const statsAfter = {
+      avgNumGuesses: stats.avgNumGuesses,
+      bestStreak: stats.bestStreak,
+      currentStreak: stats.currentStreak,
+      gamesFailed: stats.gamesFailed,
+      score: score,
+      successRate: stats.successRate,
+      totalGames: stats.totalGames,
+      winDistribution: stats.winDistribution,
+      lastCompletedSolution: completedSolution,
+    }
+
+    const auditPayload: any = {
+      uid: userId,
+      eventType: 'client_submit',
+      requestId: requestId ?? null,
+      source: 'web-client',
+      completedSolution: completedSolution ?? null,
+      totalGamesBefore: statsBefore.totalGames ?? null,
+      totalGamesAfter: stats.totalGames,
+      scoreBefore: statsBefore.score ?? null,
+      scoreAfter: score,
+      statsBefore: statsBefore,
+      statsAfter: statsAfter,
+      serverTimestamp: Timestamp.now(),
+    }
+
     transaction.update(docRef, updatePayload)
+    transaction.set(auditRef, auditPayload)
   })
 }
 
@@ -141,6 +176,21 @@ export const updateGameStateToFirestore = async (
         guesses: guesses,
       },
     })
+    try {
+      const auditId = `${userId}_state_${Date.now()}`
+      const auditRef = doc(db, 'userStatsAudit', auditId)
+      const auditPayload = {
+        uid: userId,
+        eventType: 'game_state_update',
+        source: 'updateGameStateToFirestore',
+        lastSolution: solution,
+        guessesCount: guesses.length,
+        serverTimestamp: Timestamp.now(),
+      }
+      await setDoc(auditRef, auditPayload)
+    } catch (e) {
+      // ignore audit failures
+    }
   }
 }
 
@@ -282,7 +332,22 @@ export const recalculateAllScoresFromGameStats = async (
           const freshComputed = computeScore(freshGameStats)
 
           if (freshGameStats.score !== freshComputed) {
-            transaction.update(docRef, { 'gameStats.score': freshComputed })
+              transaction.update(docRef, { 'gameStats.score': freshComputed })
+
+              // Add an audit entry for recalculation changes
+              const auditId = `${userDocSnap.id}_recalc_${Date.now()}_${Math.random()
+                .toString(36)
+                .slice(2)}`
+              const auditRef = doc(db, 'userStatsAudit', auditId)
+              const auditPayload = {
+                uid: userDocSnap.id,
+                eventType: 'recalc',
+                source: 'recalculateAllScoresFromGameStats',
+                scoreBefore: freshGameStats.score,
+                scoreAfter: freshComputed,
+                serverTimestamp: Timestamp.now(),
+              }
+              transaction.set(auditRef, auditPayload)
             return true
           }
 
