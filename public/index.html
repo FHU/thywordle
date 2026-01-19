@@ -41,6 +41,28 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>
+      // Version check runs BEFORE React bundle loads to force PWA updates
+      (function() {
+        try {
+          var xhr = new XMLHttpRequest()
+          xhr.open('GET', '/version.json?t=' + Date.now(), false) // synchronous
+          xhr.send()
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText)
+            var stored = localStorage.getItem('appVersion')
+            if (stored && stored !== data.version) {
+              localStorage.setItem('appVersion', data.version)
+              location.reload(true)
+            } else if (!stored) {
+              localStorage.setItem('appVersion', data.version)
+            }
+          }
+        } catch (e) {
+          console.warn('Version check failed', e)
+        }
+      })()
+    </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.
