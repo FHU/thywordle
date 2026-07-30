@@ -1263,7 +1263,7 @@ export const SOLUTIONS: {
       'For of him, and through him, and to him, are all things: to whom be glory for ever. Amen.',
   },
   {
-    reference: 'MARK 5:41',
+    reference: 'MARK 4:41',
     referenceURL: 'https://www.bible.com/bible/1/MRK.4.41.KJV',
     verseText:
       'And they feared exceedingly, and said one to another, What manner of man is this, that even the wind and the sea obey him?',
